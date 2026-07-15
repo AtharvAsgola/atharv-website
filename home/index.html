@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>atharv.cyou | Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #0d0d1a;
+            color: #00ff66;
+            font-family: 'VT323', monospace;
+            font-size: 1.5rem;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: " ";
+            display: block;
+            position: fixed;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 10;
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        .arcade-cabinet {
+            width: 90%;
+            max-width: 650px;
+            background-color: #1a1a2e;
+            border: 6px solid #ff007f;
+            box-shadow: 0 0 20px #ff007f, inset 0 0 15px #ff007f;
+            border-radius: 12px;
+            padding: 2.5rem;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        h1 {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.8rem;
+            color: #00ffff;
+            text-shadow: 3px 3px 0px #ff007f;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+            word-wrap: break-word;
+        }
+
+        .terminal-text {
+            color: #00ff66;
+            margin-bottom: 2rem;
+            border-right: 3px solid #00ff66;
+            white-space: nowrap;
+            overflow: hidden;
+            display: inline-block;
+            font-size: 1.8rem;
+            animation: typing 3.5s steps(30, end), blink 0.75s step-end infinite;
+        }
+
+        .profile-pixel {
+            border: 4px dashed #00ffff;
+            background: #111;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+        }
+
+        .avatar-box {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: #ff007f;
+            background: #222;
+            padding: 10px;
+            display: inline-block;
+            border: 3px solid #ff007f;
+            margin-bottom: 1rem;
+        }
+
+        .pixel-btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pixel-btn {
+            background-color: transparent;
+            color: #00ffff;
+            border: 3px solid #00ffff;
+            padding: 0.8rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 0px #00a3a3;
+            position: relative;
+            top: 0;
+        }
+
+        .pixel-btn:hover {
+            background-color: #00ffff;
+            color: #111;
+            box-shadow: 0 0 10px #00ffff;
+        }
+
+        .pixel-btn:active {
+            top: 4px;
+            box-shadow: 0 0px 0px transparent;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            font-size: 1.1rem;
+            color: #888;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: #00ff66; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="arcade-cabinet">
+        <h1>ATHARV ASGOLA</h1>
+        <div>
+            <span class="terminal-text">SYS.STATUS: ONLINE // WELCOME</span>
+        </div>
+
+        <div class="profile-pixel">
+            <div class="avatar-box">
+                [ ^ _ ^ ]
+            </div>
+            <p style="margin: 0;">Hey there! Welcome to my personal hub. I'm exploring the web, building cool scripts, and claiming my corner of the internet.</p>
+        </div>
+
+        <div class="pixel-btn-container">
+            <a href="https://github.com" target="_blank" class="pixel-btn">My GitHub</a>
+            <a href="mailto:your-email@gmail.com" class="pixel-btn">Contact Me</a>
+        </div>
+
+        <div class="footer">
+            © 2026 ATHARV - PRESS START TO EXPLORE
+        </div>
+    </div>
+
+</body>
+</html>
