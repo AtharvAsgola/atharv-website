@@ -2,361 +2,1713 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>atharv.cyou | Home</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <meta name="theme-color" content="#090a12">
+
+    <title>Atharv Asgola</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
-    
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
+        rel="stylesheet"
+    >
+
     <style>
+        :root {
+            --bg: #090a12;
+            --panel: #111321;
+            --panel-light: #181b2d;
+            --green: #69ff9d;
+            --cyan: #67e8f9;
+            --pink: #ff5da2;
+            --yellow: #ffe66d;
+            --text: #e7e9f5;
+            --muted: #858aa8;
+            --border: #323750;
+
+            --page-width: 1200px;
+            --sidebar-width: clamp(190px, 21vw, 240px);
+            --page-padding: clamp(14px, 3vw, 34px);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            min-height: 100%;
+            background: var(--bg);
+        }
+
         body {
-            background-color: #060610;
-            color: #00ff66;
-            font-family: 'VT323', monospace;
-            font-size: 1.6rem;
             margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            min-width: 280px;
+            min-height: 100dvh;
+
+            padding:
+                max(8px, env(safe-area-inset-top))
+                max(8px, env(safe-area-inset-right))
+                max(8px, env(safe-area-inset-bottom))
+                max(8px, env(safe-area-inset-left));
+
+            background:
+                linear-gradient(
+                    rgba(255, 255, 255, 0.018) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(255, 255, 255, 0.018) 1px,
+                    transparent 1px
+                ),
+                var(--bg);
+
+            background-size: 24px 24px;
+
+            color: var(--text);
+            font-family: "VT323", monospace;
+            font-size: clamp(18px, 1.8vw, 23px);
+
             overflow-x: hidden;
         }
 
-        body::before {
-            content: " ";
-            display: block;
-            position: fixed;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
-            z-index: 999;
-            background-size: 100% 4px, 6px 100%;
-            pointer-events: none;
+        button,
+        a {
+            font: inherit;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        .arcade-cabinet {
-            width: 95%;
-            max-width: 680px;
-            background: radial-gradient(circle, #1b1b3a 0%, #0a0a16 100%);
-            border: 6px solid #ff007f;
-            box-shadow: 0 0 30px #ff007f, inset 0 0 20px #ff007f, 0 0 10px #00ffff;
-            border-radius: 20px;
-            padding: 2.5rem;
-            text-align: center;
-            box-sizing: border-box;
-            position: relative;
-            animation: crt-turn-on 0.5s ease-out;
+        button {
+            color: inherit;
         }
 
-        @keyframes crt-turn-on {
-            0% { transform: scaleY(0.01) scaleX(0); filter: brightness(3); }
-            50% { transform: scaleY(0.01) scaleX(1); filter: brightness(3); }
-            100% { transform: scaleY(1) scaleX(1); filter: brightness(1); }
+        button,
+        a {
+            touch-action: manipulation;
         }
 
-        h1 {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 2rem;
-            color: #00ffff;
-            text-shadow: 4px 4px 0px #ff007f, -1px -1px 0px #00ff66;
-            margin-top: 0;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-            animation: glitch 3s infinite;
-        }
+        .shell {
+            width: min(100%, var(--page-width));
+            min-height: calc(100dvh - 16px);
 
-        @keyframes glitch {
-            0%, 100% { text-shadow: 4px 4px 0px #ff007f; }
-            50% { text-shadow: -4px -4px 0px #00ff66, 4px 4px 0px #ff007f; }
-            52% { text-shadow: 6px -2px 0px #00ffff, -4px 4px 0px #ff007f; }
-            54% { text-shadow: 4px 4px 0px #ff007f; }
-        }
+            margin: 0 auto;
 
-        .terminal-text {
-            color: #00ff66;
-            margin-bottom: 2rem;
-            border-right: 3px solid #00ff66;
-            white-space: nowrap;
-            overflow: hidden;
-            display: inline-block;
-            font-size: 1.8rem;
-            animation: typing 3s steps(30, end) infinite alternate, blink 0.75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink {
-            from, to { border-color: transparent }
-            50% { border-color: #00ff66; }
-        }
-
-        .display-screen {
-            border: 4px dashed #00ffff;
-            background: #05050f;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: 8px;
-            box-shadow: inset 0 0 15px #000;
-            min-height: 250px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+
+            border: clamp(2px, 0.3vw, 3px) solid var(--border);
+
+            background: var(--panel);
+
+            box-shadow:
+                clamp(4px, 0.8vw, 8px)
+                clamp(4px, 0.8vw, 8px)
+                0
+                #03040a;
+        }
+
+        .topbar {
+            min-height: 48px;
+
+            padding: 9px clamp(10px, 2vw, 16px);
+
+            display: flex;
             align-items: center;
-            position: relative;
+            justify-content: space-between;
+
+            gap: 12px;
+
+            border-bottom: 3px solid var(--border);
+
+            background: var(--panel-light);
         }
 
-        .avatar-box {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1rem;
-            color: #ff007f;
-            background: #111;
-            padding: 12px 20px;
-            display: inline-block;
-            border: 3px solid #ff007f;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 0 8px #ff007f;
-            animation: float 4s ease-in-out infinite;
+        .brand {
+            color: var(--cyan);
+
+            font-family: "Press Start 2P", monospace;
+            font-size: clamp(9px, 1.3vw, 12px);
+
+            white-space: nowrap;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-6px); }
-        }
-
-        .pixel-btn-container {
+        .status {
             display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
+            align-items: center;
+
+            gap: 8px;
+
+            color: var(--muted);
+
+            font-size: clamp(14px, 1.6vw, 18px);
+
+            white-space: nowrap;
         }
 
-        .pixel-btn {
-            background-color: transparent;
-            color: #00ffff;
-            border: 3px solid #00ffff;
-            padding: 1rem;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            text-decoration: none;
+        .status-dot {
+            width: 9px;
+            height: 9px;
+
+            flex: 0 0 auto;
+
+            background: var(--green);
+
+            box-shadow: 0 0 8px var(--green);
+        }
+
+        .layout {
+            flex: 1;
+
+            display: grid;
+            grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
+
+            min-height: 0;
+        }
+
+        .sidebar {
+            min-width: 0;
+
+            padding: clamp(10px, 2vw, 16px);
+
+            border-right: 3px solid var(--border);
+
+            background: #0d0f1b;
+        }
+
+        .profile {
+            padding: clamp(10px, 1.5vw, 14px);
+
+            margin-bottom: 20px;
+
+            border: 2px solid var(--border);
+
+            text-align: center;
+        }
+
+        .avatar {
+            width: clamp(62px, 8vw, 80px);
+            aspect-ratio: 1;
+
+            margin: 0 auto 14px;
+
+            display: grid;
+            place-items: center;
+
+            background: var(--panel-light);
+
+            border: 3px solid var(--pink);
+
+            color: var(--pink);
+
+            font-family: "Press Start 2P", monospace;
+            font-size: clamp(9px, 1.2vw, 13px);
+        }
+
+        .profile-name {
+            color: var(--text);
+
+            font-family: "Press Start 2P", monospace;
+            font-size: clamp(8px, 1vw, 10px);
+
+            line-height: 1.7;
+        }
+
+        .profile-role {
+            margin-top: 7px;
+
+            color: var(--muted);
+
+            font-size: clamp(15px, 1.5vw, 18px);
+        }
+
+        .nav {
+            display: grid;
+            gap: 8px;
+        }
+
+        .nav-button {
+            width: 100%;
+            min-height: 44px;
+
+            padding: 9px 11px;
+
+            border: 2px solid transparent;
+
+            background: transparent;
+
+            color: var(--muted);
+
+            text-align: left;
+
             cursor: pointer;
-            transition: all 0.15s ease;
-            box-shadow: 0 6px 0px #00a3a3;
-            position: relative;
-            top: 0;
+        }
+
+        .nav-button:hover,
+        .nav-button:focus-visible,
+        .nav-button.active {
+            color: var(--cyan);
+
+            border-color: var(--border);
+
+            background: var(--panel-light);
+
             outline: none;
         }
 
-        .pixel-btn:hover {
-            background-color: #00ffff;
-            color: #05050f;
-            box-shadow: 0 0 15px #00ffff;
-            text-shadow: none;
+        .nav-button.active::before {
+            content: "> ";
+
+            color: var(--pink);
         }
 
-        .pixel-btn:active {
-            top: 6px;
-            box-shadow: 0 0px 0px transparent;
+        .collectibles {
+            margin-top: 22px;
+            padding-top: 15px;
+
+            border-top: 2px dashed var(--border);
+
+            color: var(--muted);
+
+            font-size: clamp(14px, 1.5vw, 17px);
         }
 
-        .pixel-btn.purple-btn {
-            color: #ff007f;
-            border-color: #ff007f;
-            box-shadow: 0 6px 0px #a30052;
+        #coin-count {
+            color: var(--yellow);
         }
 
-        .pixel-btn.purple-btn:hover {
-            background-color: #ff007f;
-            color: #05050f;
-            box-shadow: 0 0 15px #ff007f;
+        main {
+            min-width: 0;
+
+            padding: var(--page-padding);
+
+            overflow: hidden;
         }
 
-        .game-canvas {
+        .page {
             display: none;
-            background: #000;
-            border: 2px solid #00ff66;
-            box-shadow: 0 0 10px #00ff66;
-        }
 
-        .game-ui {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
             width: 100%;
         }
 
-        .score-board {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-            color: #00ff66;
-            margin-bottom: 5px;
+        .page.active {
+            display: block;
         }
 
-        .footer {
-            margin-top: 2rem;
-            font-size: 1.2rem;
-            color: #555577;
-            letter-spacing: 1px;
+        .eyebrow {
+            margin-bottom: 12px;
+
+            color: var(--green);
+
+            overflow-wrap: anywhere;
+        }
+
+        h1,
+        h2 {
+            margin-top: 0;
+
+            font-family: "Press Start 2P", monospace;
+
+            line-height: 1.6;
+
+            overflow-wrap: anywhere;
+        }
+
+        h1 {
+            max-width: 760px;
+
+            margin-bottom: 18px;
+
+            color: var(--text);
+
+            font-size: clamp(20px, 4.5vw, 46px);
+        }
+
+        h1 span {
+            color: var(--pink);
+        }
+
+        h2 {
+            color: var(--cyan);
+
+            font-size: clamp(14px, 2.2vw, 20px);
+        }
+
+        p {
+            line-height: 1.45;
+        }
+
+        .lead {
+            max-width: 720px;
+
+            color: #b9bdd3;
+
+            font-size: clamp(20px, 2.5vw, 28px);
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-top: 28px;
+        }
+
+        .pixel-button {
+            min-height: 46px;
+
+            padding: 10px 16px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 2px solid var(--cyan);
+
+            background: transparent;
+
+            color: var(--cyan);
+
+            text-align: center;
+            text-decoration: none;
+
+            cursor: pointer;
+
+            box-shadow: 4px 4px 0 #164754;
+        }
+
+        .pixel-button:hover,
+        .pixel-button:focus-visible {
+            background: var(--cyan);
+
+            color: #071014;
+
+            outline: none;
+        }
+
+        .pixel-button.pink {
+            border-color: var(--pink);
+
+            color: var(--pink);
+
+            box-shadow: 4px 4px 0 #5a1c39;
+        }
+
+        .pixel-button.pink:hover,
+        .pixel-button.pink:focus-visible {
+            background: var(--pink);
+
+            color: #160710;
+        }
+
+        .cards {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(min(100%, 270px), 1fr)
+                );
+
+            gap: clamp(10px, 2vw, 16px);
+
+            margin-top: 22px;
+        }
+
+        .card {
+            min-width: 0;
+
+            padding: clamp(14px, 2vw, 18px);
+
+            border: 2px solid var(--border);
+
+            background: var(--panel-light);
+        }
+
+        .card:hover {
+            border-color: var(--cyan);
+        }
+
+        .card-number {
+            color: var(--pink);
+
+            font-size: 18px;
+        }
+
+        .card h3 {
+            margin: 8px 0;
+
+            color: var(--text);
+
+            font-family: "Press Start 2P", monospace;
+            font-size: clamp(9px, 1.2vw, 11px);
+
+            line-height: 1.7;
+
+            overflow-wrap: anywhere;
+        }
+
+        .card p {
+            margin-bottom: 0;
+
+            color: var(--muted);
+        }
+
+        .tag {
+            display: inline-block;
+
+            padding: 3px 7px;
+            margin: 8px 4px 0 0;
+
+            border: 1px solid var(--border);
+
+            color: var(--green);
+
+            font-size: 16px;
+        }
+
+        .game-select {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(min(100%, 270px), 1fr)
+                );
+
+            gap: 16px;
+        }
+
+        .game-card {
+            min-width: 0;
+
+            padding: clamp(15px, 2vw, 20px);
+
+            border: 2px solid var(--border);
+
+            background: var(--panel-light);
+        }
+
+        .game-card h3 {
+            color: var(--yellow);
+
+            font-family: "Press Start 2P", monospace;
+            font-size: clamp(9px, 1.3vw, 12px);
+
+            line-height: 1.6;
+        }
+
+        .game-area {
+            display: none;
+
+            width: 100%;
+
+            margin-top: 22px;
+
+            text-align: center;
+        }
+
+        .canvas-wrap {
+            width: min(100%, 420px);
+
+            margin: 0 auto;
+        }
+
+        canvas {
+            display: block;
+
+            width: 100%;
+            height: auto;
+
+            aspect-ratio: 1;
+
+            border: 3px solid var(--green);
+
+            background: #05060a;
+
+            image-rendering: pixelated;
+        }
+
+        .score {
+            margin: 10px;
+
+            color: var(--yellow);
+        }
+
+        .touch-controls {
+            display: none;
+
+            width: 180px;
+
+            margin: 18px auto 0;
+
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+        }
+
+        .touch-button {
+            min-height: 52px;
+
+            border: 2px solid var(--border);
+
+            background: var(--panel-light);
+
+            color: var(--cyan);
+
+            cursor: pointer;
+
+            user-select: none;
+        }
+
+        .touch-button:active {
+            background: var(--cyan);
+
+            color: var(--bg);
+        }
+
+        .touch-up {
+            grid-column: 2;
+        }
+
+        .touch-left {
+            grid-column: 1;
+        }
+
+        .touch-down {
+            grid-column: 2;
+        }
+
+        .touch-right {
+            grid-column: 3;
+        }
+
+        .click-zone {
+            position: relative;
+
+            width: min(100%, 560px);
+            height: clamp(220px, 45dvh, 340px);
+
+            margin: auto;
+
+            border: 3px solid var(--pink);
+
+            background: #090a12;
+
+            overflow: hidden;
+
+            touch-action: manipulation;
+        }
+
+        .target {
+            position: absolute;
+
+            width: clamp(38px, 7vw, 48px);
+            aspect-ratio: 1;
+
+            border: 0;
+
+            background: var(--yellow);
+
+            color: #090a12;
+
+            cursor: crosshair;
+        }
+
+        .terminal {
+            width: 100%;
+
+            padding: clamp(14px, 3vw, 20px);
+
+            border: 2px solid var(--green);
+
+            background: #050806;
+
+            color: var(--green);
+
+            overflow-wrap: anywhere;
+        }
+
+        .terminal-line {
+            margin: 5px 0;
+        }
+
+        .secret-coin {
+            position: fixed;
+
+            right: max(15px, env(safe-area-inset-right));
+            bottom: max(15px, env(safe-area-inset-bottom));
+
+            width: 22px;
+            height: 22px;
+
+            border: 0;
+
+            background: var(--yellow);
+
+            cursor: pointer;
+
+            box-shadow:
+                0 0 10px
+                rgba(255, 230, 109, 0.5);
+
+            z-index: 10;
+        }
+
+        .toast {
+            position: fixed;
+
+            top: max(14px, env(safe-area-inset-top));
+            right: max(14px, env(safe-area-inset-right));
+
+            max-width: calc(100vw - 28px);
+
+            padding: 10px 15px;
+
+            border: 2px solid var(--green);
+
+            background: #080b0a;
+
+            color: var(--green);
+
+            transform: translateY(-150%);
+
+            transition: transform 0.2s ease;
+
+            z-index: 20;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+        }
+
+        footer {
+            min-height: 40px;
+
+            padding: 9px 14px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 10px;
+
+            border-top: 3px solid var(--border);
+
+            color: var(--muted);
+
+            font-size: clamp(13px, 1.4vw, 16px);
+        }
+
+        @media (hover: none), (pointer: coarse) {
+            .touch-controls {
+                display: grid;
+            }
+
+            .pixel-button,
+            .nav-button {
+                min-height: 48px;
+            }
+
+            .card:hover {
+                border-color: var(--border);
+            }
+        }
+
+        @media (max-width: 820px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                padding: 9px;
+
+                border-right: 0;
+                border-bottom: 3px solid var(--border);
+            }
+
+            .profile {
+                display: none;
+            }
+
+            .nav {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+
+                gap: 5px;
+            }
+
+            .nav-button {
+                padding: 8px 4px;
+
+                text-align: center;
+
+                font-size: clamp(14px, 3vw, 18px);
+
+                overflow: hidden;
+            }
+
+            .nav-button.active::before {
+                content: "";
+            }
+
+            .collectibles {
+                margin-top: 9px;
+                padding: 7px 4px 0;
+
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 0;
+            }
+
+            .shell {
+                min-height: 100dvh;
+
+                border-left: 0;
+                border-right: 0;
+
+                box-shadow: none;
+            }
+
+            .topbar {
+                min-height: 44px;
+            }
+
+            .status {
+                font-size: 13px;
+            }
+
+            .status-dot {
+                width: 7px;
+                height: 7px;
+            }
+
+            main {
+                padding: 18px 13px;
+            }
+
+            .actions {
+                display: grid;
+                grid-template-columns: 1fr;
+            }
+
+            .pixel-button {
+                width: 100%;
+            }
+
+            footer {
+                flex-direction: column;
+
+                justify-content: center;
+
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 340px) {
+            .status {
+                font-size: 0;
+            }
+
+            .nav-button {
+                font-size: 13px;
+            }
+
+            h1 {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-height: 600px) and (orientation: landscape) {
+            .profile {
+                display: none;
+            }
+
+            .sidebar {
+                padding: 8px;
+            }
+
+            main {
+                padding-top: 16px;
+                padding-bottom: 16px;
+            }
+
+            .lead {
+                margin: 8px 0;
+            }
+
+            .actions {
+                margin-top: 15px;
+            }
+
+            .click-zone {
+                height: 210px;
+            }
+
+            .canvas-wrap {
+                width: min(55dvh, 330px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                transition-duration: 0.01ms !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+            }
         }
     </style>
 </head>
+
 <body>
 
-    <div class="arcade-cabinet">
-        <h1>ATHARV ASGOLA</h1>
-        <div>
-            <span class="terminal-text">SYS.STATUS: ONLINE // READY</span>
-        </div>
+<div class="toast" id="toast">
+    ACHIEVEMENT UNLOCKED
+</div>
 
-        <div class="display-screen" id="screen">
-            <div id="bio-content">
-                <div class="avatar-box">
-                    [ ^ _ ^ ]
+<div class="shell">
+
+    <header class="topbar">
+        <div class="brand">ATHARV.EXE</div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            SYSTEM ONLINE
+        </div>
+    </header>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+
+            <div class="profile">
+                <div class="avatar">^_^</div>
+
+                <div class="profile-name">
+                    ATHARV ASGOLA
                 </div>
-                <p style="margin: 0; line-height: 1.4; max-width: 450px;">
-                    Hey! Welcome to my digital territory. I'm building things, writing clean code, and making my mark on the web.
+
+                <div class="profile-role">
+                    developer / game maker
+                </div>
+            </div>
+
+            <nav class="nav">
+                <button class="nav-button active" data-page="home">
+                    HOME
+                </button>
+
+                <button class="nav-button" data-page="projects">
+                    PROJECTS
+                </button>
+
+                <button class="nav-button" data-page="arcade">
+                    ARCADE
+                </button>
+
+                <button class="nav-button" data-page="contact">
+                    CONTACT
+                </button>
+            </nav>
+
+            <div class="collectibles">
+                HIDDEN PIXELS:
+                <span id="coin-count">0</span>/3
+            </div>
+
+        </aside>
+
+        <main>
+
+            <section class="page active" id="home">
+
+                <div class="eyebrow">
+                    PLAYER 1 HAS ENTERED THE WEB.
+                </div>
+
+                <h1>
+                    I BUILD <span>GAMES</span>,
+                    SYSTEMS & WEIRD IDEAS.
+                </h1>
+
+                <p class="lead">
+                    Hey, I'm Atharv. I make games, mods and
+                    random projects that usually begin with
+                    "what if I just..."
                 </p>
-            </div>
 
-            <div class="game-ui" id="game-ui">
-                <div class="score-board">SCORE: <span id="score">0</span></div>
-                <canvas id="stage" class="game-canvas" width="280" height="280"></canvas>
-            </div>
-        </div>
+                <p class="lead">
+                    Then I spend several hours debugging it.
+                </p>
 
-        <div class="pixel-btn-container">
-            <button class="pixel-btn purple-btn" id="game-trigger" onclick="toggleGame()">INSERT COIN (PLAY SNAKE)</button>
-            <a href="https://github.com/atharvasgola" target="_blank" class="pixel-btn">My GitHub</a>
-            <a href="mailto:your-email@gmail.com" class="pixel-btn">Contact Me</a>
-        </div>
+                <div class="actions">
 
-        <div class="footer">
-            © 2026 ATHARV - ALL RIGHTS RESERVED
-        </div>
+                    <button
+                        class="pixel-button"
+                        onclick="openPage('projects')"
+                    >
+                        VIEW PROJECTS
+                    </button>
+
+                    <button
+                        class="pixel-button pink"
+                        onclick="openPage('arcade')"
+                    >
+                        WASTE TIME
+                    </button>
+
+                </div>
+
+            </section>
+
+            <section class="page" id="projects">
+
+                <div class="eyebrow">
+                    /PROJECT_DIRECTORY
+                </div>
+
+                <h2>SELECT A SAVE FILE</h2>
+
+                <div class="cards">
+
+                    <article class="card">
+                        <span class="card-number">01</span>
+
+                        <h3>WORLD OF COUNTRIES</h3>
+
+                        <p>
+                            A country-building game about claiming
+                            territory, nations, economies and
+                            probably starting wars.
+                        </p>
+
+                        <span class="tag">ROBLOX</span>
+                        <span class="tag">LUA</span>
+                    </article>
+
+                    <article class="card">
+                        <span class="card-number">02</span>
+
+                        <h3>AGES OF CONFLICT MODS</h3>
+
+                        <p>
+                            Systems focused on making AI wars,
+                            battle placement and war goals behave
+                            more realistically.
+                        </p>
+
+                        <span class="tag">C#</span>
+                        <span class="tag">MODDING</span>
+                    </article>
+
+                    <article class="card">
+                        <span class="card-number">03</span>
+
+                        <h3>MAP EXPERIMENTS</h3>
+
+                        <p>
+                            Procedural terrain, provinces,
+                            fictional countries and maps that
+                            become significantly too complicated.
+                        </p>
+
+                        <span class="tag">MAPS</span>
+                        <span class="tag">GENERATION</span>
+                    </article>
+
+                    <article class="card">
+                        <span class="card-number">??</span>
+
+                        <h3>NEXT PROJECT</h3>
+
+                        <p>
+                            STATUS: inevitably starting something
+                            new before finishing everything else.
+                        </p>
+
+                        <span class="tag">UNKNOWN</span>
+                    </article>
+
+                </div>
+
+            </section>
+
+            <section class="page" id="arcade">
+
+                <div class="eyebrow">
+                    /TOTALLY_PRODUCTIVE
+                </div>
+
+                <h2>ATHARV'S ARCADE</h2>
+
+                <div class="game-select">
+
+                    <div class="game-card">
+                        <h3>PIXEL SNAKE</h3>
+
+                        <p>
+                            Arrow keys or touch controls.
+                            Eat pink squares.
+                        </p>
+
+                        <button
+                            class="pixel-button"
+                            onclick="startSnake()"
+                        >
+                            PLAY
+                        </button>
+                    </div>
+
+                    <div class="game-card">
+                        <h3>BUG SMASHER</h3>
+
+                        <p>
+                            Click the bug.
+                            This is basically programming.
+                        </p>
+
+                        <button
+                            class="pixel-button pink"
+                            onclick="startBugGame()"
+                        >
+                            DEBUG
+                        </button>
+                    </div>
+
+                </div>
+
+                <div class="game-area" id="snake-game">
+
+                    <div class="score">
+                        SCORE:
+                        <span id="snake-score">0</span>
+                    </div>
+
+                    <div class="canvas-wrap">
+                        <canvas
+                            id="snake-canvas"
+                            width="336"
+                            height="336"
+                        ></canvas>
+                    </div>
+
+                    <div class="touch-controls">
+
+                        <button
+                            class="touch-button touch-up"
+                            data-direction="up"
+                        >
+                            ▲
+                        </button>
+
+                        <button
+                            class="touch-button touch-left"
+                            data-direction="left"
+                        >
+                            ◀
+                        </button>
+
+                        <button
+                            class="touch-button touch-down"
+                            data-direction="down"
+                        >
+                            ▼
+                        </button>
+
+                        <button
+                            class="touch-button touch-right"
+                            data-direction="right"
+                        >
+                            ▶
+                        </button>
+
+                    </div>
+
+                    <p>
+                        ARROWS / TOUCH TO MOVE · ESC TO EXIT
+                    </p>
+
+                </div>
+
+                <div class="game-area" id="bug-game">
+
+                    <div class="score">
+                        BUGS FIXED:
+                        <span id="bug-score">0</span>
+                    </div>
+
+                    <div class="click-zone" id="click-zone">
+                        <button
+                            class="target"
+                            id="bug"
+                            aria-label="Bug"
+                        >
+                            !
+                        </button>
+                    </div>
+
+                    <p>
+                        CLICK THE BUG BEFORE IT ESCAPES
+                        YOUR CODEBASE.
+                    </p>
+
+                </div>
+
+            </section>
+
+            <section class="page" id="contact">
+
+                <div class="eyebrow">
+                    /ESTABLISH_CONNECTION
+                </div>
+
+                <h2>CONTACT</h2>
+
+                <div class="terminal">
+
+                    <div class="terminal-line">
+                        $ whoami
+                    </div>
+
+                    <div class="terminal-line">
+                        &gt; atharv asgola
+                    </div>
+
+                    <br>
+
+                    <div class="terminal-line">
+                        $ status
+                    </div>
+
+                    <div class="terminal-line">
+                        &gt; probably coding something
+                    </div>
+
+                    <br>
+
+                    <div class="terminal-line">
+                        $ contact --email
+                    </div>
+
+                    <div class="terminal-line">
+                        &gt; asgolaatharv@gmail.com
+                    </div>
+
+                </div>
+
+                <div class="actions">
+
+                    <a
+                        class="pixel-button"
+                        href="mailto:asgolaatharv@gmail.com"
+                    >
+                        SEND EMAIL
+                    </a>
+
+                    <a
+                        class="pixel-button pink"
+                        href="https://github.com/atharvasgola"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        GITHUB
+                    </a>
+
+                </div>
+
+            </section>
+
+        </main>
+
     </div>
 
-    <script>
-        let gameActive = false;
-        const canvas = document.getElementById("stage");
-        const ctx = canvas.getContext("2d");
-        const grid = 14;
-        let count = 0;
-        let score = 0;
-        let snake = { x: 140, y: 140, dx: grid, dy: 0, cells: [], maxCells: 4 };
-        let apple = { x: 70, y: 70 };
-        let gameLoopId;
+    <footer>
+        <span>© 2026 ATHARV ASGOLA</span>
+        <span>BUILD 26.07</span>
+    </footer>
 
-        function toggleGame() {
-            const bio = document.getElementById("bio-content");
-            const ui = document.getElementById("game-ui");
-            const btn = document.getElementById("game-trigger");
+</div>
 
-            if (!gameActive) {
-                bio.style.display = "none";
-                ui.style.display = "flex";
-                canvas.style.display = "block";
-                btn.innerText = "EXIT GAME";
-                gameActive = true;
-                resetGame();
-                gameLoopId = requestAnimationFrame(loop);
-            } else {
-                bio.style.display = "block";
-                ui.style.display = "none";
-                canvas.style.display = "none";
-                btn.innerText = "INSERT COIN (PLAY SNAKE)";
-                gameActive = false;
-                cancelAnimationFrame(gameLoopId);
+<button
+    class="secret-coin"
+    id="secret-coin"
+    aria-label="Hidden pixel"
+></button>
+
+<script>
+    const pages = document.querySelectorAll(".page");
+    const navButtons = document.querySelectorAll(".nav-button");
+
+    const toast = document.getElementById("toast");
+    const secretCoin = document.getElementById("secret-coin");
+
+    let audioContext;
+    let collectedPixels = 0;
+
+
+    function sound(frequency = 440, duration = 0.05) {
+        audioContext ??= new (
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+        const oscillator = audioContext.createOscillator();
+        const gain = audioContext.createGain();
+
+        oscillator.type = "square";
+        oscillator.frequency.value = frequency;
+
+        gain.gain.setValueAtTime(
+            0.025,
+            audioContext.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            0.001,
+            audioContext.currentTime + duration
+        );
+
+        oscillator.connect(gain);
+        gain.connect(audioContext.destination);
+
+        oscillator.start();
+
+        oscillator.stop(
+            audioContext.currentTime + duration
+        );
+    }
+
+
+    function openPage(pageName) {
+        stopGames();
+
+        pages.forEach(page => {
+            page.classList.toggle(
+                "active",
+                page.id === pageName
+            );
+        });
+
+        navButtons.forEach(button => {
+            button.classList.toggle(
+                "active",
+                button.dataset.page === pageName
+            );
+        });
+
+        window.scrollTo({
+            top: 0,
+            behavior: "auto"
+        });
+
+        sound(320);
+    }
+
+    navButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            openPage(button.dataset.page);
+        });
+    });
+
+
+    function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add("show");
+
+        clearTimeout(showToast.timeout);
+
+        showToast.timeout = setTimeout(() => {
+            toast.classList.remove("show");
+        }, 1800);
+    }
+
+
+    secretCoin.addEventListener("click", () => {
+        collectedPixels++;
+
+        document.getElementById("coin-count").textContent =
+            collectedPixels;
+
+        sound(800, 0.08);
+
+        if (collectedPixels < 3) {
+            showToast("HIDDEN PIXEL FOUND");
+            moveSecret();
+        } else {
+            secretCoin.remove();
+
+            showToast(
+                "ACHIEVEMENT: PIXEL HUNTER"
+            );
+        }
+    });
+
+    function moveSecret() {
+        const size = secretCoin.offsetWidth || 22;
+
+        const maxX = Math.max(
+            0,
+            window.innerWidth - size
+        );
+
+        const maxY = Math.max(
+            0,
+            window.innerHeight - size
+        );
+
+        secretCoin.style.left =
+            Math.random() * maxX + "px";
+
+        secretCoin.style.top =
+            Math.random() * maxY + "px";
+
+        secretCoin.style.right = "auto";
+        secretCoin.style.bottom = "auto";
+    }
+
+
+    const canvas = document.getElementById("snake-canvas");
+    const ctx = canvas.getContext("2d");
+
+    const grid = 16;
+
+    let snake;
+    let food;
+    let snakeScore = 0;
+    let snakeTimer;
+    let snakeActive = false;
+
+    function startSnake() {
+        stopGames();
+
+        document.getElementById("snake-game").style.display =
+            "block";
+
+        snake = {
+            x: 160,
+            y: 160,
+            dx: grid,
+            dy: 0,
+            cells: [],
+            length: 4
+        };
+
+        snakeScore = 0;
+        snakeActive = true;
+
+        document.getElementById("snake-score").textContent =
+            "0";
+
+        placeFood();
+
+        snakeTimer = setInterval(
+            updateSnake,
+            90
+        );
+
+        sound(500);
+    }
+
+    function placeFood() {
+        food = {
+            x:
+                Math.floor(
+                    Math.random() *
+                    (canvas.width / grid)
+                ) * grid,
+
+            y:
+                Math.floor(
+                    Math.random() *
+                    (canvas.height / grid)
+                ) * grid
+        };
+    }
+
+    function updateSnake() {
+        if (!snakeActive) return;
+
+        snake.x += snake.dx;
+        snake.y += snake.dy;
+
+        if (
+            snake.x < 0 ||
+            snake.y < 0 ||
+            snake.x >= canvas.width ||
+            snake.y >= canvas.height
+        ) {
+            resetSnake();
+            return;
+        }
+
+        snake.cells.unshift({
+            x: snake.x,
+            y: snake.y
+        });
+
+        if (snake.cells.length > snake.length) {
+            snake.cells.pop();
+        }
+
+        ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
+
+        ctx.fillStyle = "#ff5da2";
+
+        ctx.fillRect(
+            food.x,
+            food.y,
+            grid - 2,
+            grid - 2
+        );
+
+        ctx.fillStyle = "#69ff9d";
+
+        for (
+            let i = 0;
+            i < snake.cells.length;
+            i++
+        ) {
+            const cell = snake.cells[i];
+
+            ctx.fillRect(
+                cell.x,
+                cell.y,
+                grid - 2,
+                grid - 2
+            );
+
+            if (
+                cell.x === food.x &&
+                cell.y === food.y
+            ) {
+                snake.length++;
+                snakeScore += 10;
+
+                document
+                    .getElementById("snake-score")
+                    .textContent = snakeScore;
+
+                placeFood();
+                sound(700);
+            }
+
+            for (
+                let j = i + 1;
+                j < snake.cells.length;
+                j++
+            ) {
+                if (
+                    cell.x === snake.cells[j].x &&
+                    cell.y === snake.cells[j].y
+                ) {
+                    resetSnake();
+                    return;
+                }
             }
         }
+    }
 
-        function getRandomInt(min, max) {
-            return Math.floor(Math.random() * (max - min)) + min;
+    function resetSnake() {
+        sound(120, 0.15);
+        startSnake();
+    }
+
+    function changeDirection(direction) {
+        if (!snakeActive) return;
+
+        if (
+            direction === "left" &&
+            snake.dx === 0
+        ) {
+            snake.dx = -grid;
+            snake.dy = 0;
         }
 
-        function resetGame() {
-            score = 0;
-            document.getElementById("score").innerText = score;
-            snake.x = 140;
-            snake.y = 140;
-            snake.cells = [];
-            snake.maxCells = 4;
+        if (
+            direction === "right" &&
+            snake.dx === 0
+        ) {
             snake.dx = grid;
             snake.dy = 0;
-            apple.x = getRandomInt(0, 20) * grid;
-            apple.y = getRandomInt(0, 20) * grid;
         }
 
-        function loop() {
-            if (!gameActive) return;
-            gameLoopId = requestAnimationFrame(loop);
+        if (
+            direction === "up" &&
+            snake.dy === 0
+        ) {
+            snake.dx = 0;
+            snake.dy = -grid;
+        }
 
-            if (++count < 8) {
-                return;
-            }
-            count = 0;
+        if (
+            direction === "down" &&
+            snake.dy === 0
+        ) {
+            snake.dx = 0;
+            snake.dy = grid;
+        }
+    }
 
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+    document
+        .querySelectorAll("[data-direction]")
+        .forEach(button => {
+            button.addEventListener("pointerdown", event => {
+                event.preventDefault();
 
-            snake.x += snake.dx;
-            snake.y += snake.dy;
-
-            if (snake.x < 0) snake.x = canvas.width - grid;
-            else if (snake.x >= canvas.width) snake.x = 0;
-
-            if (snake.y < 0) snake.y = canvas.height - grid;
-            else if (snake.y >= canvas.height) snake.y = 0;
-
-            snake.cells.unshift({ x: snake.x, y: snake.y });
-
-            if (snake.cells.length > snake.maxCells) {
-                snake.cells.pop();
-            }
-
-            ctx.fillStyle = '#ff007f';
-            ctx.fillRect(apple.x, apple.y, grid - 1, grid - 1);
-
-            ctx.fillStyle = '#00ff66';
-            snake.cells.forEach(function (cell, index) {
-                ctx.fillRect(cell.x, cell.y, grid - 1, grid - 1);
-
-                if (cell.x === apple.x && cell.y === apple.y) {
-                    snake.maxCells++;
-                    score += 10;
-                    document.getElementById("score").innerText = score;
-                    apple.x = getRandomInt(0, 20) * grid;
-                    apple.y = getRandomInt(0, 20) * grid;
-                }
-
-                for (let i = index + 1; i < snake.cells.length; i++) {
-                    if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
-                        resetGame();
-                    }
-                }
+                changeDirection(
+                    button.dataset.direction
+                );
             });
+        });
+
+
+    // BUG SMASHER
+
+    const bug = document.getElementById("bug");
+    const clickZone = document.getElementById("click-zone");
+
+    let bugScore = 0;
+    let bugTimer;
+
+    function startBugGame() {
+        stopGames();
+
+        document.getElementById("bug-game").style.display =
+            "block";
+
+        bugScore = 0;
+
+        document.getElementById("bug-score").textContent =
+            "0";
+
+        moveBug();
+
+        bugTimer = setInterval(
+            moveBug,
+            900
+        );
+
+        sound(500);
+    }
+
+    function moveBug() {
+        const maxX = Math.max(
+            0,
+            clickZone.clientWidth - bug.offsetWidth
+        );
+
+        const maxY = Math.max(
+            0,
+            clickZone.clientHeight - bug.offsetHeight
+        );
+
+        bug.style.left =
+            Math.random() * maxX + "px";
+
+        bug.style.top =
+            Math.random() * maxY + "px";
+    }
+
+    bug.addEventListener("pointerdown", event => {
+        event.stopPropagation();
+
+        bugScore++;
+
+        document.getElementById("bug-score").textContent =
+            bugScore;
+
+        sound(750);
+
+        moveBug();
+
+        if (bugScore === 10) {
+            showToast(
+                "10 BUGS FIXED. SHIP TO PRODUCTION."
+            );
+        }
+    });
+
+
+    function stopGames() {
+        snakeActive = false;
+
+        clearInterval(snakeTimer);
+        clearInterval(bugTimer);
+
+        document.getElementById("snake-game").style.display =
+            "none";
+
+        document.getElementById("bug-game").style.display =
+            "none";
+    }
+
+    window.addEventListener("keydown", event => {
+        if (event.key === "Escape") {
+            stopGames();
+            return;
         }
 
-        window.addEventListener("keydown", function (e) {
-            if (!gameActive) return;
-            if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
-                e.preventDefault();
-            }
-            if (e.which === 37 && snake.dx === 0) {
-                snake.dx = -grid;
-                snake.dy = 0;
-            } else if (e.which === 38 && snake.dy === 0) {
-                snake.dy = -grid;
-                snake.dx = 0;
-            } else if (e.which === 39 && snake.dx === 0) {
-                snake.dx = grid;
-                snake.dy = 0;
-            } else if (e.which === 40 && snake.dy === 0) {
-                snake.dy = grid;
-                snake.dx = 0;
-            }
-        });
-    </script>
+        if (!snakeActive) return;
+
+        const directions = {
+            ArrowLeft: "left",
+            ArrowRight: "right",
+            ArrowUp: "up",
+            ArrowDown: "down"
+        };
+
+        const direction = directions[event.key];
+
+        if (!direction) return;
+
+        event.preventDefault();
+
+        changeDirection(direction);
+    });
+
+
+    window.addEventListener("resize", () => {
+        if (
+            !document.body.contains(secretCoin)
+        ) {
+            return;
+        }
+
+        const rect =
+            secretCoin.getBoundingClientRect();
+
+        if (
+            rect.right > window.innerWidth ||
+            rect.bottom > window.innerHeight
+        ) {
+            moveSecret();
+        }
+
+        if (
+            document.getElementById("bug-game")
+                .style.display === "block"
+        ) {
+            moveBug();
+        }
+    });
+</script>
+
 </body>
 </html>
