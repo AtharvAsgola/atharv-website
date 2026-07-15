@@ -10,10 +10,10 @@
     
     <style>
         body {
-            background-color: #0d0d1a;
+            background-color: #060610;
             color: #00ff66;
             font-family: 'VT323', monospace;
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin: 0;
             padding: 0;
             display: flex;
@@ -28,33 +28,48 @@
             display: block;
             position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 10;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.05), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.05));
+            z-index: 999;
             background-size: 100% 4px, 6px 100%;
             pointer-events: none;
         }
 
         .arcade-cabinet {
-            width: 90%;
-            max-width: 650px;
-            background-color: #1a1a2e;
+            width: 95%;
+            max-width: 680px;
+            background: radial-gradient(circle, #1b1b3a 0%, #0a0a16 100%);
             border: 6px solid #ff007f;
-            box-shadow: 0 0 20px #ff007f, inset 0 0 15px #ff007f;
-            border-radius: 12px;
+            box-shadow: 0 0 30px #ff007f, inset 0 0 20px #ff007f, 0 0 10px #00ffff;
+            border-radius: 20px;
             padding: 2.5rem;
             text-align: center;
             box-sizing: border-box;
             position: relative;
+            animation: crt-turn-on 0.5s ease-out;
+        }
+
+        @keyframes crt-turn-on {
+            0% { transform: scaleY(0.01) scaleX(0); filter: brightness(3); }
+            50% { transform: scaleY(0.01) scaleX(1); filter: brightness(3); }
+            100% { transform: scaleY(1) scaleX(1); filter: brightness(1); }
         }
 
         h1 {
             font-family: 'Press Start 2P', cursive;
-            font-size: 1.8rem;
+            font-size: 2rem;
             color: #00ffff;
-            text-shadow: 3px 3px 0px #ff007f;
+            text-shadow: 4px 4px 0px #ff007f, -1px -1px 0px #00ff66;
+            margin-top: 0;
             margin-bottom: 1.5rem;
             letter-spacing: -1px;
-            word-wrap: break-word;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 4px 4px 0px #ff007f; }
+            50% { text-shadow: -4px -4px 0px #00ff66, 4px 4px 0px #ff007f; }
+            52% { text-shadow: 6px -2px 0px #00ffff, -4px 4px 0px #ff007f; }
+            54% { text-shadow: 4px 4px 0px #ff007f; }
         }
 
         .terminal-text {
@@ -65,65 +80,7 @@
             overflow: hidden;
             display: inline-block;
             font-size: 1.8rem;
-            animation: typing 3.5s steps(30, end), blink 0.75s step-end infinite;
-        }
-
-        .profile-pixel {
-            border: 4px dashed #00ffff;
-            background: #111;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-            border-radius: 4px;
-        }
-
-        .avatar-box {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-            color: #ff007f;
-            background: #222;
-            padding: 10px;
-            display: inline-block;
-            border: 3px solid #ff007f;
-            margin-bottom: 1rem;
-        }
-
-        .pixel-btn-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        .pixel-btn {
-            background-color: transparent;
-            color: #00ffff;
-            border: 3px solid #00ffff;
-            padding: 0.8rem;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            text-decoration: none;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 0px #00a3a3;
-            position: relative;
-            top: 0;
-        }
-
-        .pixel-btn:hover {
-            background-color: #00ffff;
-            color: #111;
-            box-shadow: 0 0 10px #00ffff;
-        }
-
-        .pixel-btn:active {
-            top: 4px;
-            box-shadow: 0 0px 0px transparent;
-        }
-
-        .footer {
-            margin-top: 2rem;
-            font-size: 1.1rem;
-            color: #888;
+            animation: typing 3s steps(30, end) infinite alternate, blink 0.75s step-end infinite;
         }
 
         @keyframes typing {
@@ -135,6 +92,115 @@
             from, to { border-color: transparent }
             50% { border-color: #00ff66; }
         }
+
+        .display-screen {
+            border: 4px dashed #00ffff;
+            background: #05050f;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+            box-shadow: inset 0 0 15px #000;
+            min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .avatar-box {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1rem;
+            color: #ff007f;
+            background: #111;
+            padding: 12px 20px;
+            display: inline-block;
+            border: 3px solid #ff007f;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 8px #ff007f;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .pixel-btn-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .pixel-btn {
+            background-color: transparent;
+            color: #00ffff;
+            border: 3px solid #00ffff;
+            padding: 1rem;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            box-shadow: 0 6px 0px #00a3a3;
+            position: relative;
+            top: 0;
+            outline: none;
+        }
+
+        .pixel-btn:hover {
+            background-color: #00ffff;
+            color: #05050f;
+            box-shadow: 0 0 15px #00ffff;
+            text-shadow: none;
+        }
+
+        .pixel-btn:active {
+            top: 6px;
+            box-shadow: 0 0px 0px transparent;
+        }
+
+        .pixel-btn.purple-btn {
+            color: #ff007f;
+            border-color: #ff007f;
+            box-shadow: 0 6px 0px #a30052;
+        }
+
+        .pixel-btn.purple-btn:hover {
+            background-color: #ff007f;
+            color: #05050f;
+            box-shadow: 0 0 15px #ff007f;
+        }
+
+        .game-canvas {
+            display: none;
+            background: #000;
+            border: 2px solid #00ff66;
+            box-shadow: 0 0 10px #00ff66;
+        }
+
+        .game-ui {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .score-board {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8rem;
+            color: #00ff66;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            margin-top: 2rem;
+            font-size: 1.2rem;
+            color: #555577;
+            letter-spacing: 1px;
+        }
     </style>
 </head>
 <body>
@@ -142,25 +208,155 @@
     <div class="arcade-cabinet">
         <h1>ATHARV ASGOLA</h1>
         <div>
-            <span class="terminal-text">SYS.STATUS: ONLINE // WELCOME</span>
+            <span class="terminal-text">SYS.STATUS: ONLINE // READY</span>
         </div>
 
-        <div class="profile-pixel">
-            <div class="avatar-box">
-                [ ^ _ ^ ]
+        <div class="display-screen" id="screen">
+            <div id="bio-content">
+                <div class="avatar-box">
+                    [ ^ _ ^ ]
+                </div>
+                <p style="margin: 0; line-height: 1.4; max-width: 450px;">
+                    Hey! Welcome to my digital territory. I'm building things, writing clean code, and making my mark on the web.
+                </p>
             </div>
-            <p style="margin: 0;">Hey there! Welcome to my personal hub. I'm exploring the web, building cool scripts, and claiming my corner of the internet.</p>
+
+            <div class="game-ui" id="game-ui">
+                <div class="score-board">SCORE: <span id="score">0</span></div>
+                <canvas id="stage" class="game-canvas" width="280" height="280"></canvas>
+            </div>
         </div>
 
         <div class="pixel-btn-container">
-            <a href="https://github.com" target="_blank" class="pixel-btn">My GitHub</a>
+            <button class="pixel-btn purple-btn" id="game-trigger" onclick="toggleGame()">INSERT COIN (PLAY SNAKE)</button>
+            <a href="https://github.com/atharvasgola" target="_blank" class="pixel-btn">My GitHub</a>
             <a href="mailto:your-email@gmail.com" class="pixel-btn">Contact Me</a>
         </div>
 
         <div class="footer">
-            © 2026 ATHARV - PRESS START TO EXPLORE
+            © 2026 ATHARV - ALL RIGHTS RESERVED
         </div>
     </div>
 
+    <script>
+        let gameActive = false;
+        const canvas = document.getElementById("stage");
+        const ctx = canvas.getContext("2d");
+        const grid = 14;
+        let count = 0;
+        let score = 0;
+        let snake = { x: 140, y: 140, dx: grid, dy: 0, cells: [], maxCells: 4 };
+        let apple = { x: 70, y: 70 };
+        let gameLoopId;
+
+        function toggleGame() {
+            const bio = document.getElementById("bio-content");
+            const ui = document.getElementById("game-ui");
+            const btn = document.getElementById("game-trigger");
+
+            if (!gameActive) {
+                bio.style.display = "none";
+                ui.style.display = "flex";
+                canvas.style.display = "block";
+                btn.innerText = "EXIT GAME";
+                gameActive = true;
+                resetGame();
+                gameLoopId = requestAnimationFrame(loop);
+            } else {
+                bio.style.display = "block";
+                ui.style.display = "none";
+                canvas.style.display = "none";
+                btn.innerText = "INSERT COIN (PLAY SNAKE)";
+                gameActive = false;
+                cancelAnimationFrame(gameLoopId);
+            }
+        }
+
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random() * (max - min)) + min;
+        }
+
+        function resetGame() {
+            score = 0;
+            document.getElementById("score").innerText = score;
+            snake.x = 140;
+            snake.y = 140;
+            snake.cells = [];
+            snake.maxCells = 4;
+            snake.dx = grid;
+            snake.dy = 0;
+            apple.x = getRandomInt(0, 20) * grid;
+            apple.y = getRandomInt(0, 20) * grid;
+        }
+
+        function loop() {
+            if (!gameActive) return;
+            gameLoopId = requestAnimationFrame(loop);
+
+            if (++count < 8) {
+                return;
+            }
+            count = 0;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            snake.x += snake.dx;
+            snake.y += snake.dy;
+
+            if (snake.x < 0) snake.x = canvas.width - grid;
+            else if (snake.x >= canvas.width) snake.x = 0;
+
+            if (snake.y < 0) snake.y = canvas.height - grid;
+            else if (snake.y >= canvas.height) snake.y = 0;
+
+            snake.cells.unshift({ x: snake.x, y: snake.y });
+
+            if (snake.cells.length > snake.maxCells) {
+                snake.cells.pop();
+            }
+
+            ctx.fillStyle = '#ff007f';
+            ctx.fillRect(apple.x, apple.y, grid - 1, grid - 1);
+
+            ctx.fillStyle = '#00ff66';
+            snake.cells.forEach(function (cell, index) {
+                ctx.fillRect(cell.x, cell.y, grid - 1, grid - 1);
+
+                if (cell.x === apple.x && cell.y === apple.y) {
+                    snake.maxCells++;
+                    score += 10;
+                    document.getElementById("score").innerText = score;
+                    apple.x = getRandomInt(0, 20) * grid;
+                    apple.y = getRandomInt(0, 20) * grid;
+                }
+
+                for (let i = index + 1; i < snake.cells.length; i++) {
+                    if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                        resetGame();
+                    }
+                }
+            });
+        }
+
+        window.addEventListener("keydown", function (e) {
+            if (!gameActive) return;
+            if ([37, 38, 39, 40].indexOf(e.keyCode) > -1) {
+                e.preventDefault();
+            }
+            if (e.which === 37 && snake.dx === 0) {
+                snake.dx = -grid;
+                snake.dy = 0;
+            } else if (e.which === 38 && snake.dy === 0) {
+                snake.dy = -grid;
+                snake.dx = 0;
+            } else if (e.which === 39 && snake.dx === 0) {
+                snake.dx = grid;
+                snake.dy = 0;
+            } else if (e.which === 40 && snake.dy === 0) {
+                snake.dy = grid;
+                snake.dx = 0;
+            }
+        });
+    </script>
 </body>
 </html>
