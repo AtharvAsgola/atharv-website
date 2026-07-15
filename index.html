@@ -1,13 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="refresh" content="0; url=home/">
     <title>Redirecting...</title>
     <script type="text/javascript">
-        window.location.href = "home/";
+        var currentPath = window.location.pathname;
+        var target = '/home';
+
+        if (currentPath.includes('/atharv-website')) {
+            target = '/atharv-website/home';
+        }
+
+        window.location.replace(target);
     </script>
 </head>
 <body>
-    <p>Redirecting you to <a href="home/">atharv.cyou/home</a>...</p>
+    <p>Redirecting you to the home page...</p>
 </body>
 </html>
