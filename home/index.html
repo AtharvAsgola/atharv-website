@@ -1,1714 +1,738 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1, viewport-fit=cover"
-    >
-
-    <meta name="theme-color" content="#090a12">
-
-    <title>Atharv Asgola</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link
-        href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap"
-        rel="stylesheet"
-    >
-
-    <style>
-        :root {
-            --bg: #090a12;
-            --panel: #111321;
-            --panel-light: #181b2d;
-            --green: #69ff9d;
-            --cyan: #67e8f9;
-            --pink: #ff5da2;
-            --yellow: #ffe66d;
-            --text: #e7e9f5;
-            --muted: #858aa8;
-            --border: #323750;
-
-            --page-width: 1200px;
-            --sidebar-width: clamp(190px, 21vw, 240px);
-            --page-padding: clamp(14px, 3vw, 34px);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            min-height: 100%;
-            background: var(--bg);
-        }
-
-        body {
-            margin: 0;
-            min-width: 280px;
-            min-height: 100dvh;
-
-            padding:
-                max(8px, env(safe-area-inset-top))
-                max(8px, env(safe-area-inset-right))
-                max(8px, env(safe-area-inset-bottom))
-                max(8px, env(safe-area-inset-left));
-
-            background:
-                linear-gradient(
-                    rgba(255, 255, 255, 0.018) 1px,
-                    transparent 1px
-                ),
-                linear-gradient(
-                    90deg,
-                    rgba(255, 255, 255, 0.018) 1px,
-                    transparent 1px
-                ),
-                var(--bg);
-
-            background-size: 24px 24px;
-
-            color: var(--text);
-            font-family: "VT323", monospace;
-            font-size: clamp(18px, 1.8vw, 23px);
-
-            overflow-x: hidden;
-        }
-
-        button,
-        a {
-            font: inherit;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        button {
-            color: inherit;
-        }
-
-        button,
-        a {
-            touch-action: manipulation;
-        }
-
-        .shell {
-            width: min(100%, var(--page-width));
-            min-height: calc(100dvh - 16px);
-
-            margin: 0 auto;
-
-            display: flex;
-            flex-direction: column;
-
-            border: clamp(2px, 0.3vw, 3px) solid var(--border);
-
-            background: var(--panel);
-
-            box-shadow:
-                clamp(4px, 0.8vw, 8px)
-                clamp(4px, 0.8vw, 8px)
-                0
-                #03040a;
-        }
-
-        .topbar {
-            min-height: 48px;
-
-            padding: 9px clamp(10px, 2vw, 16px);
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 12px;
-
-            border-bottom: 3px solid var(--border);
-
-            background: var(--panel-light);
-        }
-
-        .brand {
-            color: var(--cyan);
-
-            font-family: "Press Start 2P", monospace;
-            font-size: clamp(9px, 1.3vw, 12px);
-
-            white-space: nowrap;
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-
-            gap: 8px;
-
-            color: var(--muted);
-
-            font-size: clamp(14px, 1.6vw, 18px);
-
-            white-space: nowrap;
-        }
-
-        .status-dot {
-            width: 9px;
-            height: 9px;
-
-            flex: 0 0 auto;
-
-            background: var(--green);
-
-            box-shadow: 0 0 8px var(--green);
-        }
-
-        .layout {
-            flex: 1;
-
-            display: grid;
-            grid-template-columns: var(--sidebar-width) minmax(0, 1fr);
-
-            min-height: 0;
-        }
-
-        .sidebar {
-            min-width: 0;
-
-            padding: clamp(10px, 2vw, 16px);
-
-            border-right: 3px solid var(--border);
-
-            background: #0d0f1b;
-        }
-
-        .profile {
-            padding: clamp(10px, 1.5vw, 14px);
-
-            margin-bottom: 20px;
-
-            border: 2px solid var(--border);
-
-            text-align: center;
-        }
-
-        .avatar {
-            width: clamp(62px, 8vw, 80px);
-            aspect-ratio: 1;
-
-            margin: 0 auto 14px;
-
-            display: grid;
-            place-items: center;
-
-            background: var(--panel-light);
-
-            border: 3px solid var(--pink);
-
-            color: var(--pink);
-
-            font-family: "Press Start 2P", monospace;
-            font-size: clamp(9px, 1.2vw, 13px);
-        }
-
-        .profile-name {
-            color: var(--text);
-
-            font-family: "Press Start 2P", monospace;
-            font-size: clamp(8px, 1vw, 10px);
-
-            line-height: 1.7;
-        }
-
-        .profile-role {
-            margin-top: 7px;
-
-            color: var(--muted);
-
-            font-size: clamp(15px, 1.5vw, 18px);
-        }
-
-        .nav {
-            display: grid;
-            gap: 8px;
-        }
-
-        .nav-button {
-            width: 100%;
-            min-height: 44px;
-
-            padding: 9px 11px;
-
-            border: 2px solid transparent;
-
-            background: transparent;
-
-            color: var(--muted);
-
-            text-align: left;
-
-            cursor: pointer;
-        }
-
-        .nav-button:hover,
-        .nav-button:focus-visible,
-        .nav-button.active {
-            color: var(--cyan);
-
-            border-color: var(--border);
-
-            background: var(--panel-light);
-
-            outline: none;
-        }
-
-        .nav-button.active::before {
-            content: "> ";
-
-            color: var(--pink);
-        }
-
-        .collectibles {
-            margin-top: 22px;
-            padding-top: 15px;
-
-            border-top: 2px dashed var(--border);
-
-            color: var(--muted);
-
-            font-size: clamp(14px, 1.5vw, 17px);
-        }
-
-        #coin-count {
-            color: var(--yellow);
-        }
-
-        main {
-            min-width: 0;
-
-            padding: var(--page-padding);
-
-            overflow: hidden;
-        }
-
-        .page {
-            display: none;
-
-            width: 100%;
-        }
-
-        .page.active {
-            display: block;
-        }
-
-        .eyebrow {
-            margin-bottom: 12px;
-
-            color: var(--green);
-
-            overflow-wrap: anywhere;
-        }
-
-        h1,
-        h2 {
-            margin-top: 0;
-
-            font-family: "Press Start 2P", monospace;
-
-            line-height: 1.6;
-
-            overflow-wrap: anywhere;
-        }
-
-        h1 {
-            max-width: 760px;
-
-            margin-bottom: 18px;
-
-            color: var(--text);
-
-            font-size: clamp(20px, 4.5vw, 46px);
-        }
-
-        h1 span {
-            color: var(--pink);
-        }
-
-        h2 {
-            color: var(--cyan);
-
-            font-size: clamp(14px, 2.2vw, 20px);
-        }
-
-        p {
-            line-height: 1.45;
-        }
-
-        .lead {
-            max-width: 720px;
-
-            color: #b9bdd3;
-
-            font-size: clamp(20px, 2.5vw, 28px);
-        }
-
-        .actions {
-            display: flex;
-            flex-wrap: wrap;
-
-            gap: 12px;
-
-            margin-top: 28px;
-        }
-
-        .pixel-button {
-            min-height: 46px;
-
-            padding: 10px 16px;
-
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-
-            border: 2px solid var(--cyan);
-
-            background: transparent;
-
-            color: var(--cyan);
-
-            text-align: center;
-            text-decoration: none;
-
-            cursor: pointer;
-
-            box-shadow: 4px 4px 0 #164754;
-        }
-
-        .pixel-button:hover,
-        .pixel-button:focus-visible {
-            background: var(--cyan);
-
-            color: #071014;
-
-            outline: none;
-        }
-
-        .pixel-button.pink {
-            border-color: var(--pink);
-
-            color: var(--pink);
-
-            box-shadow: 4px 4px 0 #5a1c39;
-        }
-
-        .pixel-button.pink:hover,
-        .pixel-button.pink:focus-visible {
-            background: var(--pink);
-
-            color: #160710;
-        }
-
-        .cards {
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(min(100%, 270px), 1fr)
-                );
-
-            gap: clamp(10px, 2vw, 16px);
-
-            margin-top: 22px;
-        }
-
-        .card {
-            min-width: 0;
-
-            padding: clamp(14px, 2vw, 18px);
-
-            border: 2px solid var(--border);
-
-            background: var(--panel-light);
-        }
-
-        .card:hover {
-            border-color: var(--cyan);
-        }
-
-        .card-number {
-            color: var(--pink);
-
-            font-size: 18px;
-        }
-
-        .card h3 {
-            margin: 8px 0;
-
-            color: var(--text);
-
-            font-family: "Press Start 2P", monospace;
-            font-size: clamp(9px, 1.2vw, 11px);
-
-            line-height: 1.7;
-
-            overflow-wrap: anywhere;
-        }
-
-        .card p {
-            margin-bottom: 0;
-
-            color: var(--muted);
-        }
-
-        .tag {
-            display: inline-block;
-
-            padding: 3px 7px;
-            margin: 8px 4px 0 0;
-
-            border: 1px solid var(--border);
-
-            color: var(--green);
-
-            font-size: 16px;
-        }
-
-        .game-select {
-            display: grid;
-
-            grid-template-columns:
-                repeat(
-                    auto-fit,
-                    minmax(min(100%, 270px), 1fr)
-                );
-
-            gap: 16px;
-        }
-
-        .game-card {
-            min-width: 0;
-
-            padding: clamp(15px, 2vw, 20px);
-
-            border: 2px solid var(--border);
-
-            background: var(--panel-light);
-        }
-
-        .game-card h3 {
-            color: var(--yellow);
-
-            font-family: "Press Start 2P", monospace;
-            font-size: clamp(9px, 1.3vw, 12px);
-
-            line-height: 1.6;
-        }
-
-        .game-area {
-            display: none;
-
-            width: 100%;
-
-            margin-top: 22px;
-
-            text-align: center;
-        }
-
-        .canvas-wrap {
-            width: min(100%, 420px);
-
-            margin: 0 auto;
-        }
-
-        canvas {
-            display: block;
-
-            width: 100%;
-            height: auto;
-
-            aspect-ratio: 1;
-
-            border: 3px solid var(--green);
-
-            background: #05060a;
-
-            image-rendering: pixelated;
-        }
-
-        .score {
-            margin: 10px;
-
-            color: var(--yellow);
-        }
-
-        .touch-controls {
-            display: none;
-
-            width: 180px;
-
-            margin: 18px auto 0;
-
-            grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-        }
-
-        .touch-button {
-            min-height: 52px;
-
-            border: 2px solid var(--border);
-
-            background: var(--panel-light);
-
-            color: var(--cyan);
-
-            cursor: pointer;
-
-            user-select: none;
-        }
-
-        .touch-button:active {
-            background: var(--cyan);
-
-            color: var(--bg);
-        }
-
-        .touch-up {
-            grid-column: 2;
-        }
-
-        .touch-left {
-            grid-column: 1;
-        }
-
-        .touch-down {
-            grid-column: 2;
-        }
-
-        .touch-right {
-            grid-column: 3;
-        }
-
-        .click-zone {
-            position: relative;
-
-            width: min(100%, 560px);
-            height: clamp(220px, 45dvh, 340px);
-
-            margin: auto;
-
-            border: 3px solid var(--pink);
-
-            background: #090a12;
-
-            overflow: hidden;
-
-            touch-action: manipulation;
-        }
-
-        .target {
-            position: absolute;
-
-            width: clamp(38px, 7vw, 48px);
-            aspect-ratio: 1;
-
-            border: 0;
-
-            background: var(--yellow);
-
-            color: #090a12;
-
-            cursor: crosshair;
-        }
-
-        .terminal {
-            width: 100%;
-
-            padding: clamp(14px, 3vw, 20px);
-
-            border: 2px solid var(--green);
-
-            background: #050806;
-
-            color: var(--green);
-
-            overflow-wrap: anywhere;
-        }
-
-        .terminal-line {
-            margin: 5px 0;
-        }
-
-        .secret-coin {
-            position: fixed;
-
-            right: max(15px, env(safe-area-inset-right));
-            bottom: max(15px, env(safe-area-inset-bottom));
-
-            width: 22px;
-            height: 22px;
-
-            border: 0;
-
-            background: var(--yellow);
-
-            cursor: pointer;
-
-            box-shadow:
-                0 0 10px
-                rgba(255, 230, 109, 0.5);
-
-            z-index: 10;
-        }
-
-        .toast {
-            position: fixed;
-
-            top: max(14px, env(safe-area-inset-top));
-            right: max(14px, env(safe-area-inset-right));
-
-            max-width: calc(100vw - 28px);
-
-            padding: 10px 15px;
-
-            border: 2px solid var(--green);
-
-            background: #080b0a;
-
-            color: var(--green);
-
-            transform: translateY(-150%);
-
-            transition: transform 0.2s ease;
-
-            z-index: 20;
-        }
-
-        .toast.show {
-            transform: translateY(0);
-        }
-
-        footer {
-            min-height: 40px;
-
-            padding: 9px 14px;
-
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            gap: 10px;
-
-            border-top: 3px solid var(--border);
-
-            color: var(--muted);
-
-            font-size: clamp(13px, 1.4vw, 16px);
-        }
-
-        @media (hover: none), (pointer: coarse) {
-            .touch-controls {
-                display: grid;
-            }
-
-            .pixel-button,
-            .nav-button {
-                min-height: 48px;
-            }
-
-            .card:hover {
-                border-color: var(--border);
-            }
-        }
-
-        @media (max-width: 820px) {
-            .layout {
-                grid-template-columns: 1fr;
-            }
-
-            .sidebar {
-                padding: 9px;
-
-                border-right: 0;
-                border-bottom: 3px solid var(--border);
-            }
-
-            .profile {
-                display: none;
-            }
-
-            .nav {
-                grid-template-columns: repeat(4, minmax(0, 1fr));
-
-                gap: 5px;
-            }
-
-            .nav-button {
-                padding: 8px 4px;
-
-                text-align: center;
-
-                font-size: clamp(14px, 3vw, 18px);
-
-                overflow: hidden;
-            }
-
-            .nav-button.active::before {
-                content: "";
-            }
-
-            .collectibles {
-                margin-top: 9px;
-                padding: 7px 4px 0;
-
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 0;
-            }
-
-            .shell {
-                min-height: 100dvh;
-
-                border-left: 0;
-                border-right: 0;
-
-                box-shadow: none;
-            }
-
-            .topbar {
-                min-height: 44px;
-            }
-
-            .status {
-                font-size: 13px;
-            }
-
-            .status-dot {
-                width: 7px;
-                height: 7px;
-            }
-
-            main {
-                padding: 18px 13px;
-            }
-
-            .actions {
-                display: grid;
-                grid-template-columns: 1fr;
-            }
-
-            .pixel-button {
-                width: 100%;
-            }
-
-            footer {
-                flex-direction: column;
-
-                justify-content: center;
-
-                text-align: center;
-            }
-        }
-
-        @media (max-width: 340px) {
-            .status {
-                font-size: 0;
-            }
-
-            .nav-button {
-                font-size: 13px;
-            }
-
-            h1 {
-                font-size: 18px;
-            }
-        }
-
-        @media (max-height: 600px) and (orientation: landscape) {
-            .profile {
-                display: none;
-            }
-
-            .sidebar {
-                padding: 8px;
-            }
-
-            main {
-                padding-top: 16px;
-                padding-bottom: 16px;
-            }
-
-            .lead {
-                margin: 8px 0;
-            }
-
-            .actions {
-                margin-top: 15px;
-            }
-
-            .click-zone {
-                height: 210px;
-            }
-
-            .canvas-wrap {
-                width: min(55dvh, 330px);
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                scroll-behavior: auto !important;
-                transition-duration: 0.01ms !important;
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#090a12">
+<title>Atharv Asgola</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#090a12;
+  --panel:#111321;
+  --panel-light:#181b2d;
+  --green:#69ff9d;
+  --cyan:#67e8f9;
+  --pink:#ff5da2;
+  --yellow:#ffe66d;
+  --text:#e7e9f5;
+  --muted:#858aa8;
+  --border:#323750;
+  --page-width:1200px;
+  --sidebar-width:clamp(190px,21vw,240px);
+  --page-padding:clamp(14px,3vw,34px);
+}
+*{box-sizing:border-box}
+html{min-height:100%;background:var(--bg)}
+body{
+  margin:0;min-width:280px;min-height:100dvh;
+  padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
+  background:
+    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+    var(--bg);
+  background-size:24px 24px;
+  color:var(--text);
+  font-family:"VT323",monospace;
+  font-size:clamp(18px,1.8vw,23px);
+  overflow-x:hidden;
+}
+button,a{font:inherit;-webkit-tap-highlight-color:transparent}
+button{color:inherit;background:none;border:none}
+button,a{touch-action:manipulation}
+.shell{
+  width:min(100%,var(--page-width));min-height:calc(100dvh - 16px);margin:0 auto;
+  display:flex;flex-direction:column;border:clamp(2px,.3vw,3px) solid var(--border);
+  background:var(--panel);box-shadow:clamp(4px,.8vw,8px) clamp(4px,.8vw,8px) 0 #03040a;
+}
+.topbar{
+  min-height:48px;padding:9px clamp(10px,2vw,16px);display:flex;align-items:center;
+  justify-content:space-between;gap:12px;border-bottom:3px solid var(--border);background:var(--panel-light);
+}
+.brand{color:var(--cyan);font-family:"Press Start 2P",monospace;font-size:clamp(9px,1.3vw,12px);white-space:nowrap}
+.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:clamp(14px,1.6vw,18px);white-space:nowrap}
+.status-dot{width:9px;height:9px;flex:0 0 auto;background:var(--green);box-shadow:0 0 8px var(--green)}
+.layout{flex:1;display:grid;grid-template-columns:var(--sidebar-width) minmax(0,1fr);min-height:0}
+.sidebar{min-width:0;padding:clamp(10px,2vw,16px);border-right:3px solid var(--border);background:#0d0f1b}
+.profile{padding:clamp(10px,1.5vw,14px);margin-bottom:20px;border:2px solid var(--border);text-align:center}
+.avatar{
+  width:clamp(62px,8vw,80px);aspect-ratio:1;margin:0 auto 14px;display:grid;place-items:center;
+  background:var(--panel-light);border:3px solid var(--pink);color:var(--pink);
+  font-family:"Press Start 2P",monospace;font-size:clamp(9px,1.2vw,13px);
+}
+.profile-name{color:var(--text);font-family:"Press Start 2P",monospace;font-size:clamp(8px,1vw,10px);line-height:1.7}
+.profile-role{margin-top:7px;color:var(--muted);font-size:clamp(15px,1.5vw,18px)}
+.nav{display:grid;gap:8px}
+.nav-button{
+  width:100%;min-height:44px;padding:9px 11px;border:2px solid transparent;
+  background:transparent;color:var(--muted);text-align:left;cursor:pointer;
+}
+.nav-button:hover,.nav-button:focus-visible,.nav-button.active{
+  color:var(--cyan);border-color:var(--border);background:var(--panel-light);outline:none;
+}
+.nav-button.active::before{content:"> ";color:var(--pink)}
+.collectibles{margin-top:22px;padding-top:15px;border-top:2px dashed var(--border);color:var(--muted);font-size:clamp(13px,1.4vw,16px)}
+#pixel-count{color:var(--yellow)}
+.collectibles small{display:block;margin-top:4px;color:#5b5f78;font-size:.85em}
+main{min-width:0;padding:var(--page-padding);overflow:hidden}
+.page{display:none;width:100%}
+.page.active{display:block}
+.eyebrow{margin-bottom:12px;color:var(--green);overflow-wrap:anywhere}
+h1,h2{margin-top:0;font-family:"Press Start 2P",monospace;line-height:1.6;overflow-wrap:anywhere}
+h1{max-width:760px;margin-bottom:18px;color:var(--text);font-size:clamp(20px,4.5vw,44px)}
+h1 span{color:var(--pink)}
+h2{color:var(--cyan);font-size:clamp(14px,2.2vw,20px)}
+p{line-height:1.45}
+.lead{max-width:720px;color:#b9bdd3;font-size:clamp(20px,2.5vw,27px)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.pixel-button{
+  min-height:46px;padding:10px 16px;display:inline-flex;align-items:center;justify-content:center;
+  border:2px solid var(--cyan);background:transparent;color:var(--cyan);text-align:center;
+  text-decoration:none;cursor:pointer;box-shadow:4px 4px 0 #164754;
+}
+.pixel-button:hover,.pixel-button:focus-visible{background:var(--cyan);color:#071014;outline:none}
+.pixel-button.pink{border-color:var(--pink);color:var(--pink);box-shadow:4px 4px 0 #5a1c39}
+.pixel-button.pink:hover,.pixel-button.pink:focus-visible{background:var(--pink);color:#160710}
+.pixel-button:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:clamp(10px,2vw,16px);margin-top:22px}
+.card{min-width:0;padding:clamp(14px,2vw,18px);border:2px solid var(--border);background:var(--panel-light);position:relative}
+.card:hover{border-color:var(--cyan)}
+.card-number{color:var(--pink);font-size:18px}
+.card h3{margin:8px 0;color:var(--text);font-family:"Press Start 2P",monospace;font-size:clamp(9px,1.2vw,11px);line-height:1.7;overflow-wrap:anywhere}
+.card p{margin-bottom:0;color:var(--muted)}
+.tag{display:inline-block;padding:3px 7px;margin:8px 4px 0 0;border:1px solid var(--border);color:var(--green);font-size:15px}
+.card.locked{border-style:dashed;border-color:#4a3252}
+.card.locked h3{color:var(--muted)}
+.card.locked p{color:#565a70}
+.card.locked .pixel-button{margin-top:10px}
+.game-select{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}
+.game-card{min-width:0;padding:clamp(15px,2vw,20px);border:2px solid var(--border);background:var(--panel-light)}
+.game-card h3{color:var(--yellow);font-family:"Press Start 2P",monospace;font-size:clamp(9px,1.3vw,12px);line-height:1.6}
+.game-card p{color:var(--muted)}
+.game-area{display:none;width:100%;margin-top:22px;text-align:center}
+.canvas-wrap{width:min(100%,420px);margin:0 auto}
+canvas{display:block;width:100%;height:auto;aspect-ratio:1;border:3px solid var(--green);background:#05060a;image-rendering:pixelated}
+.score{margin:10px;color:var(--yellow)}
+.touch-controls{display:none;width:180px;margin:18px auto 0;grid-template-columns:repeat(3,1fr);gap:6px}
+.touch-button{min-height:52px;border:2px solid var(--border);background:var(--panel-light);color:var(--cyan);cursor:pointer;user-select:none}
+.touch-button:active{background:var(--cyan);color:var(--bg)}
+.touch-up{grid-column:2}
+.touch-left{grid-column:1}
+.touch-down{grid-column:2}
+.touch-right{grid-column:3}
+.click-zone{position:relative;width:min(100%,560px);height:clamp(220px,45dvh,340px);margin:auto;border:3px solid var(--pink);background:#090a12;overflow:hidden;touch-action:manipulation}
+.target{position:absolute;width:clamp(38px,7vw,48px);aspect-ratio:1;border:0;background:var(--yellow);color:#090a12;cursor:crosshair}
+.decrypt-zone{position:relative;width:min(100%,420px);height:280px;margin:14px auto 0;border:3px solid var(--cyan);background:#05060a;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:6px;padding:6px}
+.decrypt-tile{border:2px solid var(--border);background:var(--panel-light);color:var(--muted);display:grid;place-items:center;cursor:pointer;font-family:"Press Start 2P",monospace;font-size:14px}
+.decrypt-tile.lit{border-color:var(--yellow);color:var(--yellow)}
+.decrypt-tile.done{border-color:var(--green);color:var(--green)}
+.terminal{width:100%;padding:clamp(14px,3vw,20px);border:2px solid var(--green);background:#050806;color:var(--green);overflow-wrap:anywhere}
+.terminal-line{margin:5px 0}
+.pixel-target{
+  position:fixed;width:9px;height:9px;border:0;padding:0;background:rgba(255,255,255,.05);
+  cursor:pointer;z-index:10;mix-blend-mode:screen;transition:background .15s ease;
+}
+.pixel-target:hover{background:rgba(103,232,249,.55);box-shadow:0 0 6px var(--cyan)}
+.toast{
+  position:fixed;top:max(14px,env(safe-area-inset-top));right:max(14px,env(safe-area-inset-right));
+  max-width:calc(100vw - 28px);padding:10px 15px;border:2px solid var(--green);background:#080b0a;
+  color:var(--green);transform:translateY(-150%);transition:transform .2s ease;z-index:20;
+}
+.toast.show{transform:translateY(0)}
+footer{
+  min-height:40px;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;
+  gap:10px;border-top:3px solid var(--border);color:var(--muted);font-size:clamp(13px,1.4vw,16px);
+}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--cyan)}
+@media (hover:none),(pointer:coarse){
+  .touch-controls{display:grid}
+  .pixel-button,.nav-button{min-height:48px}
+  .card:hover{border-color:var(--border)}
+}
+@media (max-width:820px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{padding:9px;border-right:0;border-bottom:3px solid var(--border)}
+  .profile{display:none}
+  .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+  .nav-button{padding:8px 4px;text-align:center;font-size:clamp(14px,3vw,18px);overflow:hidden}
+  .nav-button.active::before{content:""}
+  .collectibles{margin-top:9px;padding:7px 4px 0;text-align:center}
+}
+@media (max-width:480px){
+  body{padding:0}
+  .shell{min-height:100dvh;border-left:0;border-right:0;box-shadow:none}
+  .topbar{min-height:44px}
+  .status{font-size:13px}
+  .status-dot{width:7px;height:7px}
+  main{padding:18px 13px}
+  .actions{display:grid;grid-template-columns:1fr}
+  .pixel-button{width:100%}
+  footer{flex-direction:column;justify-content:center;text-align:center}
+}
+@media (max-width:340px){
+  .status{font-size:0}
+  .nav-button{font-size:13px}
+  h1{font-size:18px}
+}
+@media (max-height:600px) and (orientation:landscape){
+  .profile{display:none}
+  .sidebar{padding:8px}
+  main{padding-top:16px;padding-bottom:16px}
+  .lead{margin:8px 0}
+  .actions{margin-top:15px}
+  .click-zone{height:210px}
+  .canvas-wrap{width:min(55dvh,330px)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    scroll-behavior:auto!important;transition-duration:.01ms!important;
+    animation-duration:.01ms!important;animation-iteration-count:1!important;
+  }
+}
+</style>
 </head>
-
 <body>
 
-<div class="toast" id="toast">
-    ACHIEVEMENT UNLOCKED
-</div>
+<div class="toast" id="toast">ACHIEVEMENT UNLOCKED</div>
 
 <div class="shell">
 
-    <header class="topbar">
-        <div class="brand">ATHARV.EXE</div>
+  <header class="topbar">
+    <div class="brand" id="brand-text">ATHARV.EXE</div>
+    <div class="status"><span class="status-dot"></span>SYSTEM ONLINE</div>
+  </header>
 
-        <div class="status">
-            <span class="status-dot"></span>
-            SYSTEM ONLINE
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="profile">
+        <div class="avatar">^_^</div>
+        <div class="profile-name" id="profile-name">ATHARV ASGOLA</div>
+        <div class="profile-role" id="profile-role">game dev / builder</div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-button active" data-page="home">HOME</button>
+        <button class="nav-button" data-page="projects">PROJECTS</button>
+        <button class="nav-button" data-page="arcade">ARCADE</button>
+        <button class="nav-button" data-page="contact">CONTACT</button>
+      </nav>
+
+      <div class="collectibles">
+        HIDDEN PIXELS: <span id="pixel-count">0</span>
+        <small>they're actually hidden. good luck.</small>
+      </div>
+    </aside>
+
+    <main>
+
+      <section class="page active" id="home">
+        <div class="eyebrow">PLAYER 1 HAS ENTERED THE WEB.</div>
+        <h1 id="home-heading">I BUILD <span>GAMES</span>, SYSTEMS &amp; WEIRD IDEAS.</h1>
+        <p class="lead" id="home-lead-1">Hey, I'm Atharv. Roblox games, Minecraft mods, and web tools that usually start with "what if I just..."</p>
+        <p class="lead" id="home-lead-2">Then several hours of debugging happen.</p>
+        <div class="actions">
+          <button class="pixel-button" onclick="openPage('projects')">VIEW PROJECTS</button>
+          <button class="pixel-button pink" onclick="openPage('arcade')">WASTE TIME</button>
         </div>
-    </header>
-
-    <div class="layout">
-
-        <aside class="sidebar">
-
-            <div class="profile">
-                <div class="avatar">^_^</div>
-
-                <div class="profile-name">
-                    ATHARV ASGOLA
-                </div>
-
-                <div class="profile-role">
-                    developer / game maker
-                </div>
-            </div>
-
-            <nav class="nav">
-                <button class="nav-button active" data-page="home">
-                    HOME
-                </button>
-
-                <button class="nav-button" data-page="projects">
-                    PROJECTS
-                </button>
-
-                <button class="nav-button" data-page="arcade">
-                    ARCADE
-                </button>
-
-                <button class="nav-button" data-page="contact">
-                    CONTACT
-                </button>
-            </nav>
-
-            <div class="collectibles">
-                HIDDEN PIXELS:
-                <span id="coin-count">0</span>/3
-            </div>
-
-        </aside>
-
-        <main>
-
-            <section class="page active" id="home">
-
-                <div class="eyebrow">
-                    PLAYER 1 HAS ENTERED THE WEB.
-                </div>
-
-                <h1>
-                    I BUILD <span>GAMES</span>,
-                    SYSTEMS & WEIRD IDEAS.
-                </h1>
-
-                <p class="lead">
-                    Hey, I'm Atharv. I make games, mods and
-                    random projects that usually begin with
-                    "what if I just..."
-                </p>
-
-                <p class="lead">
-                    Then I spend several hours debugging it.
-                </p>
-
-                <div class="actions">
-
-                    <button
-                        class="pixel-button"
-                        onclick="openPage('projects')"
-                    >
-                        VIEW PROJECTS
-                    </button>
-
-                    <button
-                        class="pixel-button pink"
-                        onclick="openPage('arcade')"
-                    >
-                        WASTE TIME
-                    </button>
-
-                </div>
-
-            </section>
-
-            <section class="page" id="projects">
-
-                <div class="eyebrow">
-                    /PROJECT_DIRECTORY
-                </div>
-
-                <h2>SELECT A SAVE FILE</h2>
-
-                <div class="cards">
-
-                    <article class="card">
-                        <span class="card-number">01</span>
-
-                        <h3>WORLD OF COUNTRIES</h3>
-
-                        <p>
-                            A country-building game about claiming
-                            territory, nations, economies and
-                            probably starting wars.
-                        </p>
-
-                        <span class="tag">ROBLOX</span>
-                        <span class="tag">LUA</span>
-                    </article>
-
-                    <article class="card">
-                        <span class="card-number">02</span>
-
-                        <h3>AGES OF CONFLICT MODS</h3>
-
-                        <p>
-                            Systems focused on making AI wars,
-                            battle placement and war goals behave
-                            more realistically.
-                        </p>
-
-                        <span class="tag">C#</span>
-                        <span class="tag">MODDING</span>
-                    </article>
-
-                    <article class="card">
-                        <span class="card-number">03</span>
-
-                        <h3>MAP EXPERIMENTS</h3>
-
-                        <p>
-                            Procedural terrain, provinces,
-                            fictional countries and maps that
-                            become significantly too complicated.
-                        </p>
-
-                        <span class="tag">MAPS</span>
-                        <span class="tag">GENERATION</span>
-                    </article>
-
-                    <article class="card">
-                        <span class="card-number">??</span>
-
-                        <h3>NEXT PROJECT</h3>
-
-                        <p>
-                            STATUS: inevitably starting something
-                            new before finishing everything else.
-                        </p>
-
-                        <span class="tag">UNKNOWN</span>
-                    </article>
-
-                </div>
-
-            </section>
-
-            <section class="page" id="arcade">
-
-                <div class="eyebrow">
-                    /TOTALLY_PRODUCTIVE
-                </div>
-
-                <h2>ATHARV'S ARCADE</h2>
-
-                <div class="game-select">
-
-                    <div class="game-card">
-                        <h3>PIXEL SNAKE</h3>
-
-                        <p>
-                            Arrow keys or touch controls.
-                            Eat pink squares.
-                        </p>
-
-                        <button
-                            class="pixel-button"
-                            onclick="startSnake()"
-                        >
-                            PLAY
-                        </button>
-                    </div>
-
-                    <div class="game-card">
-                        <h3>BUG SMASHER</h3>
-
-                        <p>
-                            Click the bug.
-                            This is basically programming.
-                        </p>
-
-                        <button
-                            class="pixel-button pink"
-                            onclick="startBugGame()"
-                        >
-                            DEBUG
-                        </button>
-                    </div>
-
-                </div>
-
-                <div class="game-area" id="snake-game">
-
-                    <div class="score">
-                        SCORE:
-                        <span id="snake-score">0</span>
-                    </div>
-
-                    <div class="canvas-wrap">
-                        <canvas
-                            id="snake-canvas"
-                            width="336"
-                            height="336"
-                        ></canvas>
-                    </div>
-
-                    <div class="touch-controls">
-
-                        <button
-                            class="touch-button touch-up"
-                            data-direction="up"
-                        >
-                            ▲
-                        </button>
-
-                        <button
-                            class="touch-button touch-left"
-                            data-direction="left"
-                        >
-                            ◀
-                        </button>
-
-                        <button
-                            class="touch-button touch-down"
-                            data-direction="down"
-                        >
-                            ▼
-                        </button>
-
-                        <button
-                            class="touch-button touch-right"
-                            data-direction="right"
-                        >
-                            ▶
-                        </button>
-
-                    </div>
-
-                    <p>
-                        ARROWS / TOUCH TO MOVE · ESC TO EXIT
-                    </p>
-
-                </div>
-
-                <div class="game-area" id="bug-game">
-
-                    <div class="score">
-                        BUGS FIXED:
-                        <span id="bug-score">0</span>
-                    </div>
-
-                    <div class="click-zone" id="click-zone">
-                        <button
-                            class="target"
-                            id="bug"
-                            aria-label="Bug"
-                        >
-                            !
-                        </button>
-                    </div>
-
-                    <p>
-                        CLICK THE BUG BEFORE IT ESCAPES
-                        YOUR CODEBASE.
-                    </p>
-
-                </div>
-
-            </section>
-
-            <section class="page" id="contact">
-
-                <div class="eyebrow">
-                    /ESTABLISH_CONNECTION
-                </div>
-
-                <h2>CONTACT</h2>
-
-                <div class="terminal">
-
-                    <div class="terminal-line">
-                        $ whoami
-                    </div>
-
-                    <div class="terminal-line">
-                        &gt; atharv asgola
-                    </div>
-
-                    <br>
-
-                    <div class="terminal-line">
-                        $ status
-                    </div>
-
-                    <div class="terminal-line">
-                        &gt; probably coding something
-                    </div>
-
-                    <br>
-
-                    <div class="terminal-line">
-                        $ contact --email
-                    </div>
-
-                    <div class="terminal-line">
-                        &gt; asgolaatharv@gmail.com
-                    </div>
-
-                </div>
-
-                <div class="actions">
-
-                    <a
-                        class="pixel-button"
-                        href="mailto:asgolaatharv@gmail.com"
-                    >
-                        SEND EMAIL
-                    </a>
-
-                    <a
-                        class="pixel-button pink"
-                        href="https://github.com/atharvasgola"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        GITHUB
-                    </a>
-
-                </div>
-
-            </section>
-
-        </main>
-
-    </div>
-
-    <footer>
-        <span>© 2026 ATHARV ASGOLA</span>
-        <span>BUILD 26.07</span>
-    </footer>
+      </section>
+
+      <section class="page" id="projects">
+        <div class="eyebrow">/PROJECT_DIRECTORY</div>
+        <h2>SELECT A SAVE FILE</h2>
+        <div class="cards" id="project-cards"></div>
+      </section>
+
+      <section class="page" id="arcade">
+        <div class="eyebrow">/TOTALLY_PRODUCTIVE</div>
+        <h2>ATHARV'S ARCADE</h2>
+
+        <div class="game-select">
+          <div class="game-card">
+            <h3>PIXEL SNAKE</h3>
+            <p>Arrow keys or touch controls. Eat pink squares.</p>
+            <button class="pixel-button" onclick="startSnake()">PLAY</button>
+          </div>
+          <div class="game-card">
+            <h3>BUG SMASHER</h3>
+            <p>Click the bug. This is basically programming.</p>
+            <button class="pixel-button pink" onclick="startBugGame()">DEBUG</button>
+          </div>
+          <div class="game-card">
+            <h3>DECRYPT</h3>
+            <p>Repeat the flashing sequence. Unlocks a bonus save file.</p>
+            <button class="pixel-button" onclick="startDecrypt()">HACK</button>
+          </div>
+        </div>
+
+        <div class="game-area" id="snake-game">
+          <div class="score">SCORE: <span id="snake-score">0</span></div>
+          <div class="canvas-wrap"><canvas id="snake-canvas" width="336" height="336"></canvas></div>
+          <div class="touch-controls">
+            <button class="touch-button touch-up" data-direction="up">▲</button>
+            <button class="touch-button touch-left" data-direction="left">◀</button>
+            <button class="touch-button touch-down" data-direction="down">▼</button>
+            <button class="touch-button touch-right" data-direction="right">▶</button>
+          </div>
+          <p>ARROWS / TOUCH TO MOVE · ESC TO EXIT</p>
+        </div>
+
+        <div class="game-area" id="bug-game">
+          <div class="score">BUGS FIXED: <span id="bug-score">0</span></div>
+          <div class="click-zone" id="click-zone">
+            <button class="target" id="bug" aria-label="Bug">!</button>
+          </div>
+          <p>CLICK THE BUG BEFORE IT ESCAPES YOUR CODEBASE.</p>
+        </div>
+
+        <div class="game-area" id="decrypt-game">
+          <div class="score">ROUND: <span id="decrypt-round">0</span> / <span id="decrypt-target">0</span></div>
+          <div class="decrypt-zone" id="decrypt-zone"></div>
+          <p id="decrypt-status">WATCH THE SEQUENCE, THEN REPEAT IT.</p>
+        </div>
+      </section>
+
+      <section class="page" id="contact">
+        <div class="eyebrow">/ESTABLISH_CONNECTION</div>
+        <h2>CONTACT</h2>
+        <div class="terminal" id="contact-terminal"></div>
+        <div class="actions" id="contact-actions"></div>
+      </section>
+
+    </main>
+  </div>
+
+  <footer>
+    <span id="footer-left">© 2026 ATHARV ASGOLA</span>
+    <span id="footer-right">BUILD 26.07</span>
+  </footer>
 
 </div>
 
-<button
-    class="secret-coin"
-    id="secret-coin"
-    aria-label="Hidden pixel"
-></button>
-
 <script>
-    const pages = document.querySelectorAll(".page");
-    const navButtons = document.querySelectorAll(".nav-button");
+const CONFIG = {
+  brand: "ATHARV.EXE",
+  name: "ATHARV ASGOLA",
+  role: "game dev / builder",
+  headingPrefix: "I BUILD",
+  headingHighlight: "GAMES",
+  headingSuffix: ", SYSTEMS & WEIRD IDEAS.",
+  leadLine1: "Hey, I'm Atharv. Roblox games, Minecraft mods, and web tools that usually start with \"what if I just...\"",
+  leadLine2: "Then several hours of debugging happen.",
+  email: "asgolaatharv@gmail.com",
+  github: "https://github.com/atharvasgola",
+  footerLeft: "© 2026 ATHARV ASGOLA",
+  footerRight: "BUILD 26.07",
 
-    const toast = document.getElementById("toast");
-    const secretCoin = document.getElementById("secret-coin");
-
-    let audioContext;
-    let collectedPixels = 0;
-
-
-    function sound(frequency = 440, duration = 0.05) {
-        audioContext ??= new (
-            window.AudioContext ||
-            window.webkitAudioContext
-        )();
-
-        const oscillator = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-
-        oscillator.type = "square";
-        oscillator.frequency.value = frequency;
-
-        gain.gain.setValueAtTime(
-            0.025,
-            audioContext.currentTime
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            0.001,
-            audioContext.currentTime + duration
-        );
-
-        oscillator.connect(gain);
-        gain.connect(audioContext.destination);
-
-        oscillator.start();
-
-        oscillator.stop(
-            audioContext.currentTime + duration
-        );
+  projects: [
+    {
+      number: "01",
+      title: "WORLD CONQUEST",
+      desc: "A Roblox nation-building game — claim territory, manage economies, and inevitably start wars over a pixel of land.",
+      tags: ["ROBLOX", "LUAU"]
+    },
+    {
+      number: "02",
+      title: "AGES OF CONFLICT MODS",
+      desc: "C# mods that make AI wars, battle placement and war goals behave like they actually know what they're doing.",
+      tags: ["C#", "MODDING"]
+    },
+    {
+      number: "03",
+      title: "AOC FORUM",
+      desc: "A full forum web app for the Ages of Conflict community — React, Vite, Supabase, realtime replies, role-based access.",
+      tags: ["REACT", "SUPABASE"]
+    },
+    {
+      number: "04",
+      title: "GOOGOL",
+      desc: "A search engine clone built for a Minecraft server's in-game internet. Yes, it actually indexes things.",
+      tags: ["WEB", "SEARCH"]
+    },
+    {
+      number: "05",
+      title: "VERITY (JE)",
+      desc: "A NeoForge Minecraft mod, plus a pile of Roblox image tooling that somehow ended up in the same repo.",
+      tags: ["NEOFORGE", "JAVA"]
+    },
+    {
+      number: "06",
+      title: "WORLD MAP PAINTING",
+      desc: "A Roblox map system built on EditableImages — paint cells, highlight regions, and not lag the client doing it.",
+      tags: ["ROBLOX", "EDITABLEIMAGE"]
     }
+  ],
+
+  lockedProject: {
+    number: "??",
+    title: "CLASSIFIED SAVE FILE",
+    lockedDesc: "STATUS: encrypted. Beat DECRYPT in the arcade to unlock this entry.",
+    unlockedDesc: "PAYGOOD — a payment gateway built for a server economy. Handles the money so nobody has to trust a spreadsheet.",
+    tags: ["API", "PAYMENTS"]
+  },
+
+  decryptRounds: 5,
+  pixelMilestones: {
+    5: "5 PIXELS FOUND. YOU'RE PAYING ATTENTION.",
+    10: "10 PIXELS. OKAY, THAT'S IMPRESSIVE.",
+    25: "25 PIXELS. GET A HOBBY."
+  },
+  pixelSpawnDelayMs: [4000, 9000]
+};
+
+document.getElementById("brand-text").textContent = CONFIG.brand;
+document.getElementById("profile-name").textContent = CONFIG.name;
+document.getElementById("profile-role").textContent = CONFIG.role;
+document.getElementById("home-heading").innerHTML =
+  CONFIG.headingPrefix + ' <span>' + CONFIG.headingHighlight + '</span>' + CONFIG.headingSuffix;
+document.getElementById("home-lead-1").textContent = CONFIG.leadLine1;
+document.getElementById("home-lead-2").textContent = CONFIG.leadLine2;
+document.getElementById("footer-left").textContent = CONFIG.footerLeft;
+document.getElementById("footer-right").textContent = CONFIG.footerRight;
+document.getElementById("decrypt-target").textContent = CONFIG.decryptRounds;
+
+const terminal = document.getElementById("contact-terminal");
+terminal.innerHTML =
+  '<div class="terminal-line">$ whoami</div>' +
+  '<div class="terminal-line">&gt; ' + CONFIG.name.toLowerCase() + '</div><br>' +
+  '<div class="terminal-line">$ status</div>' +
+  '<div class="terminal-line">&gt; probably coding something</div><br>' +
+  '<div class="terminal-line">$ contact --email</div>' +
+  '<div class="terminal-line">&gt; ' + CONFIG.email + '</div>';
+
+document.getElementById("contact-actions").innerHTML =
+  '<a class="pixel-button" href="mailto:' + CONFIG.email + '">SEND EMAIL</a>' +
+  '<a class="pixel-button pink" href="' + CONFIG.github + '" target="_blank" rel="noopener noreferrer">GITHUB</a>';
+
+function renderProjects(unlocked){
+  const wrap = document.getElementById("project-cards");
+  wrap.innerHTML = "";
+  CONFIG.projects.forEach(p=>{
+    const el = document.createElement("article");
+    el.className = "card";
+    el.innerHTML =
+      '<span class="card-number">' + p.number + '</span>' +
+      '<h3>' + p.title + '</h3>' +
+      '<p>' + p.desc + '</p>' +
+      p.tags.map(t=>'<span class="tag">'+t+'</span>').join("");
+    wrap.appendChild(el);
+  });
+
+  const lp = CONFIG.lockedProject;
+  const locked = document.createElement("article");
+  locked.className = "card" + (unlocked ? "" : " locked");
+  locked.id = "locked-card";
+  locked.innerHTML =
+    '<span class="card-number">' + lp.number + '</span>' +
+    '<h3>' + lp.title + '</h3>' +
+    '<p>' + (unlocked ? lp.unlockedDesc : lp.lockedDesc) + '</p>' +
+    (unlocked ? lp.tags.map(t=>'<span class="tag">'+t+'</span>').join("") :
+      '<button class="pixel-button pink" onclick="openPage(\'arcade\');startDecrypt()">DECRYPT NOW</button>');
+  wrap.appendChild(locked);
+}
+renderProjects(localStorage.getItem("aa_unlocked") === "1");
 
 
-    function openPage(pageName) {
-        stopGames();
+const pages = document.querySelectorAll(".page");
+const navButtons = document.querySelectorAll(".nav-button");
+const toast = document.getElementById("toast");
+let audioContext;
 
-        pages.forEach(page => {
-            page.classList.toggle(
-                "active",
-                page.id === pageName
-            );
-        });
+function sound(frequency, duration){
+  frequency = frequency || 440;
+  duration = duration || 0.05;
+  audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gain = audioContext.createGain();
+  oscillator.type = "square";
+  oscillator.frequency.value = frequency;
+  gain.gain.setValueAtTime(0.025, audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
+  oscillator.connect(gain);
+  gain.connect(audioContext.destination);
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime + duration);
+}
 
-        navButtons.forEach(button => {
-            button.classList.toggle(
-                "active",
-                button.dataset.page === pageName
-            );
-        });
+function openPage(pageName){
+  stopGames();
+  pages.forEach(page => page.classList.toggle("active", page.id === pageName));
+  navButtons.forEach(button => button.classList.toggle("active", button.dataset.page === pageName));
+  window.scrollTo({top:0, behavior:"auto"});
+  sound(320);
+}
+navButtons.forEach(button => button.addEventListener("click", () => openPage(button.dataset.page)));
 
-        window.scrollTo({
-            top: 0,
-            behavior: "auto"
-        });
+function showToast(message){
+  toast.textContent = message;
+  toast.classList.add("show");
+  clearTimeout(showToast.timeout);
+  showToast.timeout = setTimeout(() => toast.classList.remove("show"), 2200);
+}
 
-        sound(320);
+
+let pixelsFound = parseInt(localStorage.getItem("aa_pixels") || "0", 10);
+document.getElementById("pixel-count").textContent = pixelsFound;
+
+function spawnPixel(){
+  const el = document.createElement("button");
+  el.className = "pixel-target";
+  el.setAttribute("aria-label", "");
+  const size = 9;
+  const maxX = Math.max(0, window.innerWidth - size);
+  const maxY = Math.max(0, window.innerHeight - size);
+  el.style.left = Math.random() * maxX + "px";
+  el.style.top = Math.random() * maxY + "px";
+  el.addEventListener("click", () => {
+    pixelsFound++;
+    localStorage.setItem("aa_pixels", pixelsFound);
+    document.getElementById("pixel-count").textContent = pixelsFound;
+    sound(800, 0.08);
+    el.remove();
+    if (CONFIG.pixelMilestones[pixelsFound]){
+      showToast(CONFIG.pixelMilestones[pixelsFound]);
     }
+    scheduleNextPixel();
+  });
+  document.body.appendChild(el);
+}
 
-    navButtons.forEach(button => {
-        button.addEventListener("click", () => {
-            openPage(button.dataset.page);
-        });
-    });
+function scheduleNextPixel(){
+  const [min, max] = CONFIG.pixelSpawnDelayMs;
+  const delay = min + Math.random() * (max - min);
+  setTimeout(spawnPixel, delay);
+}
+scheduleNextPixel();
 
 
-    function showToast(message) {
-        toast.textContent = message;
-        toast.classList.add("show");
+const canvas = document.getElementById("snake-canvas");
+const ctx = canvas.getContext("2d");
+const grid = 16;
+let snake, food, snakeScore = 0, snakeTimer, snakeActive = false;
 
-        clearTimeout(showToast.timeout);
+function startSnake(){
+  stopGames();
+  document.getElementById("snake-game").style.display = "block";
+  snake = { x:160, y:160, dx:grid, dy:0, cells:[], length:4 };
+  snakeScore = 0;
+  snakeActive = true;
+  document.getElementById("snake-score").textContent = "0";
+  placeFood();
+  snakeTimer = setInterval(updateSnake, 90);
+  sound(500);
+}
 
-        showToast.timeout = setTimeout(() => {
-            toast.classList.remove("show");
-        }, 1800);
+function placeFood(){
+  food = {
+    x: Math.floor(Math.random() * (canvas.width / grid)) * grid,
+    y: Math.floor(Math.random() * (canvas.height / grid)) * grid
+  };
+}
+
+function updateSnake(){
+  if (!snakeActive) return;
+  snake.x += snake.dx;
+  snake.y += snake.dy;
+  if (snake.x < 0 || snake.y < 0 || snake.x >= canvas.width || snake.y >= canvas.height){
+    resetSnake();
+    return;
+  }
+  snake.cells.unshift({x:snake.x, y:snake.y});
+  if (snake.cells.length > snake.length) snake.cells.pop();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "#ff5da2";
+  ctx.fillRect(food.x, food.y, grid - 2, grid - 2);
+  ctx.fillStyle = "#69ff9d";
+  for (let i = 0; i < snake.cells.length; i++){
+    const cell = snake.cells[i];
+    ctx.fillRect(cell.x, cell.y, grid - 2, grid - 2);
+    if (cell.x === food.x && cell.y === food.y){
+      snake.length++;
+      snakeScore += 10;
+      document.getElementById("snake-score").textContent = snakeScore;
+      placeFood();
+      sound(700);
     }
-
-
-    secretCoin.addEventListener("click", () => {
-        collectedPixels++;
-
-        document.getElementById("coin-count").textContent =
-            collectedPixels;
-
-        sound(800, 0.08);
-
-        if (collectedPixels < 3) {
-            showToast("HIDDEN PIXEL FOUND");
-            moveSecret();
-        } else {
-            secretCoin.remove();
-
-            showToast(
-                "ACHIEVEMENT: PIXEL HUNTER"
-            );
-        }
-    });
-
-    function moveSecret() {
-        const size = secretCoin.offsetWidth || 22;
-
-        const maxX = Math.max(
-            0,
-            window.innerWidth - size
-        );
-
-        const maxY = Math.max(
-            0,
-            window.innerHeight - size
-        );
-
-        secretCoin.style.left =
-            Math.random() * maxX + "px";
-
-        secretCoin.style.top =
-            Math.random() * maxY + "px";
-
-        secretCoin.style.right = "auto";
-        secretCoin.style.bottom = "auto";
+    for (let j = i + 1; j < snake.cells.length; j++){
+      if (cell.x === snake.cells[j].x && cell.y === snake.cells[j].y){
+        resetSnake();
+        return;
+      }
     }
+  }
+}
+
+function resetSnake(){
+  sound(120, 0.15);
+  startSnake();
+}
+
+function changeDirection(direction){
+  if (!snakeActive) return;
+  if (direction === "left" && snake.dx === 0){ snake.dx = -grid; snake.dy = 0; }
+  if (direction === "right" && snake.dx === 0){ snake.dx = grid; snake.dy = 0; }
+  if (direction === "up" && snake.dy === 0){ snake.dx = 0; snake.dy = -grid; }
+  if (direction === "down" && snake.dy === 0){ snake.dx = 0; snake.dy = grid; }
+}
+
+document.querySelectorAll("[data-direction]").forEach(button => {
+  button.addEventListener("pointerdown", event => {
+    event.preventDefault();
+    changeDirection(button.dataset.direction);
+  });
+});
 
 
-    const canvas = document.getElementById("snake-canvas");
-    const ctx = canvas.getContext("2d");
+const bug = document.getElementById("bug");
+const clickZone = document.getElementById("click-zone");
+let bugScore = 0, bugTimer;
 
-    const grid = 16;
+function startBugGame(){
+  stopGames();
+  document.getElementById("bug-game").style.display = "block";
+  bugScore = 0;
+  document.getElementById("bug-score").textContent = "0";
+  moveBug();
+  bugTimer = setInterval(moveBug, 900);
+  sound(500);
+}
 
-    let snake;
-    let food;
-    let snakeScore = 0;
-    let snakeTimer;
-    let snakeActive = false;
+function moveBug(){
+  const maxX = Math.max(0, clickZone.clientWidth - bug.offsetWidth);
+  const maxY = Math.max(0, clickZone.clientHeight - bug.offsetHeight);
+  bug.style.left = Math.random() * maxX + "px";
+  bug.style.top = Math.random() * maxY + "px";
+}
 
-    function startSnake() {
-        stopGames();
+bug.addEventListener("pointerdown", event => {
+  event.stopPropagation();
+  bugScore++;
+  document.getElementById("bug-score").textContent = bugScore;
+  sound(750);
+  moveBug();
+  if (bugScore === 10) showToast("10 BUGS FIXED. SHIP TO PRODUCTION.");
+});
 
-        document.getElementById("snake-game").style.display =
-            "block";
 
-        snake = {
-            x: 160,
-            y: 160,
-            dx: grid,
-            dy: 0,
-            cells: [],
-            length: 4
-        };
+const decryptZone = document.getElementById("decrypt-zone");
+const decryptStatus = document.getElementById("decrypt-status");
+let decryptTiles = [];
+let decryptSequence = [];
+let decryptPlayerIndex = 0;
+let decryptRound = 0;
+let decryptShowing = false;
 
-        snakeScore = 0;
-        snakeActive = true;
+function buildDecryptTiles(){
+  decryptZone.innerHTML = "";
+  decryptTiles = [];
+  for (let i = 0; i < 12; i++){
+    const tile = document.createElement("button");
+    tile.className = "decrypt-tile";
+    tile.textContent = "";
+    tile.addEventListener("click", () => handleDecryptClick(i));
+    decryptZone.appendChild(tile);
+    decryptTiles.push(tile);
+  }
+}
 
-        document.getElementById("snake-score").textContent =
-            "0";
+function startDecrypt(){
+  stopGames();
+  document.getElementById("decrypt-game").style.display = "block";
+  buildDecryptTiles();
+  decryptSequence = [];
+  decryptRound = 0;
+  document.getElementById("decrypt-round").textContent = "0";
+  decryptStatus.textContent = "WATCH THE SEQUENCE, THEN REPEAT IT.";
+  sound(500);
+  setTimeout(nextDecryptRound, 800);
+}
 
-        placeFood();
+function nextDecryptRound(){
+  decryptRound++;
+  document.getElementById("decrypt-round").textContent = decryptRound;
+  decryptSequence.push(Math.floor(Math.random() * decryptTiles.length));
+  decryptPlayerIndex = 0;
+  playDecryptSequence();
+}
 
-        snakeTimer = setInterval(
-            updateSnake,
-            90
-        );
-
-        sound(500);
+function playDecryptSequence(){
+  decryptShowing = true;
+  decryptStatus.textContent = "WATCHING...";
+  let i = 0;
+  const interval = setInterval(() => {
+    decryptTiles.forEach(t => t.classList.remove("lit"));
+    if (i > 0) decryptTiles[decryptSequence[i-1]].classList.remove("lit");
+    if (i < decryptSequence.length){
+      decryptTiles[decryptSequence[i]].classList.add("lit");
+      sound(400 + decryptSequence[i] * 30, 0.12);
+      i++;
+    } else {
+      clearInterval(interval);
+      decryptTiles.forEach(t => t.classList.remove("lit"));
+      decryptShowing = false;
+      decryptStatus.textContent = "YOUR TURN.";
     }
+  }, 480);
+}
 
-    function placeFood() {
-        food = {
-            x:
-                Math.floor(
-                    Math.random() *
-                    (canvas.width / grid)
-                ) * grid,
-
-            y:
-                Math.floor(
-                    Math.random() *
-                    (canvas.height / grid)
-                ) * grid
-        };
+function handleDecryptClick(i){
+  if (decryptShowing) return;
+  if (i === decryptSequence[decryptPlayerIndex]){
+    decryptTiles[i].classList.add("done");
+    sound(700, 0.08);
+    decryptPlayerIndex++;
+    setTimeout(() => decryptTiles[i].classList.remove("done"), 200);
+    if (decryptPlayerIndex === decryptSequence.length){
+      if (decryptRound >= CONFIG.decryptRounds){
+        decryptStatus.textContent = "DECRYPTED. CHECK THE PROJECTS PAGE.";
+        localStorage.setItem("aa_unlocked", "1");
+        showToast("CLASSIFIED SAVE FILE UNLOCKED");
+        renderProjects(true);
+        sound(900, 0.3);
+      } else {
+        decryptStatus.textContent = "CORRECT. NEXT ROUND...";
+        setTimeout(nextDecryptRound, 900);
+      }
     }
-
-    function updateSnake() {
-        if (!snakeActive) return;
-
-        snake.x += snake.dx;
-        snake.y += snake.dy;
-
-        if (
-            snake.x < 0 ||
-            snake.y < 0 ||
-            snake.x >= canvas.width ||
-            snake.y >= canvas.height
-        ) {
-            resetSnake();
-            return;
-        }
-
-        snake.cells.unshift({
-            x: snake.x,
-            y: snake.y
-        });
-
-        if (snake.cells.length > snake.length) {
-            snake.cells.pop();
-        }
-
-        ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-        ctx.fillStyle = "#ff5da2";
-
-        ctx.fillRect(
-            food.x,
-            food.y,
-            grid - 2,
-            grid - 2
-        );
-
-        ctx.fillStyle = "#69ff9d";
-
-        for (
-            let i = 0;
-            i < snake.cells.length;
-            i++
-        ) {
-            const cell = snake.cells[i];
-
-            ctx.fillRect(
-                cell.x,
-                cell.y,
-                grid - 2,
-                grid - 2
-            );
-
-            if (
-                cell.x === food.x &&
-                cell.y === food.y
-            ) {
-                snake.length++;
-                snakeScore += 10;
-
-                document
-                    .getElementById("snake-score")
-                    .textContent = snakeScore;
-
-                placeFood();
-                sound(700);
-            }
-
-            for (
-                let j = i + 1;
-                j < snake.cells.length;
-                j++
-            ) {
-                if (
-                    cell.x === snake.cells[j].x &&
-                    cell.y === snake.cells[j].y
-                ) {
-                    resetSnake();
-                    return;
-                }
-            }
-        }
-    }
-
-    function resetSnake() {
-        sound(120, 0.15);
-        startSnake();
-    }
-
-    function changeDirection(direction) {
-        if (!snakeActive) return;
-
-        if (
-            direction === "left" &&
-            snake.dx === 0
-        ) {
-            snake.dx = -grid;
-            snake.dy = 0;
-        }
-
-        if (
-            direction === "right" &&
-            snake.dx === 0
-        ) {
-            snake.dx = grid;
-            snake.dy = 0;
-        }
-
-        if (
-            direction === "up" &&
-            snake.dy === 0
-        ) {
-            snake.dx = 0;
-            snake.dy = -grid;
-        }
-
-        if (
-            direction === "down" &&
-            snake.dy === 0
-        ) {
-            snake.dx = 0;
-            snake.dy = grid;
-        }
-    }
-
-    document
-        .querySelectorAll("[data-direction]")
-        .forEach(button => {
-            button.addEventListener("pointerdown", event => {
-                event.preventDefault();
-
-                changeDirection(
-                    button.dataset.direction
-                );
-            });
-        });
+  } else {
+    sound(140, 0.2);
+    decryptStatus.textContent = "WRONG. TRY AGAIN FROM ROUND 1.";
+    decryptSequence = [];
+    decryptRound = 0;
+    document.getElementById("decrypt-round").textContent = "0";
+    setTimeout(nextDecryptRound, 900);
+  }
+}
 
 
-    // BUG SMASHER
+function stopGames(){
+  snakeActive = false;
+  clearInterval(snakeTimer);
+  clearInterval(bugTimer);
+  document.getElementById("snake-game").style.display = "none";
+  document.getElementById("bug-game").style.display = "none";
+  document.getElementById("decrypt-game").style.display = "none";
+}
 
-    const bug = document.getElementById("bug");
-    const clickZone = document.getElementById("click-zone");
+window.addEventListener("keydown", event => {
+  if (event.key === "Escape"){
+    stopGames();
+    return;
+  }
+  if (!snakeActive) return;
+  const directions = { ArrowLeft:"left", ArrowRight:"right", ArrowUp:"up", ArrowDown:"down" };
+  const direction = directions[event.key];
+  if (!direction) return;
+  event.preventDefault();
+  changeDirection(direction);
+});
 
-    let bugScore = 0;
-    let bugTimer;
-
-    function startBugGame() {
-        stopGames();
-
-        document.getElementById("bug-game").style.display =
-            "block";
-
-        bugScore = 0;
-
-        document.getElementById("bug-score").textContent =
-            "0";
-
-        moveBug();
-
-        bugTimer = setInterval(
-            moveBug,
-            900
-        );
-
-        sound(500);
-    }
-
-    function moveBug() {
-        const maxX = Math.max(
-            0,
-            clickZone.clientWidth - bug.offsetWidth
-        );
-
-        const maxY = Math.max(
-            0,
-            clickZone.clientHeight - bug.offsetHeight
-        );
-
-        bug.style.left =
-            Math.random() * maxX + "px";
-
-        bug.style.top =
-            Math.random() * maxY + "px";
-    }
-
-    bug.addEventListener("pointerdown", event => {
-        event.stopPropagation();
-
-        bugScore++;
-
-        document.getElementById("bug-score").textContent =
-            bugScore;
-
-        sound(750);
-
-        moveBug();
-
-        if (bugScore === 10) {
-            showToast(
-                "10 BUGS FIXED. SHIP TO PRODUCTION."
-            );
-        }
-    });
-
-
-    function stopGames() {
-        snakeActive = false;
-
-        clearInterval(snakeTimer);
-        clearInterval(bugTimer);
-
-        document.getElementById("snake-game").style.display =
-            "none";
-
-        document.getElementById("bug-game").style.display =
-            "none";
-    }
-
-    window.addEventListener("keydown", event => {
-        if (event.key === "Escape") {
-            stopGames();
-            return;
-        }
-
-        if (!snakeActive) return;
-
-        const directions = {
-            ArrowLeft: "left",
-            ArrowRight: "right",
-            ArrowUp: "up",
-            ArrowDown: "down"
-        };
-
-        const direction = directions[event.key];
-
-        if (!direction) return;
-
-        event.preventDefault();
-
-        changeDirection(direction);
-    });
-
-
-    window.addEventListener("resize", () => {
-        if (
-            !document.body.contains(secretCoin)
-        ) {
-            return;
-        }
-
-        const rect =
-            secretCoin.getBoundingClientRect();
-
-        if (
-            rect.right > window.innerWidth ||
-            rect.bottom > window.innerHeight
-        ) {
-            moveSecret();
-        }
-
-        if (
-            document.getElementById("bug-game")
-                .style.display === "block"
-        ) {
-            moveBug();
-        }
-    });
+window.addEventListener("resize", () => {
+  if (document.getElementById("bug-game").style.display === "block") moveBug();
+});
 </script>
-
 </body>
 </html>
