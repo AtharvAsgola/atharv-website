@@ -2,155 +2,154 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Atharv Asgola</title>
 <style>
 *{box-sizing:border-box}
-html,body{width:100%;height:100%;margin:0}
-body{background:#008080;font-family:"MS Sans Serif","Microsoft Sans Serif",Tahoma,Geneva,sans-serif;font-size:11px;overflow:hidden;-webkit-user-select:none;user-select:none}
-button,input,textarea{font-family:inherit;font-size:11px}
-#desktop{position:relative;width:100%;height:calc(100vh - 28px);overflow:hidden}
-.desktop-icons{position:absolute;left:5px;top:5px;display:flex;flex-direction:column;flex-wrap:wrap;align-content:flex-start;height:calc(100% - 10px);gap:1px}
-.dicon{width:82px;min-height:67px;padding:3px 2px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;cursor:pointer}
-.dicon:focus{outline:1px dotted #fff}
+html,body{height:100%;margin:0}
+body{background:#008080;font-family:"MS Sans Serif",Tahoma,sans-serif;font-size:11px;color:#000;overflow:hidden;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+button,input,textarea{font-family:"MS Sans Serif",Tahoma,sans-serif}
+a{color:#0000ff}
+#desktop{position:relative;width:100%;height:calc(100dvh - 28px);overflow:hidden}
+.desktop-icons{position:absolute;top:8px;left:8px;display:flex;flex-direction:column;gap:3px;height:calc(100% - 16px);align-items:flex-start;overflow:hidden}
+.dicon{width:82px;min-height:60px;padding:2px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;touch-action:manipulation}
+.dicon.selected{background:#000080}
 .dicon .icn{width:32px;height:32px;object-fit:contain}
-.dicon span{max-width:78px;color:#fff;text-align:center;line-height:12px;text-shadow:1px 1px #000;padding:0 2px}
-.dicon.selected span{background:#000080}
-.window{position:absolute;display:flex;flex-direction:column;min-width:220px;min-height:140px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:2px 2px 0 #000;touch-action:none}
-.window.hidden{display:none}
-.window.maximized{left:0!important;top:0!important;width:100%!important;height:100%!important}
-.titlebar{height:18px;min-height:18px;background:linear-gradient(90deg,#000080 0%,#000080 32%,#1084d0 100%);color:#fff;padding:1px 2px 1px 3px;display:flex;align-items:center;justify-content:space-between}
-.window.blur .titlebar{background:linear-gradient(90deg,#808080,#c0c0c0)}
-.tb-left{display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden}
-.tb-left .icn{width:16px;height:16px;object-fit:contain;flex:0 0 auto}
-.tb-left b{font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:16px}
-.tb-buttons{display:flex;gap:2px;align-items:center;flex:0 0 auto}
-.tb-buttons button{width:16px;height:14px;padding:0;margin:0;background:#c0c0c0;color:#000;border:1px solid;border-color:#fff #000 #000 #fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:Arial,sans-serif;font-weight:bold;line-height:11px}
+.dicon span{color:#fff;text-shadow:1px 1px #000;text-align:center;line-height:1.1;padding:1px 2px}
+.window{position:absolute;min-width:240px;min-height:160px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:1px 1px 0 #000;display:flex;flex-direction:column;overflow:hidden}
+.window.maximized{left:0!important;top:0!important;width:100%!important;height:calc(100dvh - 28px)!important}
+.window.minimized{display:none!important}
+.titlebar{height:18px;min-height:18px;background:linear-gradient(90deg,#000080 0%,#000080 32%,#1084d0 100%);color:#fff;padding:1px 2px;display:flex;justify-content:space-between;align-items:center;cursor:default;touch-action:none}
+.window.blur .titlebar{background:linear-gradient(90deg,#808080 0%,#808080 32%,#b5b5b5 100%)}
+.tb-left{display:flex;align-items:center;gap:3px;overflow:hidden;min-width:0}
+.tb-left .icn{width:16px;height:16px;flex:0 0 auto}
+.tb-left b{font-size:11px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tb-buttons{display:flex;gap:2px;flex:0 0 auto}
+.tb-buttons button{width:16px;height:14px;padding:0;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;font-family:Arial,sans-serif;font-size:11px;font-weight:bold;cursor:pointer;line-height:10px;touch-action:manipulation}
 .tb-buttons button:active{border-color:#000 #fff #fff #000}
-.tb-buttons .min-glyph{font-size:11px;transform:translateY(-2px)}
-.tb-buttons .max-glyph{font-size:10px;line-height:9px}
-.tb-buttons .close-glyph{font-size:12px;line-height:10px}
-.client{position:relative;flex:1;min-height:0;overflow:auto;background:#fff;border:1px solid;border-color:#808080 #fff #fff #808080;margin:2px}
-.client.gray{background:#c0c0c0}
-.client.padding{padding:10px}
-.resize-edge{position:absolute;z-index:5}
-.resize-n{left:5px;right:5px;top:-3px;height:6px;cursor:n-resize}
-.resize-s{left:5px;right:5px;bottom:-3px;height:6px;cursor:s-resize}
-.resize-w{top:5px;bottom:5px;left:-3px;width:6px;cursor:w-resize}
-.resize-e{top:5px;bottom:5px;right:-3px;width:6px;cursor:e-resize}
-.resize-nw{left:-3px;top:-3px;width:9px;height:9px;cursor:nw-resize}
-.resize-ne{right:-3px;top:-3px;width:9px;height:9px;cursor:ne-resize}
-.resize-sw{left:-3px;bottom:-3px;width:9px;height:9px;cursor:sw-resize}
-.resize-se{right:-3px;bottom:-3px;width:9px;height:9px;cursor:se-resize}
-.toolbar{display:flex;align-items:center;height:24px;min-height:24px;background:#c0c0c0;border-bottom:1px solid #808080;padding:2px;gap:2px}
-.toolbar button{height:19px;min-width:22px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:0 6px;cursor:pointer}
-.toolbar button:active{border-color:#000 #fff #fff #000}
-.toolbar button[disabled]{color:#808080;text-shadow:1px 1px #fff}
-.address{flex:1;height:19px;background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px;line-height:14px}
-.explorer-body{height:calc(100% - 24px);display:flex;flex-direction:column;overflow:auto;background:#fff;padding:12px}
-.explorer-grid{display:flex;flex-wrap:wrap;align-content:flex-start;gap:10px}
-.explorer-item{width:88px;min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;padding:3px;cursor:pointer}
-.explorer-item.selected{outline:1px dotted #000080;background:#d0d0ff}
-.explorer-item .icn{width:32px;height:32px;object-fit:contain}
-.explorer-item span{text-align:center;line-height:12px;max-width:84px}
-.explorer-status{margin-top:auto;border-top:1px solid #808080;padding-top:4px;color:#222}
-.content-title{font-size:14px;font-weight:bold;margin:0 0 10px}
-.content p{margin:0 0 10px;line-height:16px}
-.proj{border:1px solid;border-color:#808080 #fff #fff #808080;background:#fff;padding:7px 8px;margin-bottom:7px}
+.content{flex:1;overflow:auto;padding:10px;background:#c0c0c0;min-height:0;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+.content.white{background:#fff;margin:2px;border:1px solid;border-color:#000 #fff #fff #000}
+.content h2{margin:0 0 10px;font-size:13px}
+.content p{line-height:1.4;margin:0 0 9px}
+.proj{background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:7px;margin-bottom:7px}
 .proj b{display:block;margin-bottom:2px}
-.proj small{display:block;line-height:14px;color:#222}
-.proj a{display:block;color:#0000ee;margin-top:4px;word-break:break-all}
+.proj small{color:#222;display:block;line-height:1.35}
+.proj a{color:#0000ff;font-size:11px}
 .field{margin-bottom:8px}
 .field label{display:block;font-weight:bold;margin-bottom:2px}
-.field input{width:100%;height:20px;background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px}
-.textarea{width:100%;height:100%;border:0;resize:none;padding:6px;font-family:"Courier New",monospace;font-size:12px;outline:none}
-.button{background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:3px 12px;min-height:22px;cursor:pointer}
-.button:active{border-color:#000 #fff #fff #000}
+.field input{width:100%;height:20px;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px;font:11px "MS Sans Serif",Tahoma,sans-serif;background:#fff}
+.btn{height:23px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:2px 10px;font:11px "MS Sans Serif",Tahoma,sans-serif;cursor:pointer;touch-action:manipulation}
+.btn:active{border-color:#000 #fff #fff #000}
+.resize-edge{position:absolute;z-index:5}
+.re-n,.re-s{left:8px;right:8px;height:5px}.re-n{top:-2px;cursor:ns-resize}.re-s{bottom:-2px;cursor:ns-resize}
+.re-e,.re-w{top:8px;bottom:8px;width:5px}.re-e{right:-2px;cursor:ew-resize}.re-w{left:-2px;cursor:ew-resize}
+.re-nw,.re-ne,.re-sw,.re-se{width:9px;height:9px;z-index:6}.re-nw{top:-2px;left:-2px;cursor:nwse-resize}.re-se{right:-2px;bottom:-2px;cursor:nwse-resize}.re-ne{top:-2px;right:-2px;cursor:nesw-resize}.re-sw{left:-2px;bottom:-2px;cursor:nesw-resize}
+.ie-menu{display:flex;align-items:center;gap:14px;height:20px;padding:1px 6px;background:#c0c0c0;border-bottom:1px solid #808080;white-space:nowrap;overflow:hidden}
+.ie-menu span{cursor:pointer}
+.ie-toolbar{display:flex;align-items:center;gap:3px;padding:3px;background:#c0c0c0;border-bottom:1px solid #808080;flex-wrap:nowrap}
+.ie-toolbar .btn{padding:2px 7px;min-width:37px}
+.ie-toolbar input{flex:1;min-width:80px;height:20px;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px;font:11px "MS Sans Serif",Tahoma,sans-serif;background:#fff;user-select:text;-webkit-user-select:text}
+.ie-address-label{padding:0 3px;white-space:nowrap}
+.ie-page{padding:14px;background:#fff;min-height:100%;overflow:auto;user-select:text;-webkit-user-select:text}
+.ie-page h2{margin:0 0 8px;font-size:15px;font-weight:bold}
+.ie-page a{display:block;color:#0000ff;margin:7px 0;cursor:pointer}
+.ie-status{height:18px;padding:2px 4px;background:#c0c0c0;border-top:1px solid #808080;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ie-external{height:100%;display:flex;flex-direction:column;background:#fff}
+.ie-external iframe{width:100%;height:100%;border:0;background:#fff;flex:1}
+.ie-external-note{padding:6px;border-top:1px solid #c0c0c0;background:#c0c0c0;user-select:text;-webkit-user-select:text}
+.swatches{display:flex;gap:5px;margin:7px 0;flex-wrap:wrap}
+.swatch{width:24px;height:24px;border:2px solid;border-color:#fff #000 #000 #fff;cursor:pointer}
+.cp-row{display:flex;align-items:center;gap:7px;margin-bottom:10px}
 ul.clean{margin:0;padding-left:18px}
-ul.clean li{margin-bottom:5px}
-.swatches{display:flex;gap:5px;margin:8px 0 12px}
-.swatch{width:27px;height:22px;border:2px solid;border-color:#fff #000 #000 #fff;cursor:pointer}
-.runbox{padding:12px}
-.runrow{display:flex;gap:5px;margin-top:10px}
-.runrow input{flex:1;height:21px;background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px}
-.ie-toolbar{display:flex;gap:3px;padding:3px;background:#c0c0c0;border-bottom:1px solid #808080}
-.ie-toolbar input{flex:1;height:20px;background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px}
-.ie-page{height:calc(100% - 26px);overflow:auto;background:#fff;padding:14px}
-.ie-page h2{margin:0 0 10px;font-size:16px}
-.ie-page a{display:block;color:#0000ee;margin:7px 0}
-#taskbar{position:fixed;z-index:9999;left:0;right:0;bottom:0;height:28px;background:#c0c0c0;border-top:2px solid #fff;display:flex;align-items:center;padding:2px;gap:2px}
-#startbtn{height:24px;min-width:61px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:1px 6px;display:flex;align-items:center;gap:4px;cursor:pointer;font-weight:bold}
+ul.clean li{margin-bottom:4px}
+textarea{width:100%;height:100%;border:0;resize:none;font:11px "Courier New",monospace;padding:6px;outline:0;user-select:text;-webkit-user-select:text}
+.explorer{height:100%;display:flex;flex-direction:column;background:#fff}
+.explorer-toolbar{display:flex;gap:3px;padding:3px;background:#c0c0c0;border-bottom:1px solid #808080}
+.explorer-path{flex:1;height:20px;border:1px solid;border-color:#000 #fff #fff #000;background:#fff;padding:2px 4px;overflow:hidden;white-space:nowrap}
+.explorer-view{padding:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px;align-content:start;overflow:auto}
+.explorer-item{display:flex;align-items:center;gap:6px;min-width:0;padding:3px;cursor:pointer}
+.explorer-item:hover{background:#000080;color:#fff}
+.explorer-item .icn{width:32px;height:32px;flex:0 0 auto}
+.explorer-item span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#taskbar{position:fixed;left:0;bottom:0;width:100%;height:28px;background:#c0c0c0;border-top:2px solid #fff;display:flex;align-items:center;padding:2px;gap:3px;z-index:9999;min-width:0}
+#startbtn{height:23px;min-width:61px;padding:0 5px 0 3px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;font-weight:bold;font-size:11px;display:flex;align-items:center;gap:3px;cursor:pointer;touch-action:manipulation;flex:0 0 auto}
 #startbtn.active{border-color:#000 #fff #fff #000}
-#startbtn .icn{width:16px;height:16px;object-fit:contain}
-.quick{height:24px;display:flex;align-items:center;gap:1px;padding-right:2px;border-right:1px solid #808080}
-.quick button{width:22px;height:22px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:2px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.quick button:active{border-color:#000 #fff #fff #000}
-.quick .icn{width:16px;height:16px;object-fit:contain}
-#tasks{display:flex;align-items:center;gap:2px;flex:1;min-width:0;overflow:hidden}
-.taskitem{height:22px;min-width:115px;max-width:170px;padding:1px 6px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;display:flex;align-items:center;gap:4px;cursor:pointer;flex:0 1 150px}
-.taskitem.pressed{border-color:#000 #fff #fff #000;background:#b0b0b0}
-.taskitem .icn{width:16px;height:16px;object-fit:contain;flex:0 0 auto}
+#startbtn img{width:16px;height:16px}
+#tasks{display:flex;gap:2px;flex:1;overflow-x:auto;overflow-y:hidden;height:23px;min-width:0;scrollbar-width:none;touch-action:pan-x}
+#tasks::-webkit-scrollbar{display:none}
+.taskitem{height:23px;padding:0 7px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;display:flex;align-items:center;gap:3px;font-size:11px;max-width:170px;cursor:pointer;flex:0 0 auto;touch-action:none}
+.taskitem .icn{width:16px;height:16px;flex:0 0 auto}
+.taskitem.pressed{border-color:#000 #fff #fff #000}
+.taskitem.dragging{opacity:.75}
 .taskitem span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#tray{height:22px;min-width:56px;border:1px solid;border-color:#808080 #fff #fff #808080;display:flex;align-items:center;justify-content:center;padding:1px 5px;white-space:nowrap}
-#tray .icn{width:14px;height:14px;margin-right:3px}
-#clock{white-space:nowrap;line-height:18px}
-#startmenu{position:fixed;z-index:10000;left:2px;bottom:28px;width:220px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;display:none;box-shadow:2px 2px 0 #000}
+#clock{height:23px;border:1px solid;border-color:#808080 #fff #fff #808080;padding:2px 7px;font-size:11px;display:flex;align-items:center;justify-content:center;min-width:58px;flex:0 0 auto}
+#clock-date{display:none}
+#startmenu{position:fixed;left:2px;bottom:28px;width:230px;max-width:calc(100vw - 4px);background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;display:none;flex-direction:row;z-index:10000;box-shadow:1px 1px 0 #000;max-height:calc(100dvh - 30px);overflow:visible}
 #startmenu.open{display:flex}
-.sm-strip{width:25px;background:#000080;color:#fff;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px;font-size:13px;font-weight:bold;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.5px}
-.sm-items{flex:1;padding:2px}
-.smitem{height:27px;display:flex;align-items:center;gap:7px;padding:3px 5px;cursor:pointer;position:relative}
-.smitem:hover{background:#000080;color:#fff}
-.smitem .icn{width:20px;height:20px;object-fit:contain;flex:0 0 auto}
-.smitem .arrow{margin-left:auto;font-size:14px;line-height:12px}
-.smsep{height:1px;background:#808080;border-bottom:1px solid #fff;margin:2px}
-.smsub{position:absolute;left:100%;top:-3px;width:190px;padding:2px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:2px 2px 0 #000;display:none;z-index:10001}
-.smitem:hover>.smsub,.smitem.open>.smsub{display:block}
-#shutdownScreen{position:fixed;inset:0;z-index:30000;background:#000;color:#ffb040;display:none;align-items:center;justify-content:center;font-family:"Courier New",monospace;font-size:20px;text-align:center;padding:30px}
-#shutdownScreen.open{display:flex}
-#shutdownText{max-width:720px;line-height:1.4}
-#shutdownScreen.final{font-size:23px}
-#shutdownScreen.final #shutdownText{cursor:pointer}
+.sm-strip{width:28px;flex:0 0 28px;background:#808080;color:#fff;display:flex;align-items:center;justify-content:center;padding:0;font-weight:bold;font-size:14px;line-height:1;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;overflow:hidden}
+.sm-items{flex:1;padding:3px;overflow:visible;min-width:0}
+.smitem{position:relative;display:flex;align-items:center;gap:8px;min-height:31px;padding:3px 6px;cursor:pointer;font-size:11px;touch-action:manipulation}
+.smitem:hover,.smitem.active,.smitem:focus-visible{background:#000080;color:#fff;outline:0}
+.smitem .icn{width:24px;height:24px;object-fit:contain;flex:0 0 auto}
+.smitem > span.label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sm-arrow{margin-left:auto;font-size:14px;line-height:1}
+.smsep{height:1px;background:#808080;border-bottom:1px solid #fff;margin:3px 2px}
+.smsub{position:absolute;left:100%;top:-3px;width:205px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;padding:3px;display:none;box-shadow:1px 1px 0 #000;z-index:10001}
+.smitem.sub-open > .smsub{display:block}
+#shutdown{position:fixed;inset:0;background:#000;color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:20000;font-family:"Courier New",monospace;font-size:14px;text-align:center;padding:20px}
+#shutdown.open{display:flex}
+.shutdown-line{max-width:640px}
+.shutdown-accent{color:#ffb400}
+.shutdown-title{display:flex;align-items:center;gap:8px}
+.shutdown-title img{width:32px;height:32px}
+#contextmenu{position:fixed;width:170px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;display:none;z-index:15000;padding:2px;box-shadow:1px 1px 0 #000}
+#contextmenu.open{display:block}
+.ctxitem{height:25px;padding:4px 7px;display:flex;align-items:center;cursor:pointer}
+.ctxitem:hover{background:#000080;color:#fff}
 @media(max-width:760px){
-.desktop-icons{height:calc(100% - 5px)}
-.dicon{width:75px}
-.window{left:0!important;top:0!important;width:100%!important;height:100%!important}
-.window.maximized{width:100%!important;height:100%!important}
+body{font-size:12px}
+#desktop{height:calc(100dvh - 32px)}
+#taskbar{height:32px;padding:2px;gap:2px}
+#startbtn{height:27px;min-width:54px}
+#startbtn img{width:18px;height:18px}
+#tasks{height:27px}
+.taskitem{height:27px;max-width:155px;padding:0 6px}
+.taskitem .icn{width:18px;height:18px}
+#clock{height:27px;min-width:59px}
+#startmenu{bottom:32px;width:240px;max-height:calc(100dvh - 34px)}
+.window{left:0!important;top:0!important;width:100%!important;height:calc(100dvh - 32px)!important;min-width:220px;min-height:140px}
+.window.maximized{height:calc(100dvh - 32px)!important}
+.window:not(.maximized){left:0!important;top:0!important;width:100%!important;height:calc(100dvh - 32px)!important}
+.titlebar{height:22px;min-height:22px}
+.tb-buttons button{width:21px;height:18px;font-size:12px}
+.tb-left b{font-size:12px}
+.tb-left .icn{width:18px;height:18px}
+.content{padding:12px}
+.smitem{min-height:38px}
+.smsub{position:fixed;left:30px;right:3px;top:auto;bottom:auto;width:auto;max-width:calc(100vw - 33px);max-height:60dvh;overflow:auto}
+.ie-menu{gap:12px;overflow-x:auto;min-height:24px}
+.ie-toolbar{flex-wrap:wrap}
+.ie-toolbar input{order:5;flex-basis:100%;width:100%}
+.ie-address-label{order:4}
+.explorer-view{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.dicon{width:74px}
 .resize-edge{display:none}
-#startmenu{width:205px}
-.quick{display:none}
-.taskitem{min-width:90px}
+#contextmenu{display:none!important}
 }
 @media(max-width:420px){
-#clock{min-width:45px}
-#tray{min-width:50px}
-#startbtn{min-width:42px;padding:1px 5px}
 .startlabel{display:none}
-.taskitem{min-width:78px;padding-left:4px;padding-right:4px}
+#startbtn{min-width:34px;justify-content:center}
+#tasks{max-width:none}
+#clock{min-width:53px;padding:2px 5px}
 }
 </style>
 </head>
 <body>
-<div id="desktop">
-<div class="desktop-icons" id="deskicons"></div>
-</div>
-
-<div id="startmenu">
-<div class="sm-strip">Windows 98</div>
-<div class="sm-items" id="smitems"></div>
-</div>
-
-<div id="taskbar">
-<button id="startbtn"><img class="icn" src="../win98-icons/windows.ico" alt=""><span class="startlabel">Start</span></button>
-<div class="quick">
-<button onclick="openWin('iexplore')" title="Internet Explorer"><img class="icn" src="../win98-icons/msie_box.ico" alt=""></button>
-<button onclick="openWin('mycomputer')" title="My Computer"><img class="icn" src="../win98-icons/computer_win.ico" alt=""></button>
-</div>
-<div id="tasks"></div>
-<div id="tray"><img class="icn" src="../win98-icons/SoundGrn.ico" alt=""><div id="clock"></div></div>
-</div>
-
-<div id="shutdownScreen"><div id="shutdownText"></div></div>
-
+<div id="desktop"><div class="desktop-icons" id="deskicons"></div></div>
+<div id="startmenu"><div class="sm-strip">Windows 98</div><div class="sm-items" id="smitems"></div></div>
+<div id="taskbar"><div id="startbtn"><img src="../win98-icons/windows.ico" alt=""><span class="startlabel">Start</span></div><div id="tasks"></div><div id="clock" title=""><div id="clock-time"></div><div id="clock-date"></div></div></div>
+<div id="shutdown"><div class="shutdown-line shutdown-accent">Windows 98</div><div class="shutdown-line">Please wait while your computer shuts down...</div><div class="shutdown-line">It's now safe to turn off your computer.</div><button class="btn" onclick="closeShutdown()">Turn back on</button></div>
+<div id="contextmenu"></div>
 <script>
 const ICON_BASE="../win98-icons/";
 const CONFIG={
@@ -167,838 +166,156 @@ projects:[
 email:"asgolaatharv@gmail.com",
 github:"https://github.com/atharvasgola"
 };
-
 const APPS=[
-{id:"about",label:"About Me",icon:"user_card.ico"},
-{id:"projects",label:"Projects",icon:"directory_closed.ico"},
-{id:"contact",label:"Contact",icon:"envelope_closed.ico"},
-{id:"mycomputer",label:"My Computer",icon:"computer_win.ico"},
-{id:"mydocuments",label:"My Documents",icon:"directory_open_file_mydocs.ico"},
-{id:"network",label:"Network Neighborhood",icon:"connected_world.ico"},
-{id:"recyclebin",label:"Recycle Bin",icon:"recycle_bin_empty.ico"},
-{id:"games",label:"Games",icon:"joystick.ico"},
-{id:"notepad",label:"Notepad",icon:"notepad.ico"},
-{id:"iexplore",label:"Internet Explorer",icon:"msie_box.ico"},
-{id:"settings",label:"Control Panel",icon:"directory_control_panel.ico"}
+{id:"about",label:"About Me",icon:"user_card.ico",multi:false},
+{id:"projects",label:"Projects",icon:"directory_closed.ico",multi:true},
+{id:"contact",label:"Contact",icon:"envelope_closed.ico",multi:false},
+{id:"mycomputer",label:"My Computer",icon:"computer_win.ico",multi:true},
+{id:"mydocuments",label:"My Documents",icon:"directory_open_file_mydocs.ico",multi:true},
+{id:"network",label:"Network Neighborhood",icon:"connected_world.ico",multi:false},
+{id:"recyclebin",label:"Recycle Bin",icon:"recycle_bin_empty.ico",multi:false},
+{id:"games",label:"Games",icon:"joystick.ico",multi:false},
+{id:"notepad",label:"Notepad",icon:"notepad.ico",multi:true},
+{id:"iexplore",label:"Internet Explorer",icon:"msie_box.ico",multi:true},
+{id:"settings",label:"Control Panel",icon:"directory_control_panel.ico",multi:false}
 ];
-
-const PROGRAM_APPS=APPS.filter(a=>["about","projects","contact","notepad","iexplore","games"].includes(a.id));
-const win={};
-let zTop=10;
-let startOpen=false;
-let runWindowId="run";
-
-function icon(name){
-return '<img class="icn" src="'+ICON_BASE+name+'" alt="" onerror="this.style.display=\'none\'">';
+const START_GROUPS={
+programs:[
+{label:"Internet Explorer",icon:"msie_box.ico",action:()=>openWin("iexplore",{url:"about:home"})},
+{label:"Notepad",icon:"notepad.ico",action:()=>openWin("notepad")},
+{label:"Windows Explorer",icon:"computer_explorer.ico",action:()=>openWin("mycomputer")},
+{label:"Games",icon:"joystick.ico",action:()=>openWin("games")}
+],
+favorites:[
+{label:"GitHub",icon:"world_star.ico",action:()=>openWin("iexplore",{url:CONFIG.github})},
+{label:"AoC Forum",icon:"world_star.ico",action:()=>openWin("iexplore",{url:CONFIG.projects.find(p=>p.link).link})}
+],
+documents:[
+{label:"My Documents",icon:"directory_open_file_mydocs.ico",action:()=>openWin("mydocuments")}
+],
+settings:[
+{label:"Control Panel",icon:"directory_control_panel.ico",action:()=>openWin("settings")},
+{label:"Find",icon:"computer_search.ico",action:()=>showFind()},
+{label:"Help",icon:"circle_question.ico",action:()=>showHelp()}
+]
+};
+function icon(name){return '<img class="icn" src="'+ICON_BASE+name+'" alt="">'}
+function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function buildContent(appId,instance,options={}){
+if(appId==="about")return CONFIG.aboutParagraphs.map(p=>"<p>"+esc(p)+"</p>").join("");
+if(appId==="projects")return CONFIG.projects.map(p=>"<div class=\"proj\"><b>"+esc(p.title)+"</b><small>"+esc(p.desc)+"</small>"+(p.link?"<a href=\""+esc(p.link)+"\" target=\"_blank\" rel=\"noopener\" class=\"ie-link\">"+esc(p.link)+"</a>":"")+"</div>").join("");
+if(appId==="contact")return "<div class=\"field\"><label>Email</label><input readonly value=\""+esc(CONFIG.email)+"\"></div><div class=\"field\"><label>GitHub</label><input readonly value=\""+esc(CONFIG.github)+"\"></div>";
+if(appId==="mycomputer")return explorerContent(instance,[
+["floppy_drive_3-5.ico","3½ Floppy (A:)","A:"],
+["hard_disk_drive.ico","Local Disk (C:)","C:"],
+["cd_drive.ico","CD Drive (D:)","D:"]
+]);
+if(appId==="mydocuments")return explorerContent(instance,[["directory_open_file_mydocs.ico","My Documents","docs"]]);
+if(appId==="network")return "<h2>Network Neighborhood</h2><p>Computers connected to this network:</p><div class=\"proj\"><b>Atharv-PC</b><small>Entire Network</small></div>";
+if(appId==="recyclebin")return "<h2>Recycle Bin</h2><p>The Recycle Bin is empty.</p>";
+if(appId==="games")return "<h2>Games</h2><div class=\"explorer-view\"><div class=\"explorer-item\">"+icon("joystick.ico")+"<span>Games</span></div></div>";
+if(appId==="notepad")return "<textarea spellcheck=\"false\">New Text Document</textarea>";
+if(appId==="settings")return "<div class=\"cp-row\"><b>Display Properties</b></div><div>Desktop background:</div><div class=\"swatches\"><div class=\"swatch\" style=\"background:#008080\" data-bg=\"#008080\"></div><div class=\"swatch\" style=\"background:#000080\" data-bg=\"#000080\"></div><div class=\"swatch\" style=\"background:#800000\" data-bg=\"#800000\"></div><div class=\"swatch\" style=\"background:#004000\" data-bg=\"#004000\"></div><div class=\"swatch\" style=\"background:#404040\" data-bg=\"#404040\"></div></div>";
+if(appId==="iexplore")return buildIE(instance,options.url||"about:home",options.history||[]);
+return "";
 }
-
-function createWindowShell(app,id,width=380,height=300){
+function explorerContent(instance,items){return "<div class=\"explorer\"><div class=\"explorer-toolbar\"><button class=\"btn\" data-explorer-up>Up</button><div class=\"explorer-path\">My Computer</div></div><div class=\"explorer-view\">"+items.map(x=>"<div class=\"explorer-item\" data-drive=\""+esc(x[2])+"\">"+icon(x[0])+"<span>"+esc(x[1])+"</span></div>").join("")+"</div></div>"}
+function buildIE(instance,url){
+return "<div class=\"ie-menu\"><span data-ie-menu=\"file\">File</span><span data-ie-menu=\"edit\">Edit</span><span data-ie-menu=\"view\">View</span><span data-ie-menu=\"go\">Go</span><span data-ie-menu=\"favorites\">Favorites</span><span data-ie-menu=\"help\">Help</span></div><div class=\"ie-toolbar\"><button class=\"btn\" data-ie-back>&lt;</button><button class=\"btn\" data-ie-forward>&gt;</button><button class=\"btn\" data-ie-stop>Stop</button><button class=\"btn\" data-ie-home>Home</button><button class=\"btn\" data-ie-new>New Window</button><span class=\"ie-address-label\">Address</span><input class=\"ieaddr\" data-ie-address value=\""+esc(url)+"\"><button class=\"btn\" data-ie-go>Go</button></div><div class=\"ie-page\" data-ie-page></div><div class=\"ie-status\" data-ie-status>Done</div>";
+}
+const windows=new Map();
+let nextWindowId=1;
+let zTop=20;
+const isMobile=()=>window.innerWidth<=760;
+function appDef(id){return APPS.find(a=>a.id===id)}
+function openWin(appId,options={}){
+const app=appDef(appId);
+if(!app)return;
+if(!app.multi){const existing=[...windows.values()].find(w=>w.appId===appId);if(existing){restoreWin(existing.id);return existing.id}}
+const id=nextWindowId++;
 const el=document.createElement("div");
 el.className="window";
 el.id="w-"+id;
-const n=Object.keys(win).length;
-if(window.innerWidth<=760){
-el.classList.add("maximized");
-}else{
-el.style.left=(55+n*24)+"px";
-el.style.top=(35+n*22)+"px";
-el.style.width=width+"px";
-el.style.height=height+"px";
-}
-el.innerHTML='<div class="titlebar"><div class="tb-left">'+icon(app.icon)+'<b>'+app.label+'</b></div><div class="tb-buttons"><button data-act="min"><span class="min-glyph">_</span></button><button data-act="max"><span class="max-glyph">□</span></button><button data-act="close"><span class="close-glyph">×</span></button></div></div><div class="client" id="client-'+id+'"></div><div class="resize-edge resize-n" data-edge="n"></div><div class="resize-edge resize-s" data-edge="s"></div><div class="resize-edge resize-w" data-edge="w"></div><div class="resize-edge resize-e" data-edge="e"></div><div class="resize-edge resize-nw" data-edge="nw"></div><div class="resize-edge resize-ne" data-edge="ne"></div><div class="resize-edge resize-sw" data-edge="sw"></div><div class="resize-edge resize-se" data-edge="se"></div>';
+const count=windows.size;
+if(!isMobile()){el.style.left=(55+(count%7)*24)+"px";el.style.top=(35+(count%7)*24)+"px";el.style.width=appId==="iexplore"?"720px":"390px";el.style.height=appId==="iexplore"?"460px":"300px"}
+const data={id,appId,el,min:false,max:isMobile(),history:[],historyIndex:-1,currentUrl:options.url||"about:home"};
+el.innerHTML="<div class=\"titlebar\" data-id=\""+id+"\"><div class=\"tb-left\">"+icon(app.icon)+"<b data-window-title>"+esc(windowTitle(app,options.url||""))+"</b></div><div class=\"tb-buttons\"><button data-act=\"min\" aria-label=\"Minimize\">_</button><button data-act=\"max\" aria-label=\"Maximize\">□</button><button data-act=\"close\" aria-label=\"Close\">×</button></div></div><div class=\"content"+(appId==="iexplore"||appId==="notepad"?"":" white")+" style=\""+(appId==="iexplore"||appId==="notepad"?"padding:0":"")+"\">"+buildContent(appId,id,options)+"</div><div class=\"resize-handle resize-edge re-n\"></div><div class=\"resize-handle resize-edge re-s\"></div><div class=\"resize-handle resize-edge re-e\"></div><div class=\"resize-handle resize-edge re-w\"></div><div class=\"resize-handle resize-edge re-nw\"></div><div class=\"resize-handle resize-edge re-ne\"></div><div class=\"resize-handle resize-edge re-sw\"></div><div class=\"resize-handle resize-edge re-se\"></div>";
 document.getElementById("desktop").appendChild(el);
-win[id]={el,min:false,max:window.innerWidth<=760,app,restore:null};
-if(win[id].max)el.classList.add("maximized");
-bindWindow(el,id);
-return el;
-}
-
-function openWin(id){
-const app=APPS.find(a=>a.id===id)||{id,label:id,icon:"directory_closed.ico"};
-if(win[id]){
-restoreWin(id);
-return;
-}
-const el=createWindowShell(app,id,id==="mycomputer"?520:380,id==="mycomputer"?360:300);
-renderWindow(id);
-addTask(id,app.label,app.icon);
+windows.set(id,data);
+if(data.max)el.classList.add("maximized");
+bindWindow(data);
+if(appId==="iexplore")navigateIE(id,data.currentUrl,false);
+if(appId==="settings")bindSettings(el);
+addTask(data);
 focusWin(id);
+syncTasks();
+return id;
 }
-
-function renderWindow(id){
-const client=document.getElementById("client-"+id);
-if(!client)return;
-
-if(id==="mycomputer"){
-renderMyComputer(id,"root");
-return;
-}
-
-if(id==="mydocuments"){
-client.innerHTML='<div class="explorer-body"><div class="content-title">My Documents</div><div class="explorer-grid"><div class="explorer-item" ondblclick="openWin(\'projects\')">'+icon("directory_closed.ico")+'<span>Projects</span></div><div class="explorer-item" ondblclick="openWin(\'notepad\')">'+icon("notepad_file.ico")+'<span>New Text Document</span></div></div><div class="explorer-status">2 objects</div></div>';
-return;
-}
-
-if(id==="network"){
-client.innerHTML='<div class="explorer-body"><div class="content-title">Network Neighborhood</div><p>This computer is not connected to a Windows network.</p><div class="explorer-grid"><div class="explorer-item" ondblclick="openWin(\'iexplore\')">'+icon("connected_world.ico")+'<span>Internet</span></div></div></div>';
-return;
-}
-
-if(id==="games"){
-client.innerHTML='<div class="explorer-body"><div class="content-title">Games</div><div class="explorer-grid"><div class="explorer-item">'+icon("joystick.ico")+'<span>Games Folder</span></div></div><div class="explorer-status">The Games folder is ready for future projects.</div></div>';
-return;
-}
-
-if(id==="about"){
-client.classList.add("padding");
-client.innerHTML=CONFIG.aboutParagraphs.map(p=>"<p>"+p+"</p>").join("");
-return;
-}
-
-if(id==="projects"){
-client.classList.add("padding");
-client.innerHTML=CONFIG.projects.map(p=>'<div class="proj"><b>'+p.title+'</b><small>'+p.desc+"</small>"+(p.link?'<a href="'+p.link+'" target="_blank" rel="noopener">'+p.link+"</a>":"")+"</div>").join("");
-return;
-}
-
-if(id==="contact"){
-client.classList.add("padding");
-client.innerHTML='<div class="field"><label>Email</label><input readonly value="'+CONFIG.email+'"></div><div class="field"><label>GitHub</label><input readonly value="'+CONFIG.github+'"></div>';
-return;
-}
-
-if(id==="recyclebin"){
-client.classList.add("padding");
-client.innerHTML="<p>The Recycle Bin is empty.</p>";
-return;
-}
-
-if(id==="notepad"){
-client.innerHTML='<textarea class="textarea" spellcheck="false">New Text Document</textarea>';
-return;
-}
-
-if(id==="iexplore"){
-client.style.margin="0";
-client.style.border="0";
-client.innerHTML='<div class="ie-toolbar"><button class="button" onclick="ieHome()">Home</button><input id="ieaddr-iexplore" readonly value="about:home"><button class="button" onclick="ieHome()">Go</button></div><div class="ie-page"><h2>Atharv Asgola - Home</h2><p>Welcome. Pick a link:</p><a href="'+CONFIG.projects.find(p=>p.link).link+'" target="_blank" rel="noopener">AoC Forum</a><a href="'+CONFIG.github+'" target="_blank" rel="noopener">GitHub</a><a href="mailto:'+CONFIG.email+'">Email Me</a></div>';
-return;
-}
-
-if(id==="settings"){
-client.classList.add("padding");
-client.innerHTML='<p><b>Display Properties</b></p><p>Desktop background:</p><div class="swatches"><div class="swatch" style="background:#008080" onclick="setBg(\'#008080\')"></div><div class="swatch" style="background:#000080" onclick="setBg(\'#000080\')"></div><div class="swatch" style="background:#800000" onclick="setBg(\'#800000\')"></div><div class="swatch" style="background:#004000" onclick="setBg(\'#004000\')"></div><div class="swatch" style="background:#404040" onclick="setBg(\'#404040\')"></div></div><button class="button" onclick="openAboutDisplay()">Advanced...</button>';
-return;
-}
-
-client.classList.add("padding");
-client.innerHTML="";
-}
-
-function renderMyComputer(id,path){
-const client=document.getElementById("client-"+id);
-const parts={
-root:[
-["3½ Floppy (A:)","drive_floppy.ico","floppy"],
-["Local Disk (C:)","drive_harddisk.ico","cdrive"],
-["CD Drive (D:)","cd_drive.ico","cd"]
-],
-floppy:[
-["Floppy Disk","directory_closed.ico","floppyroot"]
-],
-cdrive:[
-["Windows","directory_closed.ico","windows"],
-["Program Files","directory_closed.ico","programfiles"],
-["My Documents","directory_open_file_mydocs.ico","mydocuments"]
-],
-windows:[
-["System","directory_closed.ico","system"],
-["Temp","directory_closed.ico","temp"],
-["Notepad","notepad_file.ico","notepad"]
-],
-programfiles:[
-["Internet Explorer","msie_box.ico","iexplore"],
-["Games","joystick.ico","games"]
-],
-mydocuments:[
-["Projects","directory_closed.ico","projects"],
-["New Text Document","notepad_file.ico","notepad"]
-],
-cd:[
-["Setup","directory_closed.ico","setup"]
-],
-floppyroot:[],
-system:[],
-temp:[],
-setup:[]
-};
-
-const pathNames={
-root:"My Computer",
-floppy:"3½ Floppy (A:)",
-cdrive:"Local Disk (C:)",
-cd:"CD Drive (D:)",
-windows:"C:\\Windows",
-programfiles:"C:\\Program Files",
-mydocuments:"My Documents",
-system:"C:\\Windows\\System",
-temp:"C:\\Windows\\Temp",
-floppyroot:"A:\\",
-setup:"D:\\Setup"
-};
-
-const previous={
-root:null,
-floppy:"root",
-cdrive:"root",
-cd:"root",
-windows:"cdrive",
-programfiles:"cdrive",
-mydocuments:"cdrive",
-system:"windows",
-temp:"windows",
-floppyroot:"floppy",
-setup:"cd"
-}[path];
-
-const items=parts[path]||[];
-const html=[];
-
-html.push('<div class="toolbar"><button '+(previous?'':'disabled')+' onclick="renderMyComputer(\''+id+'\',\''+(previous||"root")+'\')">Back</button><button '+(previous?'':'disabled')+' onclick="renderMyComputer(\''+id+'\',\''+(previous||"root")+'\')">Up</button><div class="address">'+pathNames[path]+'</div></div>');
-
-html.push('<div class="explorer-body"><div class="explorer-grid">');
-
-for(const item of items){
-const label=item[0];
-const ico=item[1];
-const target=item[2];
-html.push('<div class="explorer-item" ondblclick="explorerOpen(\''+target+'\')">'+icon(ico)+'<span>'+label+'</span></div>');
-}
-
-if(items.length===0)html.push("<p>This folder is empty.</p>");
-
-html.push('</div><div class="explorer-status">'+items.length+' object'+(items.length===1?"":"s")+"</div></div>");
-
-client.style.margin="0";
-client.style.border="0";
-client.innerHTML=html.join("");
-win[id].explorerPath=path;
-}
-
-function explorerOpen(target){
-if(["projects","notepad","iexplore","games"].includes(target)){
-openWin(target);
-return;
-}
-
-const map={
-floppy:"floppy",
-cdrive:"cdrive",
-cd:"cd",
-windows:"windows",
-programfiles:"programfiles",
-mydocuments:"mydocuments",
-system:"system",
-temp:"temp",
-floppyroot:"floppyroot",
-setup:"setup"
-};
-
-if(win.mycomputer)renderMyComputer("mycomputer",map[target]||"root");
-}
-
-function openAboutDisplay(){
-alert("Display Properties\n\nBackground colors can be changed with the buttons in Control Panel.");
-}
-
-function setBg(c){
-document.body.style.background=c;
-}
-
-function ieHome(){
-const input=document.getElementById("ieaddr-iexplore");
-if(input)input.value="about:home";
-}
-
-function bindWindow(el,id){
-const title=el.querySelector(".titlebar");
-const minBtn=el.querySelector('[data-act="min"]');
-const maxBtn=el.querySelector('[data-act="max"]');
-const closeBtn=el.querySelector('[data-act="close"]');
-
-title.addEventListener("dblclick",e=>{
-if(!e.target.closest(".tb-buttons"))toggleMax(id);
-});
-
-title.addEventListener("pointerdown",e=>{
+function windowTitle(app,url){if(app.id==="iexplore")return url&&url!=="about:home"?"Microsoft Internet Explorer - "+url:"Microsoft Internet Explorer";return app.label}
+function bindWindow(w){
+const el=w.el,tb=el.querySelector(".titlebar");
+let drag=null;
+tb.addEventListener("pointerdown",e=>{
 if(e.target.closest(".tb-buttons"))return;
-if(win[id].max)return;
-startDrag(e,id);
+focusWin(w.id);
+if(w.max)return;
+el.setPointerCapture?.(e.pointerId);
+drag={x:e.clientX,y:e.clientY,left:el.offsetLeft,top:el.offsetTop,pointerId:e.pointerId};
 });
-
-minBtn.onclick=e=>{
-e.stopPropagation();
-minWin(id);
-};
-
-maxBtn.onclick=e=>{
-e.stopPropagation();
-toggleMax(id);
-};
-
-closeBtn.onclick=e=>{
-e.stopPropagation();
-closeWin(id);
-};
-
-el.addEventListener("pointerdown",()=>focusWin(id));
-
-el.querySelectorAll(".resize-edge").forEach(edge=>{
-edge.addEventListener("pointerdown",e=>startResize(e,id,edge.dataset.edge));
-});
+tb.addEventListener("pointermove",e=>{if(!drag||w.max)return;el.style.left=Math.max(0,drag.left+e.clientX-drag.x)+"px";el.style.top=Math.max(0,drag.top+e.clientY-drag.y)+"px"});
+tb.addEventListener("pointerup",e=>{if(drag){drag=null;try{el.releasePointerCapture?.(e.pointerId)}catch{}}});
+tb.addEventListener("dblclick",e=>{if(!e.target.closest(".tb-buttons")&&!isMobile())toggleMax(w.id)});
+el.querySelector('[data-act="close"]').onclick=()=>closeWin(w.id);
+el.querySelector('[data-act="min"]').onclick=()=>minWin(w.id);
+el.querySelector('[data-act="max"]').onclick=()=>toggleMax(w.id);
+el.addEventListener("pointerdown",()=>focusWin(w.id));
+for(const edge of el.querySelectorAll(".resize-edge"))bindResize(w,edge);
+if(w.appId==="iexplore")bindIE(w);
 }
-
-function startDrag(e,id){
-if(e.button!==0)return;
-
-const el=win[id].el;
-focusWin(id);
-
-const sx=e.clientX;
-const sy=e.clientY;
-const ox=el.offsetLeft;
-const oy=el.offsetTop;
-
-const desktop=document.getElementById("desktop");
-
-function move(ev){
-const maxX=Math.max(0,desktop.clientWidth-el.offsetWidth);
-const maxY=Math.max(0,desktop.clientHeight-el.offsetHeight);
-
-el.style.left=Math.min(maxX,Math.max(0,ox+ev.clientX-sx))+"px";
-el.style.top=Math.min(maxY,Math.max(0,oy+ev.clientY-sy))+"px";
+function bindResize(w,edge){edge.addEventListener("pointerdown",e=>{if(w.max||isMobile())return;e.preventDefault();e.stopPropagation();focusWin(w.id);const el=w.el,sx=e.clientX,sy=e.clientY,ol=el.offsetLeft,ot=el.offsetTop,ow=el.offsetWidth,oh=el.offsetHeight;const type=[...edge.classList].find(c=>c==="re-n"||c==="re-s"||c==="re-e"||c==="re-w"||c==="re-nw"||c==="re-ne"||c==="re-sw"||c==="re-se");function mv(ev){let l=ol,t=ot,r=ow,b=oh;if(type.includes("e"))r=ow+ev.clientX-sx;if(type.includes("s"))b=oh+ev.clientY-sy;if(type.includes("w")){r=ow-(ev.clientX-sx);l=ol+(ev.clientX-sx)}if(type.includes("n")){b=oh-(ev.clientY-sy);t=ot+(ev.clientY-sy)}if(r>=240)el.style.width=r+"px";if(b>=140)el.style.height=b+"px";if(type.includes("w")&&r>=240)el.style.left=Math.max(0,l)+"px";if(type.includes("n")&&b>=140)el.style.top=Math.max(0,t)+"px"}function up(){document.removeEventListener("pointermove",mv);document.removeEventListener("pointerup",up)}document.addEventListener("pointermove",mv);document.addEventListener("pointerup",up)})}
+function focusWin(id){const w=windows.get(id);if(!w)return;windows.forEach(v=>v.el.classList.add("blur"));w.el.classList.remove("blur");w.el.style.zIndex=++zTop;w.el.style.display="flex";w.min=false;syncTasks();if(w.appId!=="iexplore")return}
+function minWin(id){const w=windows.get(id);if(!w)return;w.el.classList.add("minimized");w.min=true;syncTasks()}
+function restoreWin(id){const w=windows.get(id);if(!w)return;if(w.min){w.el.classList.remove("minimized");focusWin(id);return}if(w.el.classList.contains("blur")){focusWin(id);return}minWin(id)}
+function toggleMax(id){const w=windows.get(id);if(!w||isMobile())return;w.max=!w.max;w.el.classList.toggle("maximized",w.max);focusWin(id)}
+function closeWin(id){const w=windows.get(id);if(!w)return;w.el.remove();windows.delete(id);const t=document.querySelector('.taskitem[data-id="'+id+'"]');if(t)t.remove();focusHighest();syncTasks()}
+function focusHighest(){let top=null;windows.forEach(w=>{if(w.el.classList.contains("minimized"))return;const z=parseInt(w.el.style.zIndex||0,10);if(!top||z>top.z)top={w,z}});if(top)focusWin(top.w.id)}
+function addTask(w){const t=document.createElement("div");t.className="taskitem";t.dataset.id=w.id;t.innerHTML=icon(appDef(w.appId).icon)+"<span>"+esc(taskTitle(w))+"</span>";t.addEventListener("click",e=>{if(t.dataset.dragged==="1"){t.dataset.dragged="0";return}restoreWin(w.id)});bindTaskDrag(t);document.getElementById("tasks").appendChild(t)}
+function taskTitle(w){return w.appId==="iexplore"?"Internet Explorer":appDef(w.appId).label}
+function syncTasks(){document.querySelectorAll(".taskitem").forEach(t=>{const w=windows.get(Number(t.dataset.id));t.classList.toggle("pressed",!!w&&!w.min&&!w.el.classList.contains("blur"));if(w)t.title=appDef(w.appId).label})}
+function bindTaskDrag(t){let drag=null,moved=false;t.addEventListener("pointerdown",e=>{drag={x:e.clientX,y:e.clientY};moved=false});t.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!moved&&Math.hypot(dx,dy)>6){moved=true;t.dataset.dragged="1";t.classList.add("dragging");try{t.setPointerCapture(e.pointerId)}catch{}}if(moved){const tasks=document.getElementById("tasks");const siblings=[...tasks.querySelectorAll(".taskitem:not(.dragging)")];let before=null,best=Infinity;for(const s of siblings){const r=s.getBoundingClientRect();const d=Math.abs(e.clientX-(r.left+r.width/2));if(d<best){best=d;before=e.clientX<r.left+r.width/2?s:null}}if(before)tasks.insertBefore(t,before);else tasks.appendChild(t)}});t.addEventListener("pointerup",e=>{if(moved){t.classList.remove("dragging");drag=null;saveTaskOrder()}else drag=null});t.addEventListener("pointercancel",()=>{t.classList.remove("dragging");drag=null})}
+function saveTaskOrder(){localStorage.setItem("a98-task-order",JSON.stringify([...document.querySelectorAll(".taskitem")].map(x=>Number(x.dataset.id))))}
+function restoreTaskOrder(){const order=JSON.parse(localStorage.getItem("a98-task-order")||"[]");const tasks=document.getElementById("tasks");for(const id of order){const t=[...tasks.children].find(x=>Number(x.dataset.id)===id);if(t)tasks.appendChild(t)}}
+function bindSettings(el){el.querySelectorAll(".swatch").forEach(s=>s.addEventListener("click",()=>setBg(s.dataset.bg)))}
+function setBg(c){document.body.style.background=c;localStorage.setItem("a98-bg",c)}
+function buildDeskIcons(){const root=document.getElementById("deskicons");root.innerHTML="";APPS.forEach(a=>{const d=document.createElement("div");d.className="dicon";d.innerHTML=icon(a.icon)+"<span>"+esc(a.label)+"</span>";d.addEventListener("click",()=>{document.querySelectorAll(".dicon").forEach(x=>x.classList.remove("selected"));d.classList.add("selected");openWin(a.id)});root.appendChild(d)})}
+function makeSmItem(item){const s=document.createElement("div");s.className="smitem";s.innerHTML=icon(item.icon)+"<span class=\"label\">"+esc(item.label)+"</span>";s.addEventListener("click",()=>{item.action();closeStart()});return s}
+function positionMobileSubmenu(s){const sub=s.querySelector(".smsub");const r=s.getBoundingClientRect();const h=Math.min(sub.scrollHeight,window.innerHeight-8);sub.style.top=Math.max(3,Math.min(window.innerHeight-h-3,r.top))+"px";sub.style.left="3px";sub.style.right="3px"}function makeSubItem(label,items,iconName){const s=document.createElement("div");s.className="smitem has-sub";s.innerHTML=icon(iconName)+"<span class=\"label\">"+esc(label)+"</span><span class=\"sm-arrow\">›</span><div class=\"smsub\"></div>";const sub=s.querySelector(".smsub");items.forEach(i=>sub.appendChild(makeSmItem(i)));let timer=null,longPressed=false;s.addEventListener("mouseenter",()=>{if(isMobile())return;s.classList.add("sub-open")});s.addEventListener("mouseleave",()=>{if(isMobile())return;s.classList.remove("sub-open")});s.addEventListener("pointerdown",e=>{if(e.pointerType!=="touch")return;longPressed=false;clearTimeout(timer);timer=setTimeout(()=>{longPressed=true;s.classList.add("sub-open");s.classList.add("active");positionMobileSubmenu(s)},550)});s.addEventListener("pointerup",e=>{if(e.pointerType!=="touch")return;clearTimeout(timer);if(longPressed)e.preventDefault()});s.addEventListener("pointercancel",()=>clearTimeout(timer));return s}
+function buildStartMenu(){const root=document.getElementById("smitems");root.innerHTML="";root.appendChild(makeSubItem("Programs",START_GROUPS.programs,"directory_program_group.ico"));root.appendChild(makeSubItem("Favorites",START_GROUPS.favorites,"directory_favorites.ico"));root.appendChild(makeSubItem("Documents",START_GROUPS.documents,"directory_open_file_mydocs.ico"));root.appendChild(makeSubItem("Settings",START_GROUPS.settings,"directory_control_panel.ico"));root.appendChild(makeSmItem({label:"Windows Update",icon:"windows_update_small.ico",action:()=>openWin("iexplore",{url:"about:home"})}));root.appendChild(makeSmItem({label:"Log Off...",icon:"user_card.ico",action:()=>showLogoff()}));const sep=document.createElement("div");sep.className="smsep";root.appendChild(sep);root.appendChild(makeSmItem({label:"Shut Down...",icon:"shut_down_with_computer.ico",action:()=>{closeStart();openShutdown()}}))}
+function showFind(){openWin("iexplore",{url:"about:find"})}
+function showHelp(){openWin("iexplore",{url:"about:help"})}
+function showLogoff(){closeStart();openShutdown()}
+const startbtn=document.getElementById("startbtn"),startmenu=document.getElementById("startmenu");startbtn.addEventListener("click",e=>{e.stopPropagation();startmenu.classList.toggle("open");startbtn.classList.toggle("active")});document.addEventListener("click",e=>{if(!startmenu.contains(e.target)&&!startbtn.contains(e.target))closeStart()});function closeStart(){startmenu.classList.remove("open");startbtn.classList.remove("active");document.querySelectorAll(".smitem.sub-open").forEach(x=>x.classList.remove("sub-open"));document.querySelectorAll(".smitem.active").forEach(x=>x.classList.remove("active"))}
+function openShutdown(){document.getElementById("shutdown").classList.add("open")}
+function closeShutdown(){document.getElementById("shutdown").classList.remove("open")}
+function localIEPage(url){
+if(url==="about:home")return "<h2>Welcome to Microsoft Internet Explorer</h2><p>Atharv Asgola</p><p>Internet Explorer-style browsing inside the Windows 98 desktop.</p><a class=\"ie-link\" data-url=\"about:me\">About Me</a><a class=\"ie-link\" data-url=\"about:projects\">Projects</a><a class=\"ie-link\" data-url=\"about:contact\">Contact</a><a class=\"ie-link-new\" data-url=\""+esc(CONFIG.github)+"\">GitHub — Open in New Window</a><a class=\"ie-link-new\" data-url=\""+esc(CONFIG.projects.find(p=>p.link).link)+"\">AoC Forum — Open in New Window</a><p style=\"margin-top:18px\">File → New Window opens another Internet Explorer window just like a multi-window desktop.</p>";
+if(url==="about:me")return "<h2>About Atharv</h2>"+CONFIG.aboutParagraphs.map(p=>"<p>"+esc(p)+"</p>").join("")+"<a class=\"ie-link\" data-url=\"about:home\">Back to Home</a>";
+if(url==="about:projects")return "<h2>Projects</h2>"+CONFIG.projects.map(p=>"<p><b>"+esc(p.title)+"</b><br>"+esc(p.desc)+(p.link?"<br><a class=\"ie-link-new\" data-url=\""+esc(p.link)+"\">Open link in new window</a>":"")+"</p>").join("")+"<a class=\"ie-link\" data-url=\"about:home\">Back to Home</a>";
+if(url==="about:contact")return "<h2>Contact</h2><p>Email: <a href=\"mailto:"+esc(CONFIG.email)+"\">"+esc(CONFIG.email)+"</a></p><p>GitHub: <a class=\"ie-link-new\" data-url=\""+esc(CONFIG.github)+"\">"+esc(CONFIG.github)+"</a></p><a class=\"ie-link\" data-url=\"about:home\">Back to Home</a>";
+if(url==="about:find")return "<h2>Find</h2><p>Use the browser address bar or open Programs to find an application.</p>";
+if(url==="about:help")return "<h2>Windows 98 Help</h2><p>Double-click title bars to maximize windows on desktop. Drag task buttons to reorganize them. On touch devices, hold Start-menu submenu entries to open them.</p>";
+return null;
 }
-
-function up(){
-document.removeEventListener("pointermove",move);
-document.removeEventListener("pointerup",up);
-}
-
-document.addEventListener("pointermove",move);
-document.addEventListener("pointerup",up);
-}
-
-function startResize(e,id,edge){
-if(e.button!==0||win[id].max)return;
-
-e.preventDefault();
-e.stopPropagation();
-focusWin(id);
-
-const el=win[id].el;
-const desktop=document.getElementById("desktop");
-
-const start={
-x:e.clientX,
-y:e.clientY,
-left:el.offsetLeft,
-top:el.offsetTop,
-width:el.offsetWidth,
-height:el.offsetHeight
-};
-
-const minW=220;
-const minH=140;
-
-function move(ev){
-let left=start.left;
-let top=start.top;
-let width=start.width;
-let height=start.height;
-
-const dx=ev.clientX-start.x;
-const dy=ev.clientY-start.y;
-
-if(edge.includes("e"))width=Math.max(minW,start.width+dx);
-if(edge.includes("s"))height=Math.max(minH,start.height+dy);
-
-if(edge.includes("w")){
-left=Math.min(start.left+start.width-minW,start.left+dx);
-width=start.width-(left-start.left);
-}
-
-if(edge.includes("n")){
-top=Math.min(start.top+start.height-minH,start.top+dy);
-height=start.height-(top-start.top);
-}
-
-if(left<0){
-width+=left;
-left=0;
-}
-
-if(top<0){
-height+=top;
-top=0;
-}
-
-if(left+width>desktop.clientWidth)width=desktop.clientWidth-left;
-if(top+height>desktop.clientHeight)height=desktop.clientHeight-top;
-
-el.style.left=left+"px";
-el.style.top=top+"px";
-el.style.width=Math.max(minW,width)+"px";
-el.style.height=Math.max(minH,height)+"px";
-}
-
-function up(){
-document.removeEventListener("pointermove",move);
-document.removeEventListener("pointerup",up);
-}
-
-document.addEventListener("pointermove",move);
-document.addEventListener("pointerup",up);
-}
-
-function focusWin(id){
-if(!win[id])return;
-
-Object.keys(win).forEach(k=>win[k].el.classList.add("blur"));
-
-win[id].el.classList.remove("blur");
-win[id].el.style.zIndex=++zTop;
-win[id].el.classList.remove("hidden");
-win[id].min=false;
-
-document.querySelectorAll(".taskitem").forEach(t=>{
-t.classList.toggle("pressed",t.dataset.id===id);
-});
-}
-
-function minWin(id){
-if(!win[id])return;
-
-win[id].el.classList.add("hidden");
-win[id].min=true;
-
-const t=document.querySelector('.taskitem[data-id="'+id+'"]');
-
-if(t)t.classList.remove("pressed");
-}
-
-function restoreWin(id){
-if(!win[id])return;
-
-if(win[id].min){
-focusWin(id);
-return;
-}
-
-if(win[id].el.classList.contains("blur")){
-focusWin(id);
-return;
-}
-
-minWin(id);
-}
-
-function toggleMax(id){
-if(!win[id]||window.innerWidth<=760)return;
-
-const w=win[id];
-
-if(!w.max){
-w.restore={
-left:w.el.offsetLeft,
-top:w.el.offsetTop,
-width:w.el.offsetWidth,
-height:w.el.offsetHeight
-};
-
-w.max=true;
-w.el.classList.add("maximized");
-}else{
-const r=w.restore;
-
-w.max=false;
-w.el.classList.remove("maximized");
-
-if(r){
-w.el.style.left=r.left+"px";
-w.el.style.top=r.top+"px";
-w.el.style.width=r.width+"px";
-w.el.style.height=r.height+"px";
-}
-}
-
-focusWin(id);
-}
-
-function closeWin(id){
-if(!win[id])return;
-
-win[id].el.remove();
-delete win[id];
-
-const t=document.querySelector('.taskitem[data-id="'+id+'"]');
-
-if(t)t.remove();
-}
-
-function addTask(id,label,iconName){
-const t=document.createElement("button");
-
-t.className="taskitem";
-t.dataset.id=id;
-t.type="button";
-t.innerHTML=icon(iconName)+"<span>"+label+"</span>";
-t.onclick=()=>restoreWin(id);
-
-document.getElementById("tasks").appendChild(t);
-}
-
-function buildDesktop(){
-const ids=[
-"mycomputer",
-"mydocuments",
-"network",
-"recyclebin",
-"iexplore",
-"about",
-"projects",
-"games",
-"contact"
-];
-
-const root=document.getElementById("deskicons");
-
-ids.forEach(id=>{
-const app=APPS.find(a=>a.id===id);
-const d=document.createElement("div");
-
-d.className="dicon";
-d.tabIndex=0;
-d.dataset.id=id;
-d.innerHTML=icon(app.icon)+"<span>"+app.label+"</span>";
-
-d.ondblclick=()=>openWin(id);
-
-d.onclick=()=>{
-document.querySelectorAll(".dicon").forEach(x=>x.classList.remove("selected"));
-d.classList.add("selected");
-};
-
-root.appendChild(d);
-});
-}
-
-function smIconItem(label,iconName,fn,submenu){
-const item=document.createElement("div");
-
-item.className="smitem";
-item.innerHTML=icon(iconName)+"<span>"+label+"</span>"+(submenu?'<span class="arrow">›</span>':"");
-
-if(submenu){
-const sub=document.createElement("div");
-
-sub.className="smsub";
-
-submenu.forEach(x=>{
-sub.appendChild(smIconItem(x.label,x.icon,x.fn,x.submenu));
-});
-
-item.appendChild(sub);
-}else{
-item.onclick=e=>{
-e.stopPropagation();
-fn();
-closeStart();
-};
-}
-
-return item;
-}
-
-function buildStartMenu(){
-const menu=document.getElementById("smitems");
-
-menu.innerHTML="";
-
-menu.appendChild(smIconItem("Windows Update","windows_update_small.ico",()=>openWin("iexplore")));
-
-menu.appendChild(
-smIconItem(
-"Programs",
-"directory_program_group.ico",
-()=>{},
-PROGRAM_APPS.map(a=>({
-label:a.label,
-icon:a.icon,
-fn:()=>openWin(a.id)
-}))
-)
-);
-
-menu.appendChild(smIconItem("Favorites","directory_favorites.ico",()=>openWin("iexplore")));
-
-menu.appendChild(
-smIconItem(
-"Documents",
-"directory_open_file_mydocs.ico",
-()=>openWin("mydocuments"),
-[
-{
-label:"My Documents",
-icon:"directory_open_file_mydocs.ico",
-fn:()=>openWin("mydocuments")
-}
-]
-)
-);
-
-menu.appendChild(
-smIconItem(
-"Settings",
-"directory_control_panel.ico",
-()=>openWin("settings"),
-[
-{
-label:"Control Panel",
-icon:"directory_control_panel.ico",
-fn:()=>openWin("settings")
-}
-]
-)
-);
-
-menu.appendChild(smIconItem("Find","computer_search.ico",()=>openFind()));
-menu.appendChild(smIconItem("Help","circle_question.ico",()=>openHelp()));
-menu.appendChild(smIconItem("Run...","console_prompt.ico",()=>openRun()));
-
-const sep1=document.createElement("div");
-sep1.className="smsep";
-menu.appendChild(sep1);
-
-menu.appendChild(smIconItem("Log Off Atharv...","user_card.ico",()=>openLogoff()));
-menu.appendChild(smIconItem("Shut Down...","shut_down_normal.ico",()=>shutdown()));
-}
-
-function openFind(){
-const id="find";
-
-if(win[id]){
-focusWin(id);
-return;
-}
-
-const app={
-id,
-label:"Find",
-icon:"computer_search.ico"
-};
-
-createWindowShell(app,id,360,190);
-
-const client=document.getElementById("client-find");
-
-client.classList.add("padding");
-
-client.innerHTML='<p><b>Find: All Files</b></p><div class="field"><label>Named:</label><input id="findInput" value=""></div><button class="button" onclick="findMessage()">Find Now</button><div id="findResult" style="margin-top:12px"></div>';
-
-addTask(id,app.label,app.icon);
-focusWin(id);
-}
-
-function findMessage(){
-document.getElementById("findResult").textContent="No files were found matching your search.";
-}
-
-function openHelp(){
-const id="help";
-
-if(win[id]){
-focusWin(id);
-return;
-}
-
-const app={
-id,
-label:"Windows Help",
-icon:"circle_question.ico"
-};
-
-createWindowShell(app,id,390,260);
-
-const client=document.getElementById("client-help");
-
-client.classList.add("padding");
-
-client.innerHTML='<p class="content-title">Windows Help</p><p>This is a Windows 98-style portfolio desktop.</p><p>Double-click desktop icons to open programs. Windows can be moved, minimized, maximized, closed, and resized from their borders and corners.</p>';
-
-addTask(id,app.label,app.icon);
-focusWin(id);
-}
-
-function openRun(){
-const id=runWindowId;
-
-if(win[id]){
-focusWin(id);
-return;
-}
-
-const app={
-id,
-label:"Run",
-icon:"console_prompt.ico"
-};
-
-createWindowShell(app,id,390,150);
-
-const client=document.getElementById("client-"+id);
-
-client.classList.add("gray");
-
-client.innerHTML='<div class="runbox"><div>Type the name of a program, folder, document, or Internet resource, and Windows will open it for you.</div><div class="runrow"><input id="runInput" value=""><button class="button" onclick="runCommand()">OK</button><button class="button" onclick="closeWin(\''+id+'\')">Cancel</button></div></div>';
-
-addTask(id,app.label,app.icon);
-focusWin(id);
-}
-
-function runCommand(){
-const v=document.getElementById("runInput").value.trim().toLowerCase();
-
-const map={
-"notepad":"notepad",
-"iexplore":"iexplore",
-"internet explorer":"iexplore",
-"my computer":"mycomputer",
-"control panel":"settings",
-"games":"games",
-"projects":"projects",
-"about":"about"
-};
-
-if(map[v]){
-closeWin(runWindowId);
-openWin(map[v]);
-return;
-}
-
-document.getElementById("runInput").value="Command not found";
-}
-
-function openLogoff(){
-const screen=document.getElementById("shutdownScreen");
-
-screen.className="open";
-document.getElementById("shutdownText").textContent="Windows is logging off...";
-
-setTimeout(()=>{
-document.getElementById("shutdownText").textContent="It is now safe to continue.";
-screen.classList.add("final");
-screen.onclick=()=>location.reload();
-},1400);
-}
-
-function shutdown(){
-closeStart();
-
-Object.keys(win).forEach(id=>closeWin(id));
-
-const screen=document.getElementById("shutdownScreen");
-
-screen.className="open";
-screen.classList.remove("final");
-screen.onclick=null;
-
-document.getElementById("shutdownText").textContent="Please wait while your computer shuts down...";
-
-setTimeout(()=>{
-document.getElementById("shutdownText").textContent="It's now safe to turn off your computer.";
-screen.classList.add("final");
-screen.onclick=()=>location.reload();
-},1800);
-}
-
-function closeStart(){
-startOpen=false;
-
-document.getElementById("startmenu").classList.remove("open");
-document.getElementById("startbtn").classList.remove("active");
-}
-
-function toggleStart(){
-startOpen=!startOpen;
-
-document.getElementById("startmenu").classList.toggle("open",startOpen);
-document.getElementById("startbtn").classList.toggle("active",startOpen);
-}
-
-document.getElementById("startbtn").addEventListener("click",e=>{
-e.stopPropagation();
-toggleStart();
-});
-
-document.addEventListener("click",e=>{
-const menu=document.getElementById("startmenu");
-
-if(
-startOpen&&
-!menu.contains(e.target)&&
-!document.getElementById("startbtn").contains(e.target)
-){
-closeStart();
-}
-});
-
-document.addEventListener("keydown",e=>{
-if(e.key==="Escape")closeStart();
-
-if(
-e.key==="Enter"&&
-document.getElementById("shutdownScreen").classList.contains("final")
-){
-location.reload();
-}
-});
-
-function updateClock(){
-const d=new Date();
-
-let h=d.getHours();
-const m=d.getMinutes();
-const ap=h>=12?"PM":"AM";
-
-h=h%12||12;
-
-document.getElementById("clock").textContent=
-h+":"+(m<10?"0":"")+m+" "+ap;
-
-document.getElementById("tray").title=
-d.toLocaleDateString(
-undefined,
-{
-weekday:"long",
-year:"numeric",
-month:"long",
-day:"numeric"
-}
-);
-}
-
-window.addEventListener("resize",()=>{
-if(window.innerWidth<=760){
-Object.keys(win).forEach(id=>{
-win[id].el.classList.add("maximized");
-});
-}
-});
-
-buildDesktop();
-buildStartMenu();
-updateClock();
-setInterval(updateClock,10000);
+function bindIE(w){const el=w.el;el.querySelector("[data-ie-home]").onclick=()=>navigateIE(w.id,"about:home",true);el.querySelector("[data-ie-new]").onclick=()=>openWin("iexplore",{url:w.currentUrl});el.querySelector("[data-ie-back]").onclick=()=>ieHistory(w.id,-1);el.querySelector("[data-ie-forward]").onclick=()=>ieHistory(w.id,1);el.querySelector("[data-ie-go]").onclick=()=>navigateIE(w.id,el.querySelector("[data-ie-address]").value,true);el.querySelector("[data-ie-stop]").onclick=()=>{el.querySelector("[data-ie-status]").textContent="Stopped"};el.querySelector("[data-ie-address]").addEventListener("keydown",e=>{if(e.key==="Enter")navigateIE(w.id,e.currentTarget.value,true)});el.querySelectorAll("[data-ie-menu]").forEach(m=>m.addEventListener("click",()=>handleIEMenu(w.id,m.dataset.ieMenu)));el.querySelector("[data-ie-page]").addEventListener("click",e=>{const a=e.target.closest(".ie-link,.ie-link-new");if(!a)return;e.preventDefault();const url=a.dataset.url;if(a.classList.contains("ie-link-new"))openWin("iexplore",{url});else navigateIE(w.id,url,true)})}
+function handleIEMenu(id,name){if(name==="file")openWin("iexplore",{url:"about:home"});else if(name==="go")navigateIE(id,"about:home",true);else if(name==="favorites")openWin("iexplore",{url:CONFIG.github});else if(name==="help")navigateIE(id,"about:help",true)}
+function navigateIE(id,url,addHistory=true){const w=windows.get(id);if(!w)return;let target=url.trim();if(!target)target="about:home";w.currentUrl=target;if(addHistory){w.history=w.history.slice(0,w.historyIndex+1);w.history.push(target);w.historyIndex=w.history.length-1}const page=w.el.querySelector("[data-ie-page]"),addr=w.el.querySelector("[data-ie-address]"),status=w.el.querySelector("[data-ie-status]"),title=w.el.querySelector("[data-window-title]");addr.value=target;title.textContent=windowTitle(appDef("iexplore"),target);status.textContent="Opening "+target+"...";const local=localIEPage(target);if(local!==null){page.className="ie-page";page.innerHTML=local;status.textContent="Done";return}page.className="ie-external";page.innerHTML="<iframe src=\""+esc(target)+"\"></iframe><div class=\"ie-external-note\">If the page refuses to display here, <a href=\""+esc(target)+"\" target=\"_blank\" rel=\"noopener\">open it in your normal browser</a>.</div>";status.textContent="Internet";}
+function ieHistory(id,dir){const w=windows.get(id);if(!w)return;const i=w.historyIndex+dir;if(i<0||i>=w.history.length)return;w.historyIndex=i;navigateIE(id,w.history[i],false)}
+function tick(){const d=new Date();let h=d.getHours();const m=d.getMinutes();const ap=h>=12?"PM":"AM";h=h%12||12;const text=h+":"+(m<10?"0":"")+m+" "+ap;document.getElementById("clock-time").textContent=text;document.getElementById("clock").title=d.toLocaleDateString()}
+tick();setInterval(tick,10000);
+document.addEventListener("contextmenu",e=>{if(isMobile())return;if(e.target.closest(".window"))return;e.preventDefault();const menu=document.getElementById("contextmenu");menu.innerHTML="<div class=\"ctxitem\" data-ctx=\"new-ie\">New Internet Explorer Window</div><div class=\"ctxitem\" data-ctx=\"refresh\">Refresh</div><div class=\"ctxitem\" data-ctx=\"about\">About Windows 98</div>";menu.style.left=Math.min(e.clientX,window.innerWidth-174)+"px";menu.style.top=Math.min(e.clientY,window.innerHeight-100)+"px";menu.classList.add("open")});document.addEventListener("click",e=>{const c=e.target.closest(".ctxitem");if(c){if(c.dataset.ctx==="new-ie")openWin("iexplore",{url:"about:home"});if(c.dataset.ctx==="refresh")location.reload();if(c.dataset.ctx==="about")openWin("about")}document.getElementById("contextmenu").classList.remove("open")});
+window.addEventListener("resize",()=>{if(isMobile())windows.forEach(w=>{w.el.classList.add("maximized");w.max=true});else windows.forEach(w=>{if(w.max){w.max=true;w.el.classList.add("maximized")}});document.querySelectorAll(".smitem.sub-open").forEach(positionMobileSubmenu)});
+const savedBg=localStorage.getItem("a98-bg");if(savedBg)document.body.style.background=savedBg;
+buildDeskIcons();buildStartMenu();
 </script>
 </body>
 </html>
