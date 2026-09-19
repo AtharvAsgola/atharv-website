@@ -6,872 +6,999 @@
 <title>Atharv Asgola</title>
 <style>
 *{box-sizing:border-box}
-html,body{height:100%;margin:0}
-body{
-  background:#008080;
-  font-family:"MS Sans Serif",Tahoma,Geneva,sans-serif;
-  font-size:13px;
-  overflow:hidden;
-  -webkit-user-select:none;
-  user-select:none;
-}
-#desktop{
-  position:relative;
-  width:100%;
-  height:calc(100vh - 34px);
-  overflow:hidden;
-}
-.desktop-icons{
-  position:absolute;
-  top:10px;
-  left:10px;
-  display:flex;
-  flex-direction:column;
-  gap:2px;
-  flex-wrap:wrap;
-  height:calc(100% - 20px);
-  align-content:flex-start;
-}
-.dicon{
-  width:72px;
-  padding:4px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
-  cursor:pointer;
-}
-.dicon .icn{
-  width:32px;
-  height:32px;
-  object-fit:contain;
-}
-.dicon span{
-  color:#fff;
-  text-shadow:1px 1px 1px #000;
-  text-align:center;
-  line-height:1.15;
-  padding:1px 2px;
-}
-.window{
-  position:absolute;
-  min-width:240px;
-  min-height:160px;
-  background:#c0c0c0;
-  border:2px solid;
-  border-color:#fff #404040 #404040 #fff;
-  box-shadow:3px 3px 6px rgba(0,0,0,.5);
-  display:flex;
-  flex-direction:column;
-}
-.resize-handle{
-  position:absolute;
-  right:0;
-  bottom:0;
-  width:14px;
-  height:14px;
-  cursor:nwse-resize;
-  background:
-    linear-gradient(135deg,transparent 0 40%,#404040 40% 46%,transparent 46% 60%,#404040 60% 66%,transparent 66% 80%,#404040 80% 86%,transparent 86%);
-}
-.window.maximized .resize-handle{
-  display:none;
-}
-.window.maximized{
-  left:0!important;
-  top:0!important;
-  width:100%!important;
-  height:calc(100vh - 34px)!important;
-}
-.titlebar{
-  background:#000080;
-  color:#fff;
-  padding:3px 3px 3px 4px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  cursor:default;
-  touch-action:none;
-}
-.window.blur .titlebar{
-  background:#808080;
-}
-.tb-left{
-  display:flex;
-  align-items:center;
-  gap:5px;
-  overflow:hidden;
-}
-.tb-left .icn{
-  width:16px;
-  height:16px;
-  object-fit:contain;
-  flex:0 0 auto;
-}
-.tb-left b{
-  font-size:13px;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-.tb-buttons{
-  display:flex;
-  gap:2px;
-  flex:0 0 auto;
-}
-.tb-buttons button{
-  width:18px;
-  height:16px;
-  background:#c0c0c0;
-  border:1px solid;
-  border-color:#fff #404040 #404040 #fff;
-  font-size:11px;
-  line-height:1;
-  cursor:pointer;
-  padding:0;
-  font-weight:bold;
-}
-.content{
-  flex:1;
-  overflow:auto;
-  padding:10px;
-  background:#c0c0c0;
-}
-.content.white{
-  background:#fff;
-  margin:2px;
-  border:1px solid;
-  border-color:#404040 #fff #fff #404040;
-}
-.content h2{
-  margin-top:0;
-  font-size:15px;
-}
-.content p{
-  line-height:1.5;
-  margin:0 0 10px;
-}
-.proj{
-  background:#fff;
-  border:1px solid;
-  border-color:#404040 #fff #fff #404040;
-  padding:6px 8px;
-  margin-bottom:8px;
-}
-.proj b{
-  display:block;
-}
-.proj small{
-  color:#333;
-  display:block;
-  margin-top:2px;
-}
-.proj a{
-  color:#0000ee;
-  font-size:12px;
-}
-.field{
-  margin-bottom:8px;
-}
-.field label{
-  display:block;
-  font-weight:bold;
-  margin-bottom:2px;
-}
-.field input{
-  width:100%;
-  border:1px solid;
-  border-color:#404040 #fff #fff #404040;
-  padding:4px;
-  font:inherit;
-  background:#fff;
-}
-.btn{
-  background:#c0c0c0;
-  border:1px solid;
-  border-color:#fff #404040 #404040 #fff;
-  padding:4px 12px;
-  font:inherit;
-  cursor:pointer;
-}
-.btn:active{
-  border-color:#404040 #fff #fff #404040;
-}
-.ie-toolbar{
-  display:flex;
-  gap:4px;
-  padding:4px;
-  background:#c0c0c0;
-  border-bottom:1px solid #404040;
-  flex-wrap:wrap;
-}
-.ie-toolbar input{
-  flex:1;
-  min-width:100px;
-  border:1px solid;
-  border-color:#404040 #fff #fff #404040;
-  padding:4px;
-  font:inherit;
-}
-.ie-page{
-  padding:16px;
-  background:#fff;
-  height:100%;
-}
-.ie-page h2{
-  margin-top:0;
-}
-.ie-page a{
-  display:block;
-  color:#0000ee;
-  margin:6px 0;
-}
-.swatches{
-  display:flex;
-  gap:6px;
-  margin:8px 0;
-}
-.swatch{
-  width:26px;
-  height:26px;
-  border:2px solid #404040;
-  cursor:pointer;
-}
-.cp-row{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  margin-bottom:12px;
-}
-ul.clean{
-  margin:0;
-  padding-left:18px;
-}
-ul.clean li{
-  margin-bottom:4px;
-}
-textarea{
-  width:100%;
-  height:100%;
-  border:none;
-  resize:none;
-  font-family:"Courier New",monospace;
-  font-size:13px;
-  padding:6px;
-}
-#taskbar{
-  position:fixed;
-  bottom:0;
-  left:0;
-  width:100%;
-  height:34px;
-  background:#c0c0c0;
-  border-top:2px solid #fff;
-  display:flex;
-  align-items:center;
-  padding:2px 3px;
-  gap:4px;
-  z-index:9999;
-}
-#startbtn{
-  height:26px;
-  padding:0 8px;
-  background:#c0c0c0;
-  border:1px solid;
-  border-color:#fff #404040 #404040 #fff;
-  font-weight:bold;
-  font-size:13px;
-  display:flex;
-  align-items:center;
-  gap:5px;
-  cursor:pointer;
-}
-#startbtn.active{
-  border-color:#404040 #fff #fff #404040;
-}
-#startbtn .icn{
-  width:18px;
-  height:18px;
-  object-fit:contain;
-}
-#tasks{
-  display:flex;
-  gap:3px;
-  flex:1;
-  overflow-x:auto;
-}
-.taskitem{
-  height:26px;
-  padding:0 8px;
-  background:#c0c0c0;
-  border:1px solid;
-  border-color:#fff #404040 #404040 #fff;
-  display:flex;
-  align-items:center;
-  gap:4px;
-  font-size:12px;
-  max-width:150px;
-  cursor:pointer;
-  flex:0 0 auto;
-}
-.taskitem .icn{
-  width:14px;
-  height:14px;
-  object-fit:contain;
-}
-.taskitem.pressed{
-  border-color:#404040 #fff #fff #404040;
-  background:#a8a8a8;
-}
-.taskitem span{
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
-}
-#clock{
-  border:1px solid;
-  border-color:#404040 #fff #fff #404040;
-  padding:3px 8px;
-  font-size:12px;
-  flex:0 0 auto;
-  display:flex;
-  flex-direction:column;
-  align-items:flex-end;
-  line-height:1.25;
-  min-width:52px;
-}
-#clock-date{
-  font-size:10px;
-  color:#303030;
-}
-#startmenu{
-  position:fixed;
-  left:2px;
-  bottom:34px;
-  width:200px;
-  background:#c0c0c0;
-  border:2px solid;
-  border-color:#fff #404040 #404040 #fff;
-  display:none;
-  flex-direction:row;
-  z-index:10000;
-  box-shadow:3px 3px 6px rgba(0,0,0,.5);
-}
-#startmenu.open{
-  display:flex;
-}
-.sm-strip{
-  width:22px;
-  background:#000080;
-  color:#fff;
-  writing-mode:vertical-rl;
-  transform:rotate(180deg);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-weight:bold;
-  font-size:14px;
-  letter-spacing:1px;
-}
-.sm-items{
-  flex:1;
-  padding:3px;
-}
-.smitem{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:6px 8px;
-  cursor:pointer;
-  font-size:13px;
-}
-.smitem:hover{
-  background:#000080;
-  color:#fff;
-}
-.smitem .icn{
-  width:20px;
-  height:20px;
-  object-fit:contain;
-}
-.smsep{
-  height:1px;
-  background:#808080;
-  border-bottom:1px solid #fff;
-  margin:3px 2px;
-}
-#shutdown{
-  position:fixed;
-  inset:0;
-  background:#008080;
-  color:#fff;
-  display:none;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:16px;
-  z-index:20000;
-  font-size:16px;
-}
-#shutdown.open{
-  display:flex;
-}
-.shutdown-icon{
-  width:48px;
-  height:48px;
-  object-fit:contain;
-}
-@media (max-width:760px){
-  .window{
-    left:0!important;
-    top:0!important;
-    width:100%!important;
-    height:calc(100vh - 34px)!important;
-  }
-  .dicon{
-    width:64px;
-  }
-  .dicon span{
-    font-size:12px;
-  }
-  #tasks{
-    max-width:45%;
-  }
-  #startmenu{
-    width:170px;
-  }
-  #clock{
-    font-size:11px;
-    padding:3px 5px;
-    min-width:0;
-  }
-}
-@media (max-width:420px){
-  #clock-date{
-    display:none;
-  }
-  .startlabel{
-    display:none;
-  }
+html,body{width:100%;height:100%;margin:0}
+body{background:#008080;font-family:"MS Sans Serif","Microsoft Sans Serif",Tahoma,Geneva,sans-serif;font-size:11px;overflow:hidden;-webkit-user-select:none;user-select:none}
+button,input,textarea{font-family:inherit;font-size:11px}
+#desktop{position:relative;width:100%;height:calc(100vh - 28px);overflow:hidden}
+.desktop-icons{position:absolute;left:5px;top:5px;display:flex;flex-direction:column;flex-wrap:wrap;align-content:flex-start;height:calc(100% - 10px);gap:1px}
+.dicon{width:82px;min-height:67px;padding:3px 2px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:3px;cursor:pointer}
+.dicon:focus{outline:1px dotted #fff}
+.dicon .icn{width:32px;height:32px;object-fit:contain}
+.dicon span{max-width:78px;color:#fff;text-align:center;line-height:12px;text-shadow:1px 1px #000;padding:0 2px}
+.dicon.selected span{background:#000080}
+.window{position:absolute;display:flex;flex-direction:column;min-width:220px;min-height:140px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:2px 2px 0 #000;touch-action:none}
+.window.hidden{display:none}
+.window.maximized{left:0!important;top:0!important;width:100%!important;height:100%!important}
+.titlebar{height:18px;min-height:18px;background:linear-gradient(90deg,#000080 0%,#000080 32%,#1084d0 100%);color:#fff;padding:1px 2px 1px 3px;display:flex;align-items:center;justify-content:space-between}
+.window.blur .titlebar{background:linear-gradient(90deg,#808080,#c0c0c0)}
+.tb-left{display:flex;align-items:center;gap:4px;min-width:0;overflow:hidden}
+.tb-left .icn{width:16px;height:16px;object-fit:contain;flex:0 0 auto}
+.tb-left b{font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:16px}
+.tb-buttons{display:flex;gap:2px;align-items:center;flex:0 0 auto}
+.tb-buttons button{width:16px;height:14px;padding:0;margin:0;background:#c0c0c0;color:#000;border:1px solid;border-color:#fff #000 #000 #fff;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:Arial,sans-serif;font-weight:bold;line-height:11px}
+.tb-buttons button:active{border-color:#000 #fff #fff #000}
+.tb-buttons .min-glyph{font-size:11px;transform:translateY(-2px)}
+.tb-buttons .max-glyph{font-size:10px;line-height:9px}
+.tb-buttons .close-glyph{font-size:12px;line-height:10px}
+.client{position:relative;flex:1;min-height:0;overflow:auto;background:#fff;border:1px solid;border-color:#808080 #fff #fff #808080;margin:2px}
+.client.gray{background:#c0c0c0}
+.client.padding{padding:10px}
+.resize-edge{position:absolute;z-index:5}
+.resize-n{left:5px;right:5px;top:-3px;height:6px;cursor:n-resize}
+.resize-s{left:5px;right:5px;bottom:-3px;height:6px;cursor:s-resize}
+.resize-w{top:5px;bottom:5px;left:-3px;width:6px;cursor:w-resize}
+.resize-e{top:5px;bottom:5px;right:-3px;width:6px;cursor:e-resize}
+.resize-nw{left:-3px;top:-3px;width:9px;height:9px;cursor:nw-resize}
+.resize-ne{right:-3px;top:-3px;width:9px;height:9px;cursor:ne-resize}
+.resize-sw{left:-3px;bottom:-3px;width:9px;height:9px;cursor:sw-resize}
+.resize-se{right:-3px;bottom:-3px;width:9px;height:9px;cursor:se-resize}
+.toolbar{display:flex;align-items:center;height:24px;min-height:24px;background:#c0c0c0;border-bottom:1px solid #808080;padding:2px;gap:2px}
+.toolbar button{height:19px;min-width:22px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:0 6px;cursor:pointer}
+.toolbar button:active{border-color:#000 #fff #fff #000}
+.toolbar button[disabled]{color:#808080;text-shadow:1px 1px #fff}
+.address{flex:1;height:19px;background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px;line-height:14px}
+.explorer-body{height:calc(100% - 24px);display:flex;flex-direction:column;overflow:auto;background:#fff;padding:12px}
+.explorer-grid{display:flex;flex-wrap:wrap;align-content:flex-start;gap:10px}
+.explorer-item{width:88px;min-height:76px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:4px;padding:3px;cursor:pointer}
+.explorer-item.selected{outline:1px dotted #000080;background:#d0d0ff}
+.explorer-item .icn{width:32px;height:32px;object-fit:contain}
+.explorer-item span{text-align:center;line-height:12px;max-width:84px}
+.explorer-status{margin-top:auto;border-top:1px solid #808080;padding-top:4px;color:#222}
+.content-title{font-size:14px;font-weight:bold;margin:0 0 10px}
+.content p{margin:0 0 10px;line-height:16px}
+.proj{border:1px solid;border-color:#808080 #fff #fff #808080;background:#fff;padding:7px 8px;margin-bottom:7px}
+.proj b{display:block;margin-bottom:2px}
+.proj small{display:block;line-height:14px;color:#222}
+.proj a{display:block;color:#0000ee;margin-top:4px;word-break:break-all}
+.field{margin-bottom:8px}
+.field label{display:block;font-weight:bold;margin-bottom:2px}
+.field input{width:100%;height:20px;background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px}
+.textarea{width:100%;height:100%;border:0;resize:none;padding:6px;font-family:"Courier New",monospace;font-size:12px;outline:none}
+.button{background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:3px 12px;min-height:22px;cursor:pointer}
+.button:active{border-color:#000 #fff #fff #000}
+ul.clean{margin:0;padding-left:18px}
+ul.clean li{margin-bottom:5px}
+.swatches{display:flex;gap:5px;margin:8px 0 12px}
+.swatch{width:27px;height:22px;border:2px solid;border-color:#fff #000 #000 #fff;cursor:pointer}
+.runbox{padding:12px}
+.runrow{display:flex;gap:5px;margin-top:10px}
+.runrow input{flex:1;height:21px;background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px}
+.ie-toolbar{display:flex;gap:3px;padding:3px;background:#c0c0c0;border-bottom:1px solid #808080}
+.ie-toolbar input{flex:1;height:20px;background:#fff;border:1px solid;border-color:#000 #fff #fff #000;padding:2px 4px}
+.ie-page{height:calc(100% - 26px);overflow:auto;background:#fff;padding:14px}
+.ie-page h2{margin:0 0 10px;font-size:16px}
+.ie-page a{display:block;color:#0000ee;margin:7px 0}
+#taskbar{position:fixed;z-index:9999;left:0;right:0;bottom:0;height:28px;background:#c0c0c0;border-top:2px solid #fff;display:flex;align-items:center;padding:2px;gap:2px}
+#startbtn{height:24px;min-width:61px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:1px 6px;display:flex;align-items:center;gap:4px;cursor:pointer;font-weight:bold}
+#startbtn.active{border-color:#000 #fff #fff #000}
+#startbtn .icn{width:16px;height:16px;object-fit:contain}
+.quick{height:24px;display:flex;align-items:center;gap:1px;padding-right:2px;border-right:1px solid #808080}
+.quick button{width:22px;height:22px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;padding:2px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.quick button:active{border-color:#000 #fff #fff #000}
+.quick .icn{width:16px;height:16px;object-fit:contain}
+#tasks{display:flex;align-items:center;gap:2px;flex:1;min-width:0;overflow:hidden}
+.taskitem{height:22px;min-width:115px;max-width:170px;padding:1px 6px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;display:flex;align-items:center;gap:4px;cursor:pointer;flex:0 1 150px}
+.taskitem.pressed{border-color:#000 #fff #fff #000;background:#b0b0b0}
+.taskitem .icn{width:16px;height:16px;object-fit:contain;flex:0 0 auto}
+.taskitem span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#tray{height:22px;min-width:56px;border:1px solid;border-color:#808080 #fff #fff #808080;display:flex;align-items:center;justify-content:center;padding:1px 5px;white-space:nowrap}
+#tray .icn{width:14px;height:14px;margin-right:3px}
+#clock{white-space:nowrap;line-height:18px}
+#startmenu{position:fixed;z-index:10000;left:2px;bottom:28px;width:220px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;display:none;box-shadow:2px 2px 0 #000}
+#startmenu.open{display:flex}
+.sm-strip{width:25px;background:#000080;color:#fff;display:flex;align-items:flex-end;justify-content:center;padding-bottom:7px;font-size:13px;font-weight:bold;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.5px}
+.sm-items{flex:1;padding:2px}
+.smitem{height:27px;display:flex;align-items:center;gap:7px;padding:3px 5px;cursor:pointer;position:relative}
+.smitem:hover{background:#000080;color:#fff}
+.smitem .icn{width:20px;height:20px;object-fit:contain;flex:0 0 auto}
+.smitem .arrow{margin-left:auto;font-size:14px;line-height:12px}
+.smsep{height:1px;background:#808080;border-bottom:1px solid #fff;margin:2px}
+.smsub{position:absolute;left:100%;top:-3px;width:190px;padding:2px;background:#c0c0c0;border:2px solid;border-color:#fff #000 #000 #fff;box-shadow:2px 2px 0 #000;display:none;z-index:10001}
+.smitem:hover>.smsub,.smitem.open>.smsub{display:block}
+#shutdownScreen{position:fixed;inset:0;z-index:30000;background:#000;color:#ffb040;display:none;align-items:center;justify-content:center;font-family:"Courier New",monospace;font-size:20px;text-align:center;padding:30px}
+#shutdownScreen.open{display:flex}
+#shutdownText{max-width:720px;line-height:1.4}
+#shutdownScreen.final{font-size:23px}
+#shutdownScreen.final #shutdownText{cursor:pointer}
+@media(max-width:760px){
+.desktop-icons{height:calc(100% - 5px)}
+.dicon{width:75px}
+.window{left:0!important;top:0!important;width:100%!important;height:100%!important}
+.window.maximized{width:100%!important;height:100%!important}
+.resize-edge{display:none}
+#startmenu{width:205px}
+.quick{display:none}
+.taskitem{min-width:90px}
+}
+@media(max-width:420px){
+#clock{min-width:45px}
+#tray{min-width:50px}
+#startbtn{min-width:42px;padding:1px 5px}
+.startlabel{display:none}
+.taskitem{min-width:78px;padding-left:4px;padding-right:4px}
 }
 </style>
 </head>
 <body>
-
 <div id="desktop">
-  <div class="desktop-icons" id="deskicons"></div>
+<div class="desktop-icons" id="deskicons"></div>
 </div>
 
 <div id="startmenu">
-  <div class="sm-strip">WINDOWS 98</div>
-  <div class="sm-items" id="smitems"></div>
+<div class="sm-strip">Windows 98</div>
+<div class="sm-items" id="smitems"></div>
 </div>
 
 <div id="taskbar">
-  <div id="startbtn">
-    <img class="icn" src="../win98-icons/windows_button.ico" alt="">
-    <span class="startlabel">Start</span>
-  </div>
-  <div id="tasks"></div>
-  <div id="clock">
-    <div id="clock-time"></div>
-    <div id="clock-date"></div>
-  </div>
+<button id="startbtn"><img class="icn" src="../win98-icons/windows.ico" alt=""><span class="startlabel">Start</span></button>
+<div class="quick">
+<button onclick="openWin('iexplore')" title="Internet Explorer"><img class="icn" src="../win98-icons/msie_box.ico" alt=""></button>
+<button onclick="openWin('mycomputer')" title="My Computer"><img class="icn" src="../win98-icons/computer_win.ico" alt=""></button>
+</div>
+<div id="tasks"></div>
+<div id="tray"><img class="icn" src="../win98-icons/SoundGrn.ico" alt=""><div id="clock"></div></div>
 </div>
 
-<div id="shutdown">
-  <img class="shutdown-icon" src="../win98-icons/shut_down_with_computer.ico" alt="">
-  <div>It's now safe to turn off your computer.</div>
-  <button class="btn" onclick="closeShutdown()">Turn back on</button>
-</div>
+<div id="shutdownScreen"><div id="shutdownText"></div></div>
 
 <script>
 const ICON_BASE="../win98-icons/";
-
 const CONFIG={
-  aboutParagraphs:[
-    "Game Dev and programmer. I work in Lua, Luau (Roblox), C# (Unity & BepInEx game modding) and the web (frontend and backend).",
-    "Programming has been my passion, it has it's pros and cons, but I personally find it fun to program - until I have to debug the code :("
-  ],
-  projects:[
-    {title:"World of Countries",desc:"Roblox nation-building game - Luau"},
-    {title:"Ages of Conflict Mods",desc:"C# BepInEx/Harmony mods - The Greatest Modpack"},
-    {title:"AoC Forum",desc:"Forum available as a website for the game Ages of Conflict - uses React, Vite and Supabase.",link:"http://aoc-forum.pages.dev/"},
-    {title:"Paintable World Map",desc:"Roblox EditableImage-based map painting system"}
-  ],
-  email:"asgolaatharv@gmail.com",
-  github:"https://github.com/atharvasgola"
+aboutParagraphs:[
+"Game Dev and programmer. I work in Lua, Luau (Roblox), C# (Unity & BepInEx game modding) and the web (frontend and backend).",
+"Programming has been my passion, it has it's pros and cons, but I personally find it fun to program - until I have to debug the code :("
+],
+projects:[
+{title:"World of Countries",desc:"Roblox nation-building game - Luau"},
+{title:"Ages of Conflict Mods",desc:"C# BepInEx/Harmony mods - The Greatest Modpack"},
+{title:"AoC Forum",desc:"Forum available as a website for the game Ages of Conflict - uses React, Vite and Supabase.",link:"http://aoc-forum.pages.dev/"},
+{title:"Paintable World Map",desc:"Roblox EditableImage-based map painting system"}
+],
+email:"asgolaatharv@gmail.com",
+github:"https://github.com/atharvasgola"
 };
 
 const APPS=[
-  {id:"about",label:"About Me",icon:"user_card.ico"},
-  {id:"projects",label:"Projects",icon:"directory_closed.ico"},
-  {id:"contact",label:"Contact",icon:"envelope_closed.ico"},
-  {id:"mycomputer",label:"My Computer",icon:"computer_win.ico"},
-  {id:"recyclebin",label:"Recycle Bin",icon:"recycle_bin_empty.ico"},
-  {id:"notepad",label:"Notepad",icon:"notepad.ico"},
-  {id:"iexplore",label:"Internet Explorer",icon:"msie_box.ico"},
-  {id:"settings",label:"Control Panel",icon:"directory_control_panel.ico"}
+{id:"about",label:"About Me",icon:"user_card.ico"},
+{id:"projects",label:"Projects",icon:"directory_closed.ico"},
+{id:"contact",label:"Contact",icon:"envelope_closed.ico"},
+{id:"mycomputer",label:"My Computer",icon:"computer_win.ico"},
+{id:"mydocuments",label:"My Documents",icon:"directory_open_file_mydocs.ico"},
+{id:"network",label:"Network Neighborhood",icon:"connected_world.ico"},
+{id:"recyclebin",label:"Recycle Bin",icon:"recycle_bin_empty.ico"},
+{id:"games",label:"Games",icon:"joystick.ico"},
+{id:"notepad",label:"Notepad",icon:"notepad.ico"},
+{id:"iexplore",label:"Internet Explorer",icon:"msie_box.ico"},
+{id:"settings",label:"Control Panel",icon:"directory_control_panel.ico"}
 ];
 
+const PROGRAM_APPS=APPS.filter(a=>["about","projects","contact","notepad","iexplore","games"].includes(a.id));
+const win={};
+let zTop=10;
+let startOpen=false;
+let runWindowId="run";
+
 function icon(name){
-  return '<img class="icn" src="'+ICON_BASE+name+'" alt="">';
+return '<img class="icn" src="'+ICON_BASE+name+'" alt="" onerror="this.style.display=\'none\'">';
 }
 
-function buildContent(id){
-  if(id==="about"){
-    return CONFIG.aboutParagraphs.map(p=>"<p>"+p+"</p>").join("");
-  }
-
-  if(id==="projects"){
-    return CONFIG.projects.map(p=>
-      '<div class="proj"><b>'+p.title+'</b><small>'+p.desc+"</small>"+
-      (p.link?'<a href="'+p.link+'" target="_blank" rel="noopener">'+p.link+"</a>":"")+
-      "</div>"
-    ).join("");
-  }
-
-  if(id==="contact"){
-    return '<div class="field"><label>Email</label><input readonly value="'+CONFIG.email+'"></div>'+
-      '<div class="field"><label>GitHub</label><input readonly value="'+CONFIG.github+'"></div>';
-  }
-
-  if(id==="mycomputer"){
-    return "<ul class=\"clean\"><li>Local Disk (C:)</li><li>Projects (D:)</li><li>Games (E:)</li></ul>";
-  }
-
-  if(id==="recyclebin"){
-    return "<p>The Recycle Bin is empty.</p>";
-  }
-
-  if(id==="notepad"){
-    return "<textarea>New Text Document</textarea>";
-  }
-
-  if(id==="settings"){
-    return '<div class="cp-row"><b>Display Properties</b></div>'+
-      "<div>Desktop background:</div>"+
-      '<div class="swatches">'+
-      '<div class="swatch" style="background:#008080" onclick="setBg(\'#008080\')"></div>'+
-      '<div class="swatch" style="background:#000080" onclick="setBg(\'#000080\')"></div>'+
-      '<div class="swatch" style="background:#800000" onclick="setBg(\'#800000\')"></div>'+
-      '<div class="swatch" style="background:#004000" onclick="setBg(\'#004000\')"></div>'+
-      '<div class="swatch" style="background:#404040" onclick="setBg(\'#404040\')"></div>'+
-      "</div>";
-  }
-
-  if(id==="iexplore"){
-    const forum=CONFIG.projects.find(p=>p.link);
-
-    return '<div class="ie-toolbar">'+
-      '<button class="btn" onclick="ieHome()">Home</button>'+
-      '<input id="ieaddr" readonly value="about:home">'+
-      '<button class="btn" onclick="ieHome()">Go</button>'+
-      "</div>"+
-      '<div class="ie-page">'+
-      "<h2>Atharv Asgola - Home</h2>"+
-      "<p>Welcome. Pick a link:</p>"+
-      '<a href="'+forum.link+'" target="_blank" rel="noopener">AoC Forum</a>'+
-      '<a href="'+CONFIG.github+'" target="_blank" rel="noopener">GitHub</a>'+
-      '<a href="mailto:'+CONFIG.email+'">Email Me</a>'+
-      "</div>";
-  }
-
-  return "";
+function createWindowShell(app,id,width=380,height=300){
+const el=document.createElement("div");
+el.className="window";
+el.id="w-"+id;
+const n=Object.keys(win).length;
+if(window.innerWidth<=760){
+el.classList.add("maximized");
+}else{
+el.style.left=(55+n*24)+"px";
+el.style.top=(35+n*22)+"px";
+el.style.width=width+"px";
+el.style.height=height+"px";
+}
+el.innerHTML='<div class="titlebar"><div class="tb-left">'+icon(app.icon)+'<b>'+app.label+'</b></div><div class="tb-buttons"><button data-act="min"><span class="min-glyph">_</span></button><button data-act="max"><span class="max-glyph">□</span></button><button data-act="close"><span class="close-glyph">×</span></button></div></div><div class="client" id="client-'+id+'"></div><div class="resize-edge resize-n" data-edge="n"></div><div class="resize-edge resize-s" data-edge="s"></div><div class="resize-edge resize-w" data-edge="w"></div><div class="resize-edge resize-e" data-edge="e"></div><div class="resize-edge resize-nw" data-edge="nw"></div><div class="resize-edge resize-ne" data-edge="ne"></div><div class="resize-edge resize-sw" data-edge="sw"></div><div class="resize-edge resize-se" data-edge="se"></div>';
+document.getElementById("desktop").appendChild(el);
+win[id]={el,min:false,max:window.innerWidth<=760,app,restore:null};
+if(win[id].max)el.classList.add("maximized");
+bindWindow(el,id);
+return el;
 }
 
-function ieHome(){
-  const input=document.getElementById("ieaddr");
-  if(input)input.value="about:home";
+function openWin(id){
+const app=APPS.find(a=>a.id===id)||{id,label:id,icon:"directory_closed.ico"};
+if(win[id]){
+restoreWin(id);
+return;
+}
+const el=createWindowShell(app,id,id==="mycomputer"?520:380,id==="mycomputer"?360:300);
+renderWindow(id);
+addTask(id,app.label,app.icon);
+focusWin(id);
+}
+
+function renderWindow(id){
+const client=document.getElementById("client-"+id);
+if(!client)return;
+
+if(id==="mycomputer"){
+renderMyComputer(id,"root");
+return;
+}
+
+if(id==="mydocuments"){
+client.innerHTML='<div class="explorer-body"><div class="content-title">My Documents</div><div class="explorer-grid"><div class="explorer-item" ondblclick="openWin(\'projects\')">'+icon("directory_closed.ico")+'<span>Projects</span></div><div class="explorer-item" ondblclick="openWin(\'notepad\')">'+icon("notepad_file.ico")+'<span>New Text Document</span></div></div><div class="explorer-status">2 objects</div></div>';
+return;
+}
+
+if(id==="network"){
+client.innerHTML='<div class="explorer-body"><div class="content-title">Network Neighborhood</div><p>This computer is not connected to a Windows network.</p><div class="explorer-grid"><div class="explorer-item" ondblclick="openWin(\'iexplore\')">'+icon("connected_world.ico")+'<span>Internet</span></div></div></div>';
+return;
+}
+
+if(id==="games"){
+client.innerHTML='<div class="explorer-body"><div class="content-title">Games</div><div class="explorer-grid"><div class="explorer-item">'+icon("joystick.ico")+'<span>Games Folder</span></div></div><div class="explorer-status">The Games folder is ready for future projects.</div></div>';
+return;
+}
+
+if(id==="about"){
+client.classList.add("padding");
+client.innerHTML=CONFIG.aboutParagraphs.map(p=>"<p>"+p+"</p>").join("");
+return;
+}
+
+if(id==="projects"){
+client.classList.add("padding");
+client.innerHTML=CONFIG.projects.map(p=>'<div class="proj"><b>'+p.title+'</b><small>'+p.desc+"</small>"+(p.link?'<a href="'+p.link+'" target="_blank" rel="noopener">'+p.link+"</a>":"")+"</div>").join("");
+return;
+}
+
+if(id==="contact"){
+client.classList.add("padding");
+client.innerHTML='<div class="field"><label>Email</label><input readonly value="'+CONFIG.email+'"></div><div class="field"><label>GitHub</label><input readonly value="'+CONFIG.github+'"></div>';
+return;
+}
+
+if(id==="recyclebin"){
+client.classList.add("padding");
+client.innerHTML="<p>The Recycle Bin is empty.</p>";
+return;
+}
+
+if(id==="notepad"){
+client.innerHTML='<textarea class="textarea" spellcheck="false">New Text Document</textarea>';
+return;
+}
+
+if(id==="iexplore"){
+client.style.margin="0";
+client.style.border="0";
+client.innerHTML='<div class="ie-toolbar"><button class="button" onclick="ieHome()">Home</button><input id="ieaddr-iexplore" readonly value="about:home"><button class="button" onclick="ieHome()">Go</button></div><div class="ie-page"><h2>Atharv Asgola - Home</h2><p>Welcome. Pick a link:</p><a href="'+CONFIG.projects.find(p=>p.link).link+'" target="_blank" rel="noopener">AoC Forum</a><a href="'+CONFIG.github+'" target="_blank" rel="noopener">GitHub</a><a href="mailto:'+CONFIG.email+'">Email Me</a></div>';
+return;
+}
+
+if(id==="settings"){
+client.classList.add("padding");
+client.innerHTML='<p><b>Display Properties</b></p><p>Desktop background:</p><div class="swatches"><div class="swatch" style="background:#008080" onclick="setBg(\'#008080\')"></div><div class="swatch" style="background:#000080" onclick="setBg(\'#000080\')"></div><div class="swatch" style="background:#800000" onclick="setBg(\'#800000\')"></div><div class="swatch" style="background:#004000" onclick="setBg(\'#004000\')"></div><div class="swatch" style="background:#404040" onclick="setBg(\'#404040\')"></div></div><button class="button" onclick="openAboutDisplay()">Advanced...</button>';
+return;
+}
+
+client.classList.add("padding");
+client.innerHTML="";
+}
+
+function renderMyComputer(id,path){
+const client=document.getElementById("client-"+id);
+const parts={
+root:[
+["3½ Floppy (A:)","drive_floppy.ico","floppy"],
+["Local Disk (C:)","drive_harddisk.ico","cdrive"],
+["CD Drive (D:)","cd_drive.ico","cd"]
+],
+floppy:[
+["Floppy Disk","directory_closed.ico","floppyroot"]
+],
+cdrive:[
+["Windows","directory_closed.ico","windows"],
+["Program Files","directory_closed.ico","programfiles"],
+["My Documents","directory_open_file_mydocs.ico","mydocuments"]
+],
+windows:[
+["System","directory_closed.ico","system"],
+["Temp","directory_closed.ico","temp"],
+["Notepad","notepad_file.ico","notepad"]
+],
+programfiles:[
+["Internet Explorer","msie_box.ico","iexplore"],
+["Games","joystick.ico","games"]
+],
+mydocuments:[
+["Projects","directory_closed.ico","projects"],
+["New Text Document","notepad_file.ico","notepad"]
+],
+cd:[
+["Setup","directory_closed.ico","setup"]
+],
+floppyroot:[],
+system:[],
+temp:[],
+setup:[]
+};
+
+const pathNames={
+root:"My Computer",
+floppy:"3½ Floppy (A:)",
+cdrive:"Local Disk (C:)",
+cd:"CD Drive (D:)",
+windows:"C:\\Windows",
+programfiles:"C:\\Program Files",
+mydocuments:"My Documents",
+system:"C:\\Windows\\System",
+temp:"C:\\Windows\\Temp",
+floppyroot:"A:\\",
+setup:"D:\\Setup"
+};
+
+const previous={
+root:null,
+floppy:"root",
+cdrive:"root",
+cd:"root",
+windows:"cdrive",
+programfiles:"cdrive",
+mydocuments:"cdrive",
+system:"windows",
+temp:"windows",
+floppyroot:"floppy",
+setup:"cd"
+}[path];
+
+const items=parts[path]||[];
+const html=[];
+
+html.push('<div class="toolbar"><button '+(previous?'':'disabled')+' onclick="renderMyComputer(\''+id+'\',\''+(previous||"root")+'\')">Back</button><button '+(previous?'':'disabled')+' onclick="renderMyComputer(\''+id+'\',\''+(previous||"root")+'\')">Up</button><div class="address">'+pathNames[path]+'</div></div>');
+
+html.push('<div class="explorer-body"><div class="explorer-grid">');
+
+for(const item of items){
+const label=item[0];
+const ico=item[1];
+const target=item[2];
+html.push('<div class="explorer-item" ondblclick="explorerOpen(\''+target+'\')">'+icon(ico)+'<span>'+label+'</span></div>');
+}
+
+if(items.length===0)html.push("<p>This folder is empty.</p>");
+
+html.push('</div><div class="explorer-status">'+items.length+' object'+(items.length===1?"":"s")+"</div></div>");
+
+client.style.margin="0";
+client.style.border="0";
+client.innerHTML=html.join("");
+win[id].explorerPath=path;
+}
+
+function explorerOpen(target){
+if(["projects","notepad","iexplore","games"].includes(target)){
+openWin(target);
+return;
+}
+
+const map={
+floppy:"floppy",
+cdrive:"cdrive",
+cd:"cd",
+windows:"windows",
+programfiles:"programfiles",
+mydocuments:"mydocuments",
+system:"system",
+temp:"temp",
+floppyroot:"floppyroot",
+setup:"setup"
+};
+
+if(win.mycomputer)renderMyComputer("mycomputer",map[target]||"root");
+}
+
+function openAboutDisplay(){
+alert("Display Properties\n\nBackground colors can be changed with the buttons in Control Panel.");
 }
 
 function setBg(c){
-  document.body.style.background=c;
+document.body.style.background=c;
 }
 
-let zTop=10;
-const win={};
-const isMobile=()=>window.innerWidth<=760;
-
-function openWin(id){
-  const app=APPS.find(a=>a.id===id);
-
-  if(win[id]){
-    restoreWin(id);
-    return;
-  }
-
-  const el=document.createElement("div");
-  el.className="window";
-  el.id="w-"+id;
-
-  const n=Object.keys(win).length;
-
-  if(!isMobile()){
-    el.style.left=(60+n*26)+"px";
-    el.style.top=(40+n*26)+"px";
-    el.style.width="380px";
-    el.style.height="300px";
-  }
-
-  el.innerHTML=
-    '<div class="titlebar" data-id="'+id+'">'+
-      '<div class="tb-left">'+icon(app.icon)+"<b>"+app.label+"</b></div>"+
-      '<div class="tb-buttons">'+
-        '<button data-act="min">_</button>'+
-        '<button data-act="max">&#9635;</button>'+
-        '<button data-act="close">&times;</button>'+
-      "</div>"+
-    "</div>"+
-    '<div class="content'+(id==="iexplore"?"":" white")+'" style="'+(id==="iexplore"?"padding:0":"")+'">'+buildContent(id)+"</div>"+
-    '<div class="resize-handle"></div>';
-
-  document.getElementById("desktop").appendChild(el);
-
-  win[id]={
-    el:el,
-    min:false,
-    max:isMobile()
-  };
-
-  if(isMobile()){
-    el.classList.add("maximized");
-  }
-
-  bindWindow(el,id);
-  addTask(id,app.label,app.icon);
-  focusWin(id);
+function ieHome(){
+const input=document.getElementById("ieaddr-iexplore");
+if(input)input.value="about:home";
 }
 
 function bindWindow(el,id){
-  const tb=el.querySelector(".titlebar");
+const title=el.querySelector(".titlebar");
+const minBtn=el.querySelector('[data-act="min"]');
+const maxBtn=el.querySelector('[data-act="max"]');
+const closeBtn=el.querySelector('[data-act="close"]');
 
-  tb.addEventListener("pointerdown",e=>{
-    if(e.target.closest(".tb-buttons"))return;
+title.addEventListener("dblclick",e=>{
+if(!e.target.closest(".tb-buttons"))toggleMax(id);
+});
 
-    focusWin(id);
+title.addEventListener("pointerdown",e=>{
+if(e.target.closest(".tb-buttons"))return;
+if(win[id].max)return;
+startDrag(e,id);
+});
 
-    if(win[id].max)return;
+minBtn.onclick=e=>{
+e.stopPropagation();
+minWin(id);
+};
 
-    const sx=e.clientX;
-    const sy=e.clientY;
-    const ol=el.offsetLeft;
-    const ot=el.offsetTop;
+maxBtn.onclick=e=>{
+e.stopPropagation();
+toggleMax(id);
+};
 
-    function move(ev){
-      el.style.left=(ol+ev.clientX-sx)+"px";
-      el.style.top=Math.max(0,ot+ev.clientY-sy)+"px";
-    }
+closeBtn.onclick=e=>{
+e.stopPropagation();
+closeWin(id);
+};
 
-    function up(){
-      document.removeEventListener("pointermove",move);
-      document.removeEventListener("pointerup",up);
-    }
+el.addEventListener("pointerdown",()=>focusWin(id));
 
-    document.addEventListener("pointermove",move);
-    document.addEventListener("pointerup",up);
-  });
+el.querySelectorAll(".resize-edge").forEach(edge=>{
+edge.addEventListener("pointerdown",e=>startResize(e,id,edge.dataset.edge));
+});
+}
 
-  el.querySelector('[data-act="close"]').onclick=()=>closeWin(id);
-  el.querySelector('[data-act="min"]').onclick=()=>minWin(id);
-  el.querySelector('[data-act="max"]').onclick=()=>toggleMax(id);
+function startDrag(e,id){
+if(e.button!==0)return;
 
-  el.addEventListener("pointerdown",()=>focusWin(id));
+const el=win[id].el;
+focusWin(id);
 
-  const rh=el.querySelector(".resize-handle");
+const sx=e.clientX;
+const sy=e.clientY;
+const ox=el.offsetLeft;
+const oy=el.offsetTop;
 
-  rh.addEventListener("pointerdown",e=>{
-    e.stopPropagation();
-    focusWin(id);
+const desktop=document.getElementById("desktop");
 
-    if(win[id].max)return;
+function move(ev){
+const maxX=Math.max(0,desktop.clientWidth-el.offsetWidth);
+const maxY=Math.max(0,desktop.clientHeight-el.offsetHeight);
 
-    const sx=e.clientX;
-    const sy=e.clientY;
-    const ow=el.offsetWidth;
-    const oh=el.offsetHeight;
+el.style.left=Math.min(maxX,Math.max(0,ox+ev.clientX-sx))+"px";
+el.style.top=Math.min(maxY,Math.max(0,oy+ev.clientY-sy))+"px";
+}
 
-    function move(ev){
-      el.style.width=Math.max(240,ow+ev.clientX-sx)+"px";
-      el.style.height=Math.max(160,oh+ev.clientY-sy)+"px";
-    }
+function up(){
+document.removeEventListener("pointermove",move);
+document.removeEventListener("pointerup",up);
+}
 
-    function up(){
-      document.removeEventListener("pointermove",move);
-      document.removeEventListener("pointerup",up);
-    }
+document.addEventListener("pointermove",move);
+document.addEventListener("pointerup",up);
+}
 
-    document.addEventListener("pointermove",move);
-    document.addEventListener("pointerup",up);
-  });
+function startResize(e,id,edge){
+if(e.button!==0||win[id].max)return;
+
+e.preventDefault();
+e.stopPropagation();
+focusWin(id);
+
+const el=win[id].el;
+const desktop=document.getElementById("desktop");
+
+const start={
+x:e.clientX,
+y:e.clientY,
+left:el.offsetLeft,
+top:el.offsetTop,
+width:el.offsetWidth,
+height:el.offsetHeight
+};
+
+const minW=220;
+const minH=140;
+
+function move(ev){
+let left=start.left;
+let top=start.top;
+let width=start.width;
+let height=start.height;
+
+const dx=ev.clientX-start.x;
+const dy=ev.clientY-start.y;
+
+if(edge.includes("e"))width=Math.max(minW,start.width+dx);
+if(edge.includes("s"))height=Math.max(minH,start.height+dy);
+
+if(edge.includes("w")){
+left=Math.min(start.left+start.width-minW,start.left+dx);
+width=start.width-(left-start.left);
+}
+
+if(edge.includes("n")){
+top=Math.min(start.top+start.height-minH,start.top+dy);
+height=start.height-(top-start.top);
+}
+
+if(left<0){
+width+=left;
+left=0;
+}
+
+if(top<0){
+height+=top;
+top=0;
+}
+
+if(left+width>desktop.clientWidth)width=desktop.clientWidth-left;
+if(top+height>desktop.clientHeight)height=desktop.clientHeight-top;
+
+el.style.left=left+"px";
+el.style.top=top+"px";
+el.style.width=Math.max(minW,width)+"px";
+el.style.height=Math.max(minH,height)+"px";
+}
+
+function up(){
+document.removeEventListener("pointermove",move);
+document.removeEventListener("pointerup",up);
+}
+
+document.addEventListener("pointermove",move);
+document.addEventListener("pointerup",up);
 }
 
 function focusWin(id){
-  Object.keys(win).forEach(k=>win[k].el.classList.add("blur"));
+if(!win[id])return;
 
-  win[id].el.classList.remove("blur");
-  win[id].el.style.zIndex=++zTop;
-  win[id].el.style.display="flex";
-  win[id].min=false;
+Object.keys(win).forEach(k=>win[k].el.classList.add("blur"));
 
-  document.querySelectorAll(".taskitem").forEach(t=>{
-    t.classList.toggle("pressed",t.dataset.id===id);
-  });
+win[id].el.classList.remove("blur");
+win[id].el.style.zIndex=++zTop;
+win[id].el.classList.remove("hidden");
+win[id].min=false;
+
+document.querySelectorAll(".taskitem").forEach(t=>{
+t.classList.toggle("pressed",t.dataset.id===id);
+});
 }
 
 function minWin(id){
-  win[id].el.style.display="none";
-  win[id].min=true;
+if(!win[id])return;
 
-  const task=document.querySelector('.taskitem[data-id="'+id+'"]');
+win[id].el.classList.add("hidden");
+win[id].min=true;
 
-  if(task){
-    task.classList.remove("pressed");
-  }
+const t=document.querySelector('.taskitem[data-id="'+id+'"]');
+
+if(t)t.classList.remove("pressed");
 }
 
 function restoreWin(id){
-  if(win[id].min){
-    win[id].el.style.display="flex";
-    win[id].min=false;
-    focusWin(id);
-  }else if(win[id].el.classList.contains("blur")){
-    focusWin(id);
-  }else{
-    minWin(id);
-  }
+if(!win[id])return;
+
+if(win[id].min){
+focusWin(id);
+return;
+}
+
+if(win[id].el.classList.contains("blur")){
+focusWin(id);
+return;
+}
+
+minWin(id);
 }
 
 function toggleMax(id){
-  if(isMobile())return;
+if(!win[id]||window.innerWidth<=760)return;
 
-  const w=win[id];
+const w=win[id];
 
-  w.max=!w.max;
-  w.el.classList.toggle("maximized",w.max);
+if(!w.max){
+w.restore={
+left:w.el.offsetLeft,
+top:w.el.offsetTop,
+width:w.el.offsetWidth,
+height:w.el.offsetHeight
+};
 
-  focusWin(id);
+w.max=true;
+w.el.classList.add("maximized");
+}else{
+const r=w.restore;
+
+w.max=false;
+w.el.classList.remove("maximized");
+
+if(r){
+w.el.style.left=r.left+"px";
+w.el.style.top=r.top+"px";
+w.el.style.width=r.width+"px";
+w.el.style.height=r.height+"px";
+}
+}
+
+focusWin(id);
 }
 
 function closeWin(id){
-  win[id].el.remove();
-  delete win[id];
+if(!win[id])return;
 
-  const t=document.querySelector('.taskitem[data-id="'+id+'"]');
+win[id].el.remove();
+delete win[id];
 
-  if(t)t.remove();
+const t=document.querySelector('.taskitem[data-id="'+id+'"]');
+
+if(t)t.remove();
 }
 
 function addTask(id,label,iconName){
-  const t=document.createElement("div");
+const t=document.createElement("button");
 
-  t.className="taskitem";
-  t.dataset.id=id;
-  t.innerHTML=icon(iconName)+"<span>"+label+"</span>";
-  t.onclick=()=>restoreWin(id);
+t.className="taskitem";
+t.dataset.id=id;
+t.type="button";
+t.innerHTML=icon(iconName)+"<span>"+label+"</span>";
+t.onclick=()=>restoreWin(id);
 
-  document.getElementById("tasks").appendChild(t);
+document.getElementById("tasks").appendChild(t);
 }
 
-const deskicons=document.getElementById("deskicons");
+function buildDesktop(){
+const ids=[
+"mycomputer",
+"mydocuments",
+"network",
+"recyclebin",
+"iexplore",
+"about",
+"projects",
+"games",
+"contact"
+];
 
-APPS.forEach(a=>{
-  const d=document.createElement("div");
+const root=document.getElementById("deskicons");
 
-  d.className="dicon";
-  d.innerHTML=icon(a.icon)+"<span>"+a.label+"</span>";
-  d.onclick=()=>openWin(a.id);
+ids.forEach(id=>{
+const app=APPS.find(a=>a.id===id);
+const d=document.createElement("div");
 
-  deskicons.appendChild(d);
-});
+d.className="dicon";
+d.tabIndex=0;
+d.dataset.id=id;
+d.innerHTML=icon(app.icon)+"<span>"+app.label+"</span>";
 
-const smitems=document.getElementById("smitems");
+d.ondblclick=()=>openWin(id);
 
-APPS.forEach(a=>{
-  const s=document.createElement("div");
-
-  s.className="smitem";
-  s.innerHTML=icon(a.icon)+"<span>"+a.label+"</span>";
-  s.onclick=()=>{
-    openWin(a.id);
-    closeStart();
-  };
-
-  smitems.appendChild(s);
-});
-
-const sep=document.createElement("div");
-sep.className="smsep";
-smitems.appendChild(sep);
-
-const sd=document.createElement("div");
-sd.className="smitem";
-sd.innerHTML=icon("shut_down_with_computer.ico")+"<span>Shut Down...</span";
-sd.onclick=()=>{
-  closeStart();
-  openShutdown();
+d.onclick=()=>{
+document.querySelectorAll(".dicon").forEach(x=>x.classList.remove("selected"));
+d.classList.add("selected");
 };
 
-smitems.appendChild(sd);
+root.appendChild(d);
+});
+}
 
-const startbtn=document.getElementById("startbtn");
-const startmenu=document.getElementById("startmenu");
+function smIconItem(label,iconName,fn,submenu){
+const item=document.createElement("div");
 
-startbtn.onclick=e=>{
-  e.stopPropagation();
-  startmenu.classList.toggle("open");
-  startbtn.classList.toggle("active");
+item.className="smitem";
+item.innerHTML=icon(iconName)+"<span>"+label+"</span>"+(submenu?'<span class="arrow">›</span>':"");
+
+if(submenu){
+const sub=document.createElement("div");
+
+sub.className="smsub";
+
+submenu.forEach(x=>{
+sub.appendChild(smIconItem(x.label,x.icon,x.fn,x.submenu));
+});
+
+item.appendChild(sub);
+}else{
+item.onclick=e=>{
+e.stopPropagation();
+fn();
+closeStart();
+};
+}
+
+return item;
+}
+
+function buildStartMenu(){
+const menu=document.getElementById("smitems");
+
+menu.innerHTML="";
+
+menu.appendChild(smIconItem("Windows Update","windows_update_small.ico",()=>openWin("iexplore")));
+
+menu.appendChild(
+smIconItem(
+"Programs",
+"directory_program_group.ico",
+()=>{},
+PROGRAM_APPS.map(a=>({
+label:a.label,
+icon:a.icon,
+fn:()=>openWin(a.id)
+}))
+)
+);
+
+menu.appendChild(smIconItem("Favorites","directory_favorites.ico",()=>openWin("iexplore")));
+
+menu.appendChild(
+smIconItem(
+"Documents",
+"directory_open_file_mydocs.ico",
+()=>openWin("mydocuments"),
+[
+{
+label:"My Documents",
+icon:"directory_open_file_mydocs.ico",
+fn:()=>openWin("mydocuments")
+}
+]
+)
+);
+
+menu.appendChild(
+smIconItem(
+"Settings",
+"directory_control_panel.ico",
+()=>openWin("settings"),
+[
+{
+label:"Control Panel",
+icon:"directory_control_panel.ico",
+fn:()=>openWin("settings")
+}
+]
+)
+);
+
+menu.appendChild(smIconItem("Find","computer_search.ico",()=>openFind()));
+menu.appendChild(smIconItem("Help","circle_question.ico",()=>openHelp()));
+menu.appendChild(smIconItem("Run...","console_prompt.ico",()=>openRun()));
+
+const sep1=document.createElement("div");
+sep1.className="smsep";
+menu.appendChild(sep1);
+
+menu.appendChild(smIconItem("Log Off Atharv...","user_card.ico",()=>openLogoff()));
+menu.appendChild(smIconItem("Shut Down...","shut_down_normal.ico",()=>shutdown()));
+}
+
+function openFind(){
+const id="find";
+
+if(win[id]){
+focusWin(id);
+return;
+}
+
+const app={
+id,
+label:"Find",
+icon:"computer_search.ico"
 };
 
-document.addEventListener("click",e=>{
-  if(!startmenu.contains(e.target)&&!startbtn.contains(e.target)){
-    closeStart();
-  }
-});
+createWindowShell(app,id,360,190);
+
+const client=document.getElementById("client-find");
+
+client.classList.add("padding");
+
+client.innerHTML='<p><b>Find: All Files</b></p><div class="field"><label>Named:</label><input id="findInput" value=""></div><button class="button" onclick="findMessage()">Find Now</button><div id="findResult" style="margin-top:12px"></div>';
+
+addTask(id,app.label,app.icon);
+focusWin(id);
+}
+
+function findMessage(){
+document.getElementById("findResult").textContent="No files were found matching your search.";
+}
+
+function openHelp(){
+const id="help";
+
+if(win[id]){
+focusWin(id);
+return;
+}
+
+const app={
+id,
+label:"Windows Help",
+icon:"circle_question.ico"
+};
+
+createWindowShell(app,id,390,260);
+
+const client=document.getElementById("client-help");
+
+client.classList.add("padding");
+
+client.innerHTML='<p class="content-title">Windows Help</p><p>This is a Windows 98-style portfolio desktop.</p><p>Double-click desktop icons to open programs. Windows can be moved, minimized, maximized, closed, and resized from their borders and corners.</p>';
+
+addTask(id,app.label,app.icon);
+focusWin(id);
+}
+
+function openRun(){
+const id=runWindowId;
+
+if(win[id]){
+focusWin(id);
+return;
+}
+
+const app={
+id,
+label:"Run",
+icon:"console_prompt.ico"
+};
+
+createWindowShell(app,id,390,150);
+
+const client=document.getElementById("client-"+id);
+
+client.classList.add("gray");
+
+client.innerHTML='<div class="runbox"><div>Type the name of a program, folder, document, or Internet resource, and Windows will open it for you.</div><div class="runrow"><input id="runInput" value=""><button class="button" onclick="runCommand()">OK</button><button class="button" onclick="closeWin(\''+id+'\')">Cancel</button></div></div>';
+
+addTask(id,app.label,app.icon);
+focusWin(id);
+}
+
+function runCommand(){
+const v=document.getElementById("runInput").value.trim().toLowerCase();
+
+const map={
+"notepad":"notepad",
+"iexplore":"iexplore",
+"internet explorer":"iexplore",
+"my computer":"mycomputer",
+"control panel":"settings",
+"games":"games",
+"projects":"projects",
+"about":"about"
+};
+
+if(map[v]){
+closeWin(runWindowId);
+openWin(map[v]);
+return;
+}
+
+document.getElementById("runInput").value="Command not found";
+}
+
+function openLogoff(){
+const screen=document.getElementById("shutdownScreen");
+
+screen.className="open";
+document.getElementById("shutdownText").textContent="Windows is logging off...";
+
+setTimeout(()=>{
+document.getElementById("shutdownText").textContent="It is now safe to continue.";
+screen.classList.add("final");
+screen.onclick=()=>location.reload();
+},1400);
+}
+
+function shutdown(){
+closeStart();
+
+Object.keys(win).forEach(id=>closeWin(id));
+
+const screen=document.getElementById("shutdownScreen");
+
+screen.className="open";
+screen.classList.remove("final");
+screen.onclick=null;
+
+document.getElementById("shutdownText").textContent="Please wait while your computer shuts down...";
+
+setTimeout(()=>{
+document.getElementById("shutdownText").textContent="It's now safe to turn off your computer.";
+screen.classList.add("final");
+screen.onclick=()=>location.reload();
+},1800);
+}
 
 function closeStart(){
-  startmenu.classList.remove("open");
-  startbtn.classList.remove("active");
+startOpen=false;
+
+document.getElementById("startmenu").classList.remove("open");
+document.getElementById("startbtn").classList.remove("active");
 }
 
-function openShutdown(){
-  document.getElementById("shutdown").classList.add("open");
+function toggleStart(){
+startOpen=!startOpen;
+
+document.getElementById("startmenu").classList.toggle("open",startOpen);
+document.getElementById("startbtn").classList.toggle("active",startOpen);
 }
 
-function closeShutdown(){
-  document.getElementById("shutdown").classList.remove("open");
+document.getElementById("startbtn").addEventListener("click",e=>{
+e.stopPropagation();
+toggleStart();
+});
+
+document.addEventListener("click",e=>{
+const menu=document.getElementById("startmenu");
+
+if(
+startOpen&&
+!menu.contains(e.target)&&
+!document.getElementById("startbtn").contains(e.target)
+){
+closeStart();
 }
+});
 
-const MONTHS=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape")closeStart();
 
-function tick(){
-  const d=new Date();
-  let h=d.getHours();
-  const m=d.getMinutes();
-  const ap=h>=12?"PM":"AM";
-
-  h=h%12;
-
-  if(h===0)h=12;
-
-  document.getElementById("clock-time").textContent=
-    h+":"+(m<10?"0":"")+m+" "+ap;
-
-  document.getElementById("clock-date").textContent=
-    MONTHS[d.getMonth()]+" "+d.getDate();
+if(
+e.key==="Enter"&&
+document.getElementById("shutdownScreen").classList.contains("final")
+){
+location.reload();
 }
+});
 
-tick();
-setInterval(tick,10000);
+function updateClock(){
+const d=new Date();
+
+let h=d.getHours();
+const m=d.getMinutes();
+const ap=h>=12?"PM":"AM";
+
+h=h%12||12;
+
+document.getElementById("clock").textContent=
+h+":"+(m<10?"0":"")+m+" "+ap;
+
+document.getElementById("tray").title=
+d.toLocaleDateString(
+undefined,
+{
+weekday:"long",
+year:"numeric",
+month:"long",
+day:"numeric"
+}
+);
+}
 
 window.addEventListener("resize",()=>{
-  if(isMobile()){
-    Object.keys(win).forEach(id=>{
-      win[id].el.classList.add("maximized");
-      win[id].max=true;
-    });
-  }
+if(window.innerWidth<=760){
+Object.keys(win).forEach(id=>{
+win[id].el.classList.add("maximized");
 });
+}
+});
+
+buildDesktop();
+buildStartMenu();
+updateClock();
+setInterval(updateClock,10000);
 </script>
 </body>
 </html>
