@@ -79,10 +79,11 @@ textarea{width:100%;height:100%;border:0;resize:none;font:11px "Courier New",mon
 #startbtn img{width:16px;height:16px}
 #tasks{display:flex;gap:2px;flex:1;overflow-x:auto;overflow-y:hidden;height:23px;min-width:0;scrollbar-width:none;touch-action:pan-x}
 #tasks::-webkit-scrollbar{display:none}
-.taskitem{height:23px;padding:0 7px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;display:flex;align-items:center;gap:3px;font-size:11px;max-width:170px;cursor:pointer;flex:0 0 auto;touch-action:none}
+.taskitem{height:23px;padding:0 7px;background:#c0c0c0;border:1px solid;border-color:#fff #000 #000 #fff;display:flex;align-items:center;gap:3px;font-size:11px;max-width:170px;cursor:pointer;flex:0 0 auto;touch-action:none;position:relative;user-select:none}
 .taskitem .icn{width:16px;height:16px;flex:0 0 auto}
 .taskitem.pressed{border-color:#000 #fff #fff #000}
-.taskitem.dragging{opacity:.75}
+.taskitem.dragging{visibility:hidden}
+.taskitem-ghost{height:23px;flex:0 0 auto;border:1px dotted #000;background:#b0b0b0;opacity:.65}
 .taskitem span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #clock{height:23px;border:1px solid;border-color:#808080 #fff #fff #808080;padding:2px 7px;font-size:11px;display:flex;align-items:center;justify-content:center;min-width:58px;flex:0 0 auto}
 #clock-date{display:none}
@@ -117,6 +118,7 @@ body{font-size:12px}
 #tasks{height:27px}
 .taskitem{height:27px;max-width:155px;padding:0 6px}
 .taskitem .icn{width:18px;height:18px}
+.taskitem-ghost{height:27px}
 #clock{height:27px;min-width:59px}
 #startmenu{bottom:32px;width:240px;max-height:calc(100dvh - 34px)}
 .window{left:0!important;top:0!important;width:100%!important;height:calc(100dvh - 32px)!important;min-width:220px;min-height:140px}
@@ -334,10 +336,74 @@ function restoreWin(id){const w=windows.get(id);if(!w)return;if(w.min){w.el.clas
 function toggleMax(id){const w=windows.get(id);if(!w||isMobile())return;w.max=!w.max;w.el.classList.toggle("maximized",w.max);focusWin(id)}
 function closeWin(id){const w=windows.get(id);if(!w)return;w.el.remove();windows.delete(id);const t=document.querySelector('.taskitem[data-id="'+id+'"]');if(t)t.remove();focusHighest();syncTasks()}
 function focusHighest(){let top=null;windows.forEach(w=>{if(w.el.classList.contains("minimized"))return;const z=parseInt(w.el.style.zIndex||0,10);if(!top||z>top.z)top={w,z}});if(top)focusWin(top.w.id)}
-function addTask(w){const t=document.createElement("div");t.className="taskitem";t.dataset.id=w.id;t.innerHTML=icon(appDef(w.appId).icon)+"<span>"+esc(taskTitle(w))+"</span>";t.addEventListener("click",e=>{if(t.dataset.dragged==="1"){t.dataset.dragged="0";return}restoreWin(w.id)});bindTaskDrag(t);document.getElementById("tasks").appendChild(t)}
+function addTask(w){
+const t=document.createElement("div");
+t.className="taskitem";
+t.dataset.id=w.id;
+t.innerHTML=icon(appDef(w.appId).icon)+"<span>"+esc(taskTitle(w))+"</span>";
+t.addEventListener("click",e=>{if(t.dataset.dragged==="1"){t.dataset.dragged="0";return}restoreWin(w.id)});
+bindTaskDrag(t);
+document.getElementById("tasks").appendChild(t);
+}
 function taskTitle(w){return w.appId==="iexplore"?"Internet Explorer":appDef(w.appId).label}
 function syncTasks(){document.querySelectorAll(".taskitem").forEach(t=>{const w=windows.get(Number(t.dataset.id));t.classList.toggle("pressed",!!w&&!w.min&&!w.el.classList.contains("blur"));if(w)t.title=appDef(w.appId).label})}
-function bindTaskDrag(t){let drag=null,moved=false;t.addEventListener("pointerdown",e=>{drag={x:e.clientX,y:e.clientY};moved=false});t.addEventListener("pointermove",e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;if(!moved&&Math.hypot(dx,dy)>6){moved=true;t.dataset.dragged="1";t.classList.add("dragging");try{t.setPointerCapture(e.pointerId)}catch{}}if(moved){const tasks=document.getElementById("tasks");const siblings=[...tasks.querySelectorAll(".taskitem:not(.dragging)")];let before=null,best=Infinity;for(const s of siblings){const r=s.getBoundingClientRect();const d=Math.abs(e.clientX-(r.left+r.width/2));if(d<best){best=d;before=e.clientX<r.left+r.width/2?s:null}}if(before)tasks.insertBefore(t,before);else tasks.appendChild(t)}});t.addEventListener("pointerup",e=>{if(moved){t.classList.remove("dragging");drag=null;saveTaskOrder()}else drag=null});t.addEventListener("pointercancel",()=>{t.classList.remove("dragging");drag=null})}
+function bindTaskDrag(t){
+let drag=null,moved=false,raf=0;
+t.addEventListener("pointerdown",e=>{
+if(e.pointerType==="touch"&&!isMobile())return;
+drag={pointerId:e.pointerId,x:e.clientX,y:e.clientY,startIndex:[...document.querySelectorAll(".taskitem")].indexOf(t),ghost:null};
+moved=false;
+});
+t.addEventListener("pointermove",e=>{
+if(!drag||e.pointerId!==drag.pointerId)return;
+const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+if(!moved&&Math.hypot(dx,dy)<8)return;
+if(!moved){
+moved=true;
+t.dataset.dragged="1";
+t.classList.add("dragging");
+const ghost=document.createElement("div");
+ghost.className="taskitem-ghost";
+ghost.style.width=t.getBoundingClientRect().width+"px";
+drag.ghost=ghost;
+t.parentNode.insertBefore(ghost,t);
+}
+if(!raf){
+raf=requestAnimationFrame(()=>{
+raf=0;
+const tasks=document.getElementById("tasks");
+const items=[...tasks.querySelectorAll(".taskitem:not(.dragging)")];
+let target=null;
+for(const item of items){
+const r=item.getBoundingClientRect();
+if(e.clientX<r.left+r.width/2){target=item;break}
+}
+if(target)tasks.insertBefore(drag.ghost,target);
+else tasks.appendChild(drag.ghost);
+});
+}
+});
+const finish=e=>{
+if(!drag||e.pointerId!==drag.pointerId)return;
+if(raf){cancelAnimationFrame(raf);raf=0}
+if(moved){
+if(drag.ghost)drag.ghost.replaceWith(t);
+t.classList.remove("dragging");
+saveTaskOrder();
+}else{
+t.dispatchEvent(new MouseEvent("click",{bubbles:true}));
+}
+drag=null;
+};
+t.addEventListener("pointerup",finish);
+t.addEventListener("pointercancel",e=>{
+if(!drag||e.pointerId!==drag.pointerId)return;
+if(raf){cancelAnimationFrame(raf);raf=0}
+if(drag.ghost)drag.ghost.replaceWith(t);
+t.classList.remove("dragging");
+drag=null;
+});
+}
 function saveTaskOrder(){localStorage.setItem("a98-task-order",JSON.stringify([...document.querySelectorAll(".taskitem")].map(x=>Number(x.dataset.id))))}
 function restoreTaskOrder(){const order=JSON.parse(localStorage.getItem("a98-task-order")||"[]");const tasks=document.getElementById("tasks");for(const id of order){const t=[...tasks.children].find(x=>Number(x.dataset.id)===id);if(t)tasks.appendChild(t)}}
 function bindSettings(el){el.querySelectorAll(".swatch").forEach(s=>s.addEventListener("click",()=>setBg(s.dataset.bg)))}
@@ -372,7 +438,7 @@ const startbtn=document.getElementById("startbtn"),startmenu=document.getElement
 function openShutdown(){document.getElementById("shutdown").classList.add("open")}
 function closeShutdown(){document.getElementById("shutdown").classList.remove("open")}
 function localIEPage(url){
-if(url==="about:home")return "<h2>Welcome to Microsoft Internet Explorer</h2><p>Atharv Asgola</p><p>Internet Explorer-style browsing inside the Windows 98 desktop.</p><a class=\"ie-link\" data-url=\"about:me\">About Me</a><a class=\"ie-link\" data-url=\"about:projects\">Projects</a><a class=\"ie-link\" data-url=\"about:contact\">Contact</a><a class=\"ie-link-new\" data-url=\""+esc(CONFIG.github)+"\">GitHub — Open in New Window</a><a class=\"ie-link-new\" data-url=\""+esc(CONFIG.projects.find(p=>p.link).link)+"\">AoC Forum — Open in New Window</a><p style=\"margin-top:18px\">File → New Window opens another Internet Explorer window just like a multi-window desktop.</p>";
+if(url==="about:home")return "<h2>Welcome to Microsoft Internet Explorer</h2><p>Atharv Asgola</p><p>Internet Explorer-style browsing inside the Windows 98 desktop.</p><a class=\"ie-link\" data-url=\"about:me\">About Me</a><a class=\"ie-link\" data-url=\"about:projects\">Projects</a><a class=\"ie-link\" data-url=\"about:contact\">Contact</a><a class=\"ie-link-new\" data-url=\""+esc(CONFIG.github)+"\">GitHub — Open in New Window</a><a class=\"ie-link-new\" data-url=\""+esc(CONFIG.projects.find(p=>p.link).link)+"\">AoC Forum — Open in New Window</a>";
 if(url==="about:me")return "<h2>About Atharv</h2>"+CONFIG.aboutParagraphs.map(p=>"<p>"+esc(p)+"</p>").join("")+"<a class=\"ie-link\" data-url=\"about:home\">Back to Home</a>";
 if(url==="about:projects")return "<h2>Projects</h2>"+CONFIG.projects.map(p=>"<p><b>"+esc(p.title)+"</b><br>"+esc(p.desc)+(p.link?"<br><a class=\"ie-link-new\" data-url=\""+esc(p.link)+"\">Open link in new window</a>":"")+"</p>").join("")+"<a class=\"ie-link\" data-url=\"about:home\">Back to Home</a>";
 if(url==="about:contact")return "<h2>Contact</h2><p>Email: <a href=\"mailto:"+esc(CONFIG.email)+"\">"+esc(CONFIG.email)+"</a></p><p>GitHub: <a class=\"ie-link-new\" data-url=\""+esc(CONFIG.github)+"\">"+esc(CONFIG.github)+"</a></p><a class=\"ie-link\" data-url=\"about:home\">Back to Home</a>";
@@ -382,7 +448,30 @@ return null;
 }
 function bindIE(w){const el=w.el;el.querySelector("[data-ie-home]").onclick=()=>navigateIE(w.id,"about:home",true);el.querySelector("[data-ie-new]").onclick=()=>openWin("iexplore",{url:w.currentUrl});el.querySelector("[data-ie-back]").onclick=()=>ieHistory(w.id,-1);el.querySelector("[data-ie-forward]").onclick=()=>ieHistory(w.id,1);el.querySelector("[data-ie-go]").onclick=()=>navigateIE(w.id,el.querySelector("[data-ie-address]").value,true);el.querySelector("[data-ie-stop]").onclick=()=>{el.querySelector("[data-ie-status]").textContent="Stopped"};el.querySelector("[data-ie-address]").addEventListener("keydown",e=>{if(e.key==="Enter")navigateIE(w.id,e.currentTarget.value,true)});el.querySelectorAll("[data-ie-menu]").forEach(m=>m.addEventListener("click",()=>handleIEMenu(w.id,m.dataset.ieMenu)));el.querySelector("[data-ie-page]").addEventListener("click",e=>{const a=e.target.closest(".ie-link,.ie-link-new");if(!a)return;e.preventDefault();const url=a.dataset.url;if(a.classList.contains("ie-link-new"))openWin("iexplore",{url});else navigateIE(w.id,url,true)})}
 function handleIEMenu(id,name){if(name==="file")openWin("iexplore",{url:"about:home"});else if(name==="go")navigateIE(id,"about:home",true);else if(name==="favorites")openWin("iexplore",{url:CONFIG.github});else if(name==="help")navigateIE(id,"about:help",true)}
-function navigateIE(id,url,addHistory=true){const w=windows.get(id);if(!w)return;let target=url.trim();if(!target)target="about:home";w.currentUrl=target;if(addHistory){w.history=w.history.slice(0,w.historyIndex+1);w.history.push(target);w.historyIndex=w.history.length-1}const page=w.el.querySelector("[data-ie-page]"),addr=w.el.querySelector("[data-ie-address]"),status=w.el.querySelector("[data-ie-status]"),title=w.el.querySelector("[data-window-title]");addr.value=target;title.textContent=windowTitle(appDef("iexplore"),target);status.textContent="Opening "+target+"...";const local=localIEPage(target);if(local!==null){page.className="ie-page";page.innerHTML=local;status.textContent="Done";return}page.className="ie-external";page.innerHTML="<iframe src=\""+esc(target)+"\"></iframe><div class=\"ie-external-note\">If the page refuses to display here, <a href=\""+esc(target)+"\" target=\"_blank\" rel=\"noopener\">open it in your normal browser</a>.</div>";status.textContent="Internet";}
+function normalizeIEUrl(url){
+let target=String(url||"").trim();
+if(!target)return "about:home";
+if(/^about:/i.test(target))return target;
+if(/^[a-z][a-z0-9+.-]*:\/\//i.test(target))return target;
+if(/^mailto:/i.test(target))return target;
+if(/^[a-z][a-z0-9+.-]*:/i.test(target))return target;
+return "https://"+target;
+}
+function navigateIE(id,url,addHistory=true){
+const w=windows.get(id);if(!w)return;
+const target=normalizeIEUrl(url);
+w.currentUrl=target;
+if(addHistory){w.history=w.history.slice(0,w.historyIndex+1);w.history.push(target);w.historyIndex=w.history.length-1}
+const page=w.el.querySelector("[data-ie-page]"),addr=w.el.querySelector("[data-ie-address]"),status=w.el.querySelector("[data-ie-status]"),title=w.el.querySelector("[data-window-title]");
+addr.value=target;
+title.textContent=windowTitle(appDef("iexplore"),target);
+status.textContent="Opening "+target+"...";
+const local=localIEPage(target);
+if(local!==null){page.className="ie-page";page.innerHTML=local;status.textContent="Done";return}
+page.className="ie-external";
+page.innerHTML="<iframe src=\""+esc(target)+"\" referrerpolicy=\"no-referrer\"></iframe><div class=\"ie-external-note\">If this site refuses to display inside Internet Explorer, <a href=\""+esc(target)+"\" target=\"_blank\" rel=\"noopener\">open it in your normal browser</a>.</div>";
+status.textContent="Internet";
+}
 function ieHistory(id,dir){const w=windows.get(id);if(!w)return;const i=w.historyIndex+dir;if(i<0||i>=w.history.length)return;w.historyIndex=i;navigateIE(id,w.history[i],false)}
 function tick(){const d=new Date();let h=d.getHours();const m=d.getMinutes();const ap=h>=12?"PM":"AM";h=h%12||12;const text=h+":"+(m<10?"0":"")+m+" "+ap;document.getElementById("clock-time").textContent=text;document.getElementById("clock").title=d.toLocaleDateString()}
 tick();setInterval(tick,10000);
