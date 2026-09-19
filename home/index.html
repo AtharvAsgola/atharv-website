@@ -2,730 +2,733 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#090a12">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Atharv Asgola</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#090a12;
-  --panel:#111321;
-  --panel-light:#181b2d;
-  --green:#69ff9d;
-  --cyan:#67e8f9;
-  --pink:#ff5da2;
-  --yellow:#ffe66d;
-  --text:#e7e9f5;
-  --muted:#858aa8;
-  --border:#323750;
-  --page-width:1200px;
-  --sidebar-width:clamp(190px,21vw,240px);
-  --page-padding:clamp(14px,3vw,34px);
-}
 *{box-sizing:border-box}
-html{min-height:100%;background:var(--bg)}
+html,body{height:100%;margin:0}
 body{
-  margin:0;min-width:280px;min-height:100dvh;
-  padding:max(8px,env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) max(8px,env(safe-area-inset-bottom)) max(8px,env(safe-area-inset-left));
-  background:
-    linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
-    var(--bg);
-  background-size:24px 24px;
-  color:var(--text);
-  font-family:"VT323",monospace;
-  font-size:clamp(18px,1.8vw,23px);
-  overflow-x:hidden;
+background:#008080;
+font-family:"MS Sans Serif",Tahoma,sans-serif;
+font-size:11px;
+overflow:hidden;
+-webkit-user-select:none;
+user-select:none;
+color:#000
 }
-button,a{font:inherit;-webkit-tap-highlight-color:transparent}
-button{color:inherit;background:none;border:none}
-button,a{touch-action:manipulation}
-.shell{
-  width:min(100%,var(--page-width));min-height:calc(100dvh - 16px);margin:0 auto;
-  display:flex;flex-direction:column;border:clamp(2px,.3vw,3px) solid var(--border);
-  background:var(--panel);box-shadow:clamp(4px,.8vw,8px) clamp(4px,.8vw,8px) 0 #03040a;
+#desktop{
+position:relative;
+width:100%;
+height:calc(100vh - 28px);
+overflow:hidden
 }
-.topbar{
-  min-height:48px;padding:9px clamp(10px,2vw,16px);display:flex;align-items:center;
-  justify-content:space-between;gap:12px;border-bottom:3px solid var(--border);background:var(--panel-light);
+.desktop-icons{
+position:absolute;
+top:8px;
+left:8px;
+display:flex;
+flex-direction:column;
+gap:3px;
+height:calc(100% - 16px);
+align-content:flex-start
 }
-.brand{color:var(--cyan);font-family:"Press Start 2P",monospace;font-size:clamp(9px,1.3vw,12px);white-space:nowrap}
-.status{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:clamp(14px,1.6vw,18px);white-space:nowrap}
-.status-dot{width:9px;height:9px;flex:0 0 auto;background:var(--green);box-shadow:0 0 8px var(--green)}
-.layout{flex:1;display:grid;grid-template-columns:var(--sidebar-width) minmax(0,1fr);min-height:0}
-.sidebar{min-width:0;padding:clamp(10px,2vw,16px);border-right:3px solid var(--border);background:#0d0f1b}
-.profile{padding:clamp(10px,1.5vw,14px);margin-bottom:20px;border:2px solid var(--border);text-align:center}
-.avatar{
-  width:clamp(62px,8vw,80px);aspect-ratio:1;margin:0 auto 14px;display:grid;place-items:center;
-  background:var(--panel-light);border:3px solid var(--pink);color:var(--pink);
-  font-family:"Press Start 2P",monospace;font-size:clamp(9px,1.2vw,13px);
+.dicon{
+width:82px;
+padding:2px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:3px;
+cursor:pointer
 }
-.profile-name{color:var(--text);font-family:"Press Start 2P",monospace;font-size:clamp(8px,1vw,10px);line-height:1.7}
-.profile-role{margin-top:7px;color:var(--muted);font-size:clamp(15px,1.5vw,18px)}
-.nav{display:grid;gap:8px}
-.nav-button{
-  width:100%;min-height:44px;padding:9px 11px;border:2px solid transparent;
-  background:transparent;color:var(--muted);text-align:left;cursor:pointer;
+.dicon .icn{
+width:32px;
+height:32px;
+object-fit:contain;
+image-rendering:auto
 }
-.nav-button:hover,.nav-button:focus-visible,.nav-button.active{
-  color:var(--cyan);border-color:var(--border);background:var(--panel-light);outline:none;
+.dicon span{
+color:#fff;
+text-shadow:1px 1px #000;
+text-align:center;
+line-height:1.1;
+padding:1px 2px
 }
-.nav-button.active::before{content:"> ";color:var(--pink)}
-.collectibles{margin-top:22px;padding-top:15px;border-top:2px dashed var(--border);color:var(--muted);font-size:clamp(13px,1.4vw,16px)}
-#pixel-count{color:var(--yellow)}
-.collectibles small{display:block;margin-top:4px;color:#5b5f78;font-size:.85em}
-main{min-width:0;padding:var(--page-padding);overflow:hidden}
-.page{display:none;width:100%}
-.page.active{display:block}
-.eyebrow{margin-bottom:12px;color:var(--green);overflow-wrap:anywhere}
-h1,h2{margin-top:0;font-family:"Press Start 2P",monospace;line-height:1.6;overflow-wrap:anywhere}
-h1{max-width:760px;margin-bottom:18px;color:var(--text);font-size:clamp(20px,4.5vw,44px)}
-h1 span{color:var(--pink)}
-h2{color:var(--cyan);font-size:clamp(14px,2.2vw,20px)}
-p{line-height:1.45}
-.lead{max-width:720px;color:#b9bdd3;font-size:clamp(20px,2.5vw,27px)}
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.pixel-button{
-  min-height:46px;padding:10px 16px;display:inline-flex;align-items:center;justify-content:center;
-  border:2px solid var(--cyan);background:transparent;color:var(--cyan);text-align:center;
-  text-decoration:none;cursor:pointer;box-shadow:4px 4px 0 #164754;
+.window{
+position:absolute;
+min-width:240px;
+min-height:160px;
+background:#c0c0c0;
+border:2px solid;
+border-color:#fff #000 #000 #fff;
+box-shadow:1px 1px 0 #000;
+display:flex;
+flex-direction:column
 }
-.pixel-button:hover,.pixel-button:focus-visible{background:var(--cyan);color:#071014;outline:none}
-.pixel-button.pink{border-color:var(--pink);color:var(--pink);box-shadow:4px 4px 0 #5a1c39}
-.pixel-button.pink:hover,.pixel-button.pink:focus-visible{background:var(--pink);color:#160710}
-.pixel-button:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:clamp(10px,2vw,16px);margin-top:22px}
-.card{min-width:0;padding:clamp(14px,2vw,18px);border:2px solid var(--border);background:var(--panel-light);position:relative}
-.card:hover{border-color:var(--cyan)}
-.card-number{color:var(--pink);font-size:18px}
-.card h3{margin:8px 0;color:var(--text);font-family:"Press Start 2P",monospace;font-size:clamp(9px,1.2vw,11px);line-height:1.7;overflow-wrap:anywhere}
-.card p{margin-bottom:0;color:var(--muted)}
-.tag{display:inline-block;padding:3px 7px;margin:8px 4px 0 0;border:1px solid var(--border);color:var(--green);font-size:15px}
-.card.locked{border-style:dashed;border-color:#4a3252}
-.card.locked h3{color:var(--muted)}
-.card.locked p{color:#565a70}
-.card.locked .pixel-button{margin-top:10px}
-.game-select{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,270px),1fr));gap:16px}
-.game-card{min-width:0;padding:clamp(15px,2vw,20px);border:2px solid var(--border);background:var(--panel-light)}
-.game-card h3{color:var(--yellow);font-family:"Press Start 2P",monospace;font-size:clamp(9px,1.3vw,12px);line-height:1.6}
-.game-card p{color:var(--muted)}
-.game-area{display:none;width:100%;margin-top:22px;text-align:center}
-.canvas-wrap{width:min(100%,420px);margin:0 auto}
-canvas{display:block;width:100%;height:auto;aspect-ratio:1;border:3px solid var(--green);background:#05060a;image-rendering:pixelated}
-.score{margin:10px;color:var(--yellow)}
-.touch-controls{display:none;width:180px;margin:18px auto 0;grid-template-columns:repeat(3,1fr);gap:6px}
-.touch-button{min-height:52px;border:2px solid var(--border);background:var(--panel-light);color:var(--cyan);cursor:pointer;user-select:none}
-.touch-button:active{background:var(--cyan);color:var(--bg)}
-.touch-up{grid-column:2}
-.touch-left{grid-column:1}
-.touch-down{grid-column:2}
-.touch-right{grid-column:3}
-.click-zone{position:relative;width:min(100%,560px);height:clamp(220px,45dvh,340px);margin:auto;border:3px solid var(--pink);background:#090a12;overflow:hidden;touch-action:manipulation}
-.target{position:absolute;width:clamp(38px,7vw,48px);aspect-ratio:1;border:0;background:var(--yellow);color:#090a12;cursor:crosshair}
-.decrypt-zone{position:relative;width:min(100%,420px);height:280px;margin:14px auto 0;border:3px solid var(--cyan);background:#05060a;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:6px;padding:6px}
-.decrypt-tile{border:2px solid var(--border);background:var(--panel-light);color:var(--muted);display:grid;place-items:center;cursor:pointer;font-family:"Press Start 2P",monospace;font-size:14px}
-.decrypt-tile.lit{border-color:var(--yellow);color:var(--yellow)}
-.decrypt-tile.done{border-color:var(--green);color:var(--green)}
-.terminal{width:100%;padding:clamp(14px,3vw,20px);border:2px solid var(--green);background:#050806;color:var(--green);overflow-wrap:anywhere}
-.terminal-line{margin:5px 0}
-.pixel-target{
-  position:fixed;width:9px;height:9px;border:0;padding:0;background:rgba(255,255,255,.05);
-  cursor:pointer;z-index:10;mix-blend-mode:screen;transition:background .15s ease;
+.window.maximized{
+left:0!important;
+top:0!important;
+width:100%!important;
+height:calc(100vh - 28px)!important
 }
-.pixel-target:hover{background:rgba(103,232,249,.55);box-shadow:0 0 6px var(--cyan)}
-.toast{
-  position:fixed;top:max(14px,env(safe-area-inset-top));right:max(14px,env(safe-area-inset-right));
-  max-width:calc(100vw - 28px);padding:10px 15px;border:2px solid var(--green);background:#080b0a;
-  color:var(--green);transform:translateY(-150%);transition:transform .2s ease;z-index:20;
+.resize-handle{
+position:absolute;
+right:1px;
+bottom:1px;
+width:10px;
+height:10px;
+cursor:nwse-resize;
+background:
+linear-gradient(135deg,transparent 0 42%,#808080 42% 49%,transparent 49% 58%,#808080 58% 65%,transparent 65% 74%,#808080 74% 81%,transparent 81%)
 }
-.toast.show{transform:translateY(0)}
-footer{
-  min-height:40px;padding:9px 14px;display:flex;justify-content:space-between;align-items:center;
-  gap:10px;border-top:3px solid var(--border);color:var(--muted);font-size:clamp(13px,1.4vw,16px);
+.window.maximized .resize-handle{display:none}
+.titlebar{
+height:18px;
+background:#000080;
+color:#fff;
+padding:1px 2px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+cursor:default;
+touch-action:none
 }
-footer a{color:var(--muted)}
-footer a:hover{color:var(--cyan)}
-@media (hover:none),(pointer:coarse){
-  .touch-controls{display:grid}
-  .pixel-button,.nav-button{min-height:48px}
-  .card:hover{border-color:var(--border)}
+.window.blur .titlebar{background:#808080}
+.tb-left{
+display:flex;
+align-items:center;
+gap:3px;
+overflow:hidden;
+min-width:0
 }
-@media (max-width:820px){
-  .layout{grid-template-columns:1fr}
-  .sidebar{padding:9px;border-right:0;border-bottom:3px solid var(--border)}
-  .profile{display:none}
-  .nav{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
-  .nav-button{padding:8px 4px;text-align:center;font-size:clamp(14px,3vw,18px);overflow:hidden}
-  .nav-button.active::before{content:""}
-  .collectibles{margin-top:9px;padding:7px 4px 0;text-align:center}
+.tb-left .icn{
+width:16px;
+height:16px;
+flex:0 0 auto
 }
-@media (max-width:480px){
-  body{padding:0}
-  .shell{min-height:100dvh;border-left:0;border-right:0;box-shadow:none}
-  .topbar{min-height:44px}
-  .status{font-size:13px}
-  .status-dot{width:7px;height:7px}
-  main{padding:18px 13px}
-  .actions{display:grid;grid-template-columns:1fr}
-  .pixel-button{width:100%}
-  footer{flex-direction:column;justify-content:center;text-align:center}
+.tb-left b{
+font-size:11px;
+font-weight:bold;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis
 }
-@media (max-width:340px){
-  .status{font-size:0}
-  .nav-button{font-size:13px}
-  h1{font-size:18px}
+.tb-buttons{
+display:flex;
+gap:2px;
+flex:0 0 auto
 }
-@media (max-height:600px) and (orientation:landscape){
-  .profile{display:none}
-  .sidebar{padding:8px}
-  main{padding-top:16px;padding-bottom:16px}
-  .lead{margin:8px 0}
-  .actions{margin-top:15px}
-  .click-zone{height:210px}
-  .canvas-wrap{width:min(55dvh,330px)}
+.tb-buttons button{
+width:16px;
+height:14px;
+padding:0;
+background:#c0c0c0;
+border:1px solid;
+border-color:#fff #000 #000 #fff;
+font-family:"MS Sans Serif",Tahoma,sans-serif;
+font-size:9px;
+font-weight:bold;
+line-height:10px;
+cursor:pointer
 }
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{
-    scroll-behavior:auto!important;transition-duration:.01ms!important;
-    animation-duration:.01ms!important;animation-iteration-count:1!important;
-  }
+.tb-buttons button:active{
+border-color:#000 #fff #fff #000
+}
+.content{
+flex:1;
+overflow:auto;
+padding:10px;
+background:#c0c0c0
+}
+.content.white{
+background:#fff;
+margin:2px;
+border:1px solid;
+border-color:#000 #fff #fff #000
+}
+.content h2{
+margin:0 0 10px;
+font-size:13px
+}
+.content p{
+line-height:1.4;
+margin:0 0 9px
+}
+.proj{
+background:#fff;
+border:1px solid;
+border-color:#000 #fff #fff #000;
+padding:7px;
+margin-bottom:7px
+}
+.proj b{
+display:block;
+margin-bottom:2px
+}
+.proj small{
+color:#222;
+display:block;
+line-height:1.35
+}
+.proj a{
+color:#0000ff;
+font-size:11px
+}
+.field{margin-bottom:8px}
+.field label{
+display:block;
+font-weight:bold;
+margin-bottom:2px
+}
+.field input{
+width:100%;
+height:20px;
+border:1px solid;
+border-color:#000 #fff #fff #000;
+padding:2px 4px;
+font:11px "MS Sans Serif",Tahoma,sans-serif;
+background:#fff
+}
+.btn{
+height:23px;
+background:#c0c0c0;
+border:1px solid;
+border-color:#fff #000 #000 #fff;
+padding:2px 10px;
+font:11px "MS Sans Serif",Tahoma,sans-serif;
+cursor:pointer
+}
+.btn:active{
+border-color:#000 #fff #fff #000
+}
+.ie-toolbar{
+display:flex;
+gap:3px;
+padding:4px;
+background:#c0c0c0;
+border-bottom:1px solid #808080
+}
+.ie-toolbar input{
+flex:1;
+min-width:100px;
+height:20px;
+border:1px solid;
+border-color:#000 #fff #fff #000;
+padding:2px 4px;
+font:11px "MS Sans Serif",Tahoma,sans-serif;
+background:#fff
+}
+.ie-page{
+padding:14px;
+background:#fff;
+height:100%
+}
+.ie-page h2{
+margin:0 0 8px;
+font-size:15px;
+font-weight:bold
+}
+.ie-page a{
+display:block;
+color:#0000ff;
+margin:7px 0
+}
+.swatches{
+display:flex;
+gap:5px;
+margin:7px 0
+}
+.swatch{
+width:24px;
+height:24px;
+border:2px solid;
+border-color:#fff #000 #000 #fff;
+cursor:pointer
+}
+.cp-row{
+display:flex;
+align-items:center;
+gap:7px;
+margin-bottom:10px
+}
+ul.clean{
+margin:0;
+padding-left:18px
+}
+ul.clean li{
+margin-bottom:4px
+}
+textarea{
+width:100%;
+height:100%;
+border:0;
+resize:none;
+font:11px "Courier New",monospace;
+padding:6px;
+outline:0
+}
+#taskbar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:28px;
+background:#c0c0c0;
+border-top:2px solid #fff;
+display:flex;
+align-items:center;
+padding:2px;
+gap:3px;
+z-index:9999
+}
+#startbtn{
+height:23px;
+padding:0 5px 0 3px;
+background:#c0c0c0;
+border:1px solid;
+border-color:#fff #000 #000 #fff;
+font-weight:bold;
+font-size:11px;
+display:flex;
+align-items:center;
+gap:3px;
+cursor:pointer
+}
+#startbtn.active{
+border-color:#000 #fff #fff #000
+}
+#startbtn img{
+width:16px;
+height:16px
+}
+#tasks{
+display:flex;
+gap:2px;
+flex:1;
+overflow-x:auto;
+height:23px
+}
+.taskitem{
+height:23px;
+padding:0 7px;
+background:#c0c0c0;
+border:1px solid;
+border-color:#fff #000 #000 #fff;
+display:flex;
+align-items:center;
+gap:3px;
+font-size:11px;
+max-width:170px;
+cursor:pointer;
+flex:0 0 auto
+}
+.taskitem .icn{
+width:16px;
+height:16px
+}
+.taskitem.pressed{
+border-color:#000 #fff #fff #000;
+background:#c0c0c0
+}
+.taskitem span{
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis
+}
+#clock{
+height:23px;
+border:1px solid;
+border-color:#808080 #fff #fff #808080;
+padding:2px 7px;
+font-size:11px;
+display:flex;
+align-items:center;
+justify-content:center;
+min-width:58px
+}
+#clock-date{display:none}
+#startmenu{
+position:fixed;
+left:2px;
+bottom:28px;
+width:205px;
+background:#c0c0c0;
+border:2px solid;
+border-color:#fff #000 #000 #fff;
+display:none;
+flex-direction:row;
+z-index:10000;
+box-shadow:1px 1px 0 #000
+}
+#startmenu.open{display:flex}
+.sm-strip{
+width:28px;
+background:#808080;
+color:#fff;
+display:flex;
+align-items:flex-end;
+justify-content:center;
+padding-bottom:7px;
+font-weight:bold;
+font-size:14px;
+writing-mode:vertical-rl;
+transform:rotate(180deg)
+}
+.sm-items{
+flex:1;
+padding:3px
+}
+.smitem{
+display:flex;
+align-items:center;
+gap:8px;
+height:31px;
+padding:3px 6px;
+cursor:pointer;
+font-size:11px
+}
+.smitem:hover{
+background:#000080;
+color:#fff
+}
+.smitem .icn{
+width:24px;
+height:24px;
+object-fit:contain
+}
+.smsep{
+height:1px;
+background:#808080;
+border-bottom:1px solid #fff;
+margin:3px 2px
+}
+#shutdown{
+position:fixed;
+inset:0;
+background:#008080;
+color:#fff;
+display:none;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:14px;
+z-index:20000;
+font-size:13px
+}
+#shutdown.open{display:flex}
+.shutdown-title{
+display:flex;
+align-items:center;
+gap:8px
+}
+.shutdown-title img{
+width:32px;
+height:32px
+}
+@media(max-width:760px){
+.window{
+left:0!important;
+top:0!important;
+width:100%!important;
+height:calc(100vh - 28px)!important
+}
+.dicon{width:70px}
+#tasks{max-width:55%}
+#startmenu{width:190px}
+}
+@media(max-width:420px){
+.startlabel{display:none}
 }
 </style>
 </head>
 <body>
+<div id="desktop">
+<div class="desktop-icons" id="deskicons"></div>
+</div>
 
-<div class="toast" id="toast">ACHIEVEMENT UNLOCKED</div>
+<div id="startmenu">
+<div class="sm-strip">Windows 98</div>
+<div class="sm-items" id="smitems"></div>
+</div>
 
-<div class="shell">
+<div id="taskbar">
+<div id="startbtn"><img src="../windows_button.ico" alt=""><span class="startlabel">Start</span></div>
+<div id="tasks"></div>
+<div id="clock"><div id="clock-time"></div><div id="clock-date"></div></div>
+</div>
 
-  <header class="topbar">
-    <div class="brand" id="brand-text">ATHARV.EXE</div>
-    <div class="status"><span class="status-dot"></span>SYSTEM ONLINE</div>
-  </header>
-
-  <div class="layout">
-
-    <aside class="sidebar">
-      <div class="profile">
-        <div class="avatar">^_^</div>
-        <div class="profile-name" id="profile-name">ATHARV ASGOLA</div>
-        <div class="profile-role" id="profile-role">game dev / builder</div>
-      </div>
-
-      <nav class="nav">
-        <button class="nav-button active" data-page="home">HOME</button>
-        <button class="nav-button" data-page="projects">PROJECTS</button>
-        <button class="nav-button" data-page="arcade">ARCADE</button>
-        <button class="nav-button" data-page="contact">CONTACT</button>
-      </nav>
-
-      <div class="collectibles">
-        HIDDEN PIXELS: <span id="pixel-count">0</span>
-        <small>they're actually hidden. good luck.</small>
-      </div>
-    </aside>
-
-    <main>
-
-      <section class="page active" id="home">
-        <div class="eyebrow">PLAYER 1 HAS ENTERED THE WEB.</div>
-        <h1 id="home-heading">I BUILD <span>GAMES</span>, SYSTEMS &amp; WEIRD IDEAS.</h1>
-        <p class="lead" id="home-lead-1">Hey, I'm Atharv. Roblox games, Minecraft mods, and web tools that usually start with "what if I just..."</p>
-        <p class="lead" id="home-lead-2">Then several hours of debugging happen.</p>
-        <div class="actions">
-          <button class="pixel-button" onclick="openPage('projects')">VIEW PROJECTS</button>
-          <button class="pixel-button pink" onclick="openPage('arcade')">WASTE TIME</button>
-        </div>
-      </section>
-
-      <section class="page" id="projects">
-        <div class="eyebrow">/PROJECT_DIRECTORY</div>
-        <h2>SELECT A SAVE FILE</h2>
-        <div class="cards" id="project-cards"></div>
-      </section>
-
-      <section class="page" id="arcade">
-        <div class="eyebrow">/TOTALLY_PRODUCTIVE</div>
-        <h2>ATHARV'S ARCADE</h2>
-
-        <div class="game-select">
-          <div class="game-card">
-            <h3>PIXEL SNAKE</h3>
-            <p>Arrow keys or touch controls. Eat pink squares.</p>
-            <button class="pixel-button" onclick="startSnake()">PLAY</button>
-          </div>
-          <div class="game-card">
-            <h3>BUG SMASHER</h3>
-            <p>Click the bug. This is basically programming.</p>
-            <button class="pixel-button pink" onclick="startBugGame()">DEBUG</button>
-          </div>
-          <div class="game-card">
-            <h3>DECRYPT</h3>
-            <p>Repeat the flashing sequence. Unlocks a bonus save file.</p>
-            <button class="pixel-button" onclick="startDecrypt()">HACK</button>
-          </div>
-        </div>
-
-        <div class="game-area" id="snake-game">
-          <div class="score">SCORE: <span id="snake-score">0</span></div>
-          <div class="canvas-wrap"><canvas id="snake-canvas" width="336" height="336"></canvas></div>
-          <div class="touch-controls">
-            <button class="touch-button touch-up" data-direction="up">▲</button>
-            <button class="touch-button touch-left" data-direction="left">◀</button>
-            <button class="touch-button touch-down" data-direction="down">▼</button>
-            <button class="touch-button touch-right" data-direction="right">▶</button>
-          </div>
-          <p>ARROWS / TOUCH TO MOVE · ESC TO EXIT</p>
-        </div>
-
-        <div class="game-area" id="bug-game">
-          <div class="score">BUGS FIXED: <span id="bug-score">0</span></div>
-          <div class="click-zone" id="click-zone">
-            <button class="target" id="bug" aria-label="Bug">!</button>
-          </div>
-          <p>CLICK THE BUG BEFORE IT ESCAPES YOUR CODEBASE.</p>
-        </div>
-
-        <div class="game-area" id="decrypt-game">
-          <div class="score">ROUND: <span id="decrypt-round">0</span> / <span id="decrypt-target">0</span></div>
-          <div class="decrypt-zone" id="decrypt-zone"></div>
-          <p id="decrypt-status">WATCH THE SEQUENCE, THEN REPEAT IT.</p>
-        </div>
-      </section>
-
-      <section class="page" id="contact">
-        <div class="eyebrow">/ESTABLISH_CONNECTION</div>
-        <h2>CONTACT</h2>
-        <div class="terminal" id="contact-terminal"></div>
-        <div class="actions" id="contact-actions"></div>
-      </section>
-
-    </main>
-  </div>
-
-  <footer>
-    <span id="footer-left">© 2026 ATHARV ASGOLA</span>
-    <span id="footer-right">BUILD 26.07</span>
-  </footer>
-
+<div id="shutdown">
+<div class="shutdown-title"><img src="../shut_down_with_computer.ico" alt=""><span>It's now safe to turn off your computer.</span></div>
+<button class="btn" onclick="closeShutdown()">Turn back on</button>
 </div>
 
 <script>
-const CONFIG = {
-  brand: "ATHARV.EXE",
-  name: "ATHARV ASGOLA",
-  role: "game dev / builder",
-  headingPrefix: "I BUILD",
-  headingHighlight: "GAMES",
-  headingSuffix: ", SYSTEMS & WEIRD IDEAS.",
-  leadLine1: "Hey, I'm Atharv. Roblox games, Minecraft mods, and web tools that usually start with \"what if I just...\"",
-  leadLine2: "Then several hours of debugging happen.",
-  email: "asgolaatharv@gmail.com",
-  github: "https://github.com/atharvasgola",
-  footerLeft: "© 2026 ATHARV ASGOLA",
-  footerRight: "BUILD 26.07",
-
-  projects: [
-    {
-      number: "01",
-      title: "World of Countries",
-      desc: "A Roblox nation-building game - claim territory, manage economies, and inevitably start wars over digital land.",
-      tags: ["ROBLOX", "LUAU"]
-    },
-    {
-      number: "02",
-      title: "AGES OF CONFLICT MODS",
-      desc: "C# mods that make AI wars, battle placement and war goals behave like they actually know what they're doing.",
-      tags: ["C#", "MODDING"]
-    },
-    {
-      number: "03",
-      title: "AOC FORUM",
-      desc: "A full forum web app for the Ages of Conflict community — React, Vite, Supabase, realtime replies, role-based access.",
-      tags: ["REACT", "SUPABASE"]
-    },
-    {
-      number: "04",
-      title: "GOOGOL",
-      desc: "A search engine clone built for a Minecraft server's in-game internet. Yes, it actually indexes things. But it failed (don't acknowledge that).",
-      tags: ["WEB", "SEARCH"]
-    },
-    {
-      number: "05",
-      title: "WORLD MAP PAINTING",
-      desc: "A Roblox map system built on EditableImages - paint cells, highlight regions, and not lag the client doing it.",
-      tags: ["ROBLOX", "EDITABLEIMAGE"]
-    }
-  ],
-
-  lockedProject: {
-    number: "??",
-    title: "CLASSIFIED SAVE FILE",
-    lockedDesc: "STATUS: encrypted. Beat DECRYPT in the arcade to unlock this entry.",
-    unlockedDesc: "PAYGOOD - a payment gateway built for a server economy. Handles the money so nobody has to trust a spreadsheet.",
-    tags: ["API", "PAYMENTS"]
-  },
-
-  decryptRounds: 5,
-  pixelMilestones: {
-    5: "5 PIXELS FOUND. YOU'RE PAYING ATTENTION.",
-    10: "10 PIXELS. OKAY, THAT'S IMPRESSIVE.",
-    25: "25 PIXELS. GET A HOBBY."
-  },
-  pixelSpawnDelayMs: [4000, 9000]
+const ICON_BASE="../";
+const CONFIG={
+aboutParagraphs:[
+"Game Dev and programmer. I work in Lua, Luau (Roblox), C# (Unity & BepInEx game modding) and the web (frontend and backend).",
+"Programming has been my passion, it has it's pros and cons, but I personally find it fun to program - until I have to debug the code :("
+],
+projects:[
+{title:"World of Countries",desc:"Roblox nation-building game - Luau"},
+{title:"Ages of Conflict Mods",desc:"C# BepInEx/Harmony mods - The Greatest Modpack"},
+{title:"AoC Forum",desc:"Forum available as a website for the game Ages of Conflict - uses React, Vite and Supabase.",link:"http://aoc-forum.pages.dev/"},
+{title:"Paintable World Map",desc:"Roblox EditableImage-based map painting system"}
+],
+email:"asgolaatharv@gmail.com",
+github:"https://github.com/atharvasgola"
 };
 
-document.getElementById("brand-text").textContent = CONFIG.brand;
-document.getElementById("profile-name").textContent = CONFIG.name;
-document.getElementById("profile-role").textContent = CONFIG.role;
-document.getElementById("home-heading").innerHTML =
-  CONFIG.headingPrefix + ' <span>' + CONFIG.headingHighlight + '</span>' + CONFIG.headingSuffix;
-document.getElementById("home-lead-1").textContent = CONFIG.leadLine1;
-document.getElementById("home-lead-2").textContent = CONFIG.leadLine2;
-document.getElementById("footer-left").textContent = CONFIG.footerLeft;
-document.getElementById("footer-right").textContent = CONFIG.footerRight;
-document.getElementById("decrypt-target").textContent = CONFIG.decryptRounds;
+const APPS=[
+{id:"about",label:"About Me",icon:"user_card.ico"},
+{id:"projects",label:"Projects",icon:"directory_closed.ico"},
+{id:"contact",label:"Contact",icon:"envelope_closed.ico"},
+{id:"mycomputer",label:"My Computer",icon:"computer_win.ico"},
+{id:"recyclebin",label:"Recycle Bin",icon:"recycle_bin_empty.ico"},
+{id:"notepad",label:"Notepad",icon:"notepad.ico"},
+{id:"iexplore",label:"Internet Explorer",icon:"msie_box.ico"},
+{id:"settings",label:"Control Panel",icon:"directory_control_panel.ico"}
+];
 
-const terminal = document.getElementById("contact-terminal");
-terminal.innerHTML =
-  '<div class="terminal-line">$ whoami</div>' +
-  '<div class="terminal-line">&gt; ' + CONFIG.name.toLowerCase() + '</div><br>' +
-  '<div class="terminal-line">$ status</div>' +
-  '<div class="terminal-line">&gt; probably coding something</div><br>' +
-  '<div class="terminal-line">$ contact --email</div>' +
-  '<div class="terminal-line">&gt; ' + CONFIG.email + '</div>';
-
-document.getElementById("contact-actions").innerHTML =
-  '<a class="pixel-button" href="mailto:' + CONFIG.email + '">SEND EMAIL</a>' +
-  '<a class="pixel-button pink" href="' + CONFIG.github + '" target="_blank" rel="noopener noreferrer">GITHUB</a>';
-
-function renderProjects(unlocked){
-  const wrap = document.getElementById("project-cards");
-  wrap.innerHTML = "";
-  CONFIG.projects.forEach(p=>{
-    const el = document.createElement("article");
-    el.className = "card";
-    el.innerHTML =
-      '<span class="card-number">' + p.number + '</span>' +
-      '<h3>' + p.title + '</h3>' +
-      '<p>' + p.desc + '</p>' +
-      p.tags.map(t=>'<span class="tag">'+t+'</span>').join("");
-    wrap.appendChild(el);
-  });
-
-  const lp = CONFIG.lockedProject;
-  const locked = document.createElement("article");
-  locked.className = "card" + (unlocked ? "" : " locked");
-  locked.id = "locked-card";
-  locked.innerHTML =
-    '<span class="card-number">' + lp.number + '</span>' +
-    '<h3>' + lp.title + '</h3>' +
-    '<p>' + (unlocked ? lp.unlockedDesc : lp.lockedDesc) + '</p>' +
-    (unlocked ? lp.tags.map(t=>'<span class="tag">'+t+'</span>').join("") :
-      '<button class="pixel-button pink" onclick="openPage(\'arcade\');startDecrypt()">DECRYPT NOW</button>');
-  wrap.appendChild(locked);
-}
-renderProjects(localStorage.getItem("aa_unlocked") === "1");
-
-
-const pages = document.querySelectorAll(".page");
-const navButtons = document.querySelectorAll(".nav-button");
-const toast = document.getElementById("toast");
-let audioContext;
-
-function sound(frequency, duration){
-  frequency = frequency || 440;
-  duration = duration || 0.05;
-  audioContext = audioContext || new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = audioContext.createOscillator();
-  const gain = audioContext.createGain();
-  oscillator.type = "square";
-  oscillator.frequency.value = frequency;
-  gain.gain.setValueAtTime(0.025, audioContext.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + duration);
-  oscillator.connect(gain);
-  gain.connect(audioContext.destination);
-  oscillator.start();
-  oscillator.stop(audioContext.currentTime + duration);
+function icon(name){
+return '<img class="icn" src="'+ICON_BASE+name+'" alt="" onerror="this.style.display=\'none\'">';
 }
 
-function openPage(pageName){
-  stopGames();
-  pages.forEach(page => page.classList.toggle("active", page.id === pageName));
-  navButtons.forEach(button => button.classList.toggle("active", button.dataset.page === pageName));
-  window.scrollTo({top:0, behavior:"auto"});
-  sound(320);
+function buildContent(id){
+if(id==="about"){
+return CONFIG.aboutParagraphs.map(p=>"<p>"+p+"</p>").join("");
 }
-navButtons.forEach(button => button.addEventListener("click", () => openPage(button.dataset.page)));
-
-function showToast(message){
-  toast.textContent = message;
-  toast.classList.add("show");
-  clearTimeout(showToast.timeout);
-  showToast.timeout = setTimeout(() => toast.classList.remove("show"), 2200);
+if(id==="projects"){
+return CONFIG.projects.map(p=>"<div class=\"proj\"><b>"+p.title+"</b><small>"+p.desc+"</small>"+(p.link?"<a href=\""+p.link+"\" target=\"_blank\" rel=\"noopener\">"+p.link+"</a>":"")+"</div>").join("");
 }
-
-
-let pixelsFound = parseInt(localStorage.getItem("aa_pixels") || "0", 10);
-document.getElementById("pixel-count").textContent = pixelsFound;
-
-function spawnPixel(){
-  const el = document.createElement("button");
-  el.className = "pixel-target";
-  el.setAttribute("aria-label", "");
-  const size = 9;
-  const maxX = Math.max(0, window.innerWidth - size);
-  const maxY = Math.max(0, window.innerHeight - size);
-  el.style.left = Math.random() * maxX + "px";
-  el.style.top = Math.random() * maxY + "px";
-  el.addEventListener("click", () => {
-    pixelsFound++;
-    localStorage.setItem("aa_pixels", pixelsFound);
-    document.getElementById("pixel-count").textContent = pixelsFound;
-    sound(800, 0.08);
-    el.remove();
-    if (CONFIG.pixelMilestones[pixelsFound]){
-      showToast(CONFIG.pixelMilestones[pixelsFound]);
-    }
-    scheduleNextPixel();
-  });
-  document.body.appendChild(el);
+if(id==="contact"){
+return "<div class=\"field\"><label>Email</label><input readonly value=\""+CONFIG.email+"\"></div><div class=\"field\"><label>GitHub</label><input readonly value=\""+CONFIG.github+"\"></div>";
+}
+if(id==="mycomputer"){
+return "<ul class=\"clean\"><li>Local Disk (C:)</li><li>Projects (D:)</li><li>Games (E:)</li></ul>";
+}
+if(id==="recyclebin"){
+return "<p>The Recycle Bin is empty.</p>";
+}
+if(id==="notepad"){
+return "<textarea>New Text Document</textarea>";
+}
+if(id==="settings"){
+return "<div class=\"cp-row\"><b>Display Properties</b></div><div>Desktop background:</div><div class=\"swatches\"><div class=\"swatch\" style=\"background:#008080\" onclick=\"setBg('#008080')\"></div><div class=\"swatch\" style=\"background:#000080\" onclick=\"setBg('#000080')\"></div><div class=\"swatch\" style=\"background:#800000\" onclick=\"setBg('#800000')\"></div><div class=\"swatch\" style=\"background:#004000\" onclick=\"setBg('#004000')\"></div><div class=\"swatch\" style=\"background:#404040\" onclick=\"setBg('#404040')\"></div></div>";
+}
+if(id==="iexplore"){
+return "<div class=\"ie-toolbar\"><button class=\"btn\" onclick=\"ieHome()\">Home</button><input id=\"ieaddr\" readonly value=\"about:home\"><button class=\"btn\" onclick=\"ieHome()\">Go</button></div><div class=\"ie-page\"><h2>Atharv Asgola - Home</h2><p>Welcome. Pick a link:</p><a href=\""+CONFIG.projects.find(p=>p.link).link+"\" target=\"_blank\" rel=\"noopener\">AoC Forum</a><a href=\""+CONFIG.github+"\" target=\"_blank\" rel=\"noopener\">GitHub</a><a href=\"mailto:"+CONFIG.email+"\">Email Me</a></div>";
+}
+return "";
 }
 
-function scheduleNextPixel(){
-  const [min, max] = CONFIG.pixelSpawnDelayMs;
-  const delay = min + Math.random() * (max - min);
-  setTimeout(spawnPixel, delay);
-}
-scheduleNextPixel();
-
-
-const canvas = document.getElementById("snake-canvas");
-const ctx = canvas.getContext("2d");
-const grid = 16;
-let snake, food, snakeScore = 0, snakeTimer, snakeActive = false;
-
-function startSnake(){
-  stopGames();
-  document.getElementById("snake-game").style.display = "block";
-  snake = { x:160, y:160, dx:grid, dy:0, cells:[], length:4 };
-  snakeScore = 0;
-  snakeActive = true;
-  document.getElementById("snake-score").textContent = "0";
-  placeFood();
-  snakeTimer = setInterval(updateSnake, 90);
-  sound(500);
+function ieHome(){
+document.getElementById("ieaddr").value="about:home";
 }
 
-function placeFood(){
-  food = {
-    x: Math.floor(Math.random() * (canvas.width / grid)) * grid,
-    y: Math.floor(Math.random() * (canvas.height / grid)) * grid
-  };
+function setBg(c){
+document.body.style.background=c;
 }
 
-function updateSnake(){
-  if (!snakeActive) return;
-  snake.x += snake.dx;
-  snake.y += snake.dy;
-  if (snake.x < 0 || snake.y < 0 || snake.x >= canvas.width || snake.y >= canvas.height){
-    resetSnake();
-    return;
-  }
-  snake.cells.unshift({x:snake.x, y:snake.y});
-  if (snake.cells.length > snake.length) snake.cells.pop();
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.fillStyle = "#ff5da2";
-  ctx.fillRect(food.x, food.y, grid - 2, grid - 2);
-  ctx.fillStyle = "#69ff9d";
-  for (let i = 0; i < snake.cells.length; i++){
-    const cell = snake.cells[i];
-    ctx.fillRect(cell.x, cell.y, grid - 2, grid - 2);
-    if (cell.x === food.x && cell.y === food.y){
-      snake.length++;
-      snakeScore += 10;
-      document.getElementById("snake-score").textContent = snakeScore;
-      placeFood();
-      sound(700);
-    }
-    for (let j = i + 1; j < snake.cells.length; j++){
-      if (cell.x === snake.cells[j].x && cell.y === snake.cells[j].y){
-        resetSnake();
-        return;
-      }
-    }
-  }
+let zTop=10;
+const win={};
+const isMobile=()=>window.innerWidth<=760;
+
+function openWin(id){
+const app=APPS.find(a=>a.id===id);
+if(win[id]){
+restoreWin(id);
+return;
+}
+const el=document.createElement("div");
+el.className="window";
+el.id="w-"+id;
+const n=Object.keys(win).length;
+if(!isMobile()){
+el.style.left=(55+n*24)+"px";
+el.style.top=(35+n*24)+"px";
+el.style.width="390px";
+el.style.height="300px";
+}
+el.innerHTML="<div class=\"titlebar\" data-id=\""+id+"\"><div class=\"tb-left\">"+icon(app.icon)+"<b>"+app.label+"</b></div><div class=\"tb-buttons\"><button data-act=\"min\">_</button><button data-act=\"max\">□</button><button data-act=\"close\">×</button></div></div><div class=\"content"+(id==="iexplore"?"":" white")+"\" style=\""+(id==="iexplore"?"padding:0":"")+"\">"+buildContent(id)+"</div><div class=\"resize-handle\"></div>";
+document.getElementById("desktop").appendChild(el);
+win[id]={el:el,min:false,max:isMobile()};
+if(isMobile())el.classList.add("maximized");
+bindWindow(el,id);
+addTask(id,app.label,app.icon);
+focusWin(id);
 }
 
-function resetSnake(){
-  sound(120, 0.15);
-  startSnake();
+function bindWindow(el,id){
+const tb=el.querySelector(".titlebar");
+tb.addEventListener("pointerdown",e=>{
+if(e.target.closest(".tb-buttons"))return;
+focusWin(id);
+if(win[id].max)return;
+const sx=e.clientX,sy=e.clientY;
+const ol=el.offsetLeft,ot=el.offsetTop;
+function move(ev){
+el.style.left=(ol+ev.clientX-sx)+"px";
+el.style.top=Math.max(0,ot+ev.clientY-sy)+"px";
+}
+function up(){
+document.removeEventListener("pointermove",move);
+document.removeEventListener("pointerup",up);
+}
+document.addEventListener("pointermove",move);
+document.addEventListener("pointerup",up);
+});
+el.querySelector('[data-act="close"]').onclick=()=>closeWin(id);
+el.querySelector('[data-act="min"]').onclick=()=>minWin(id);
+el.querySelector('[data-act="max"]').onclick=()=>toggleMax(id);
+el.addEventListener("pointerdown",()=>focusWin(id));
+const rh=el.querySelector(".resize-handle");
+rh.addEventListener("pointerdown",e=>{
+e.stopPropagation();
+focusWin(id);
+if(win[id].max)return;
+const sx=e.clientX,sy=e.clientY;
+const ow=el.offsetWidth,oh=el.offsetHeight;
+function move(ev){
+el.style.width=Math.max(240,ow+ev.clientX-sx)+"px";
+el.style.height=Math.max(160,oh+ev.clientY-sy)+"px";
+}
+function up(){
+document.removeEventListener("pointermove",move);
+document.removeEventListener("pointerup",up);
+}
+document.addEventListener("pointermove",move);
+document.addEventListener("pointerup",up);
+});
 }
 
-function changeDirection(direction){
-  if (!snakeActive) return;
-  if (direction === "left" && snake.dx === 0){ snake.dx = -grid; snake.dy = 0; }
-  if (direction === "right" && snake.dx === 0){ snake.dx = grid; snake.dy = 0; }
-  if (direction === "up" && snake.dy === 0){ snake.dx = 0; snake.dy = -grid; }
-  if (direction === "down" && snake.dy === 0){ snake.dx = 0; snake.dy = grid; }
+function focusWin(id){
+Object.keys(win).forEach(k=>win[k].el.classList.add("blur"));
+win[id].el.classList.remove("blur");
+win[id].el.style.zIndex=++zTop;
+win[id].el.style.display="flex";
+win[id].min=false;
+document.querySelectorAll(".taskitem").forEach(t=>t.classList.toggle("pressed",t.dataset.id===id));
 }
 
-document.querySelectorAll("[data-direction]").forEach(button => {
-  button.addEventListener("pointerdown", event => {
-    event.preventDefault();
-    changeDirection(button.dataset.direction);
-  });
+function minWin(id){
+win[id].el.style.display="none";
+win[id].min=true;
+const t=document.querySelector('.taskitem[data-id="'+id+'"]');
+if(t)t.classList.remove("pressed");
+}
+
+function restoreWin(id){
+if(win[id].min){
+win[id].el.style.display="flex";
+win[id].min=false;
+focusWin(id);
+}else if(win[id].el.classList.contains("blur")){
+focusWin(id);
+}else{
+minWin(id);
+}
+}
+
+function toggleMax(id){
+if(isMobile())return;
+const w=win[id];
+w.max=!w.max;
+w.el.classList.toggle("maximized",w.max);
+focusWin(id);
+}
+
+function closeWin(id){
+win[id].el.remove();
+delete win[id];
+const t=document.querySelector('.taskitem[data-id="'+id+'"]');
+if(t)t.remove();
+}
+
+function addTask(id,label,iconName){
+const t=document.createElement("div");
+t.className="taskitem";
+t.dataset.id=id;
+t.innerHTML=icon(iconName)+"<span>"+label+"</span>";
+t.onclick=()=>restoreWin(id);
+document.getElementById("tasks").appendChild(t);
+}
+
+const deskicons=document.getElementById("deskicons");
+APPS.forEach(a=>{
+const d=document.createElement("div");
+d.className="dicon";
+d.innerHTML=icon(a.icon)+"<span>"+a.label+"</span>";
+d.onclick=()=>openWin(a.id);
+deskicons.appendChild(d);
 });
 
-
-const bug = document.getElementById("bug");
-const clickZone = document.getElementById("click-zone");
-let bugScore = 0, bugTimer;
-
-function startBugGame(){
-  stopGames();
-  document.getElementById("bug-game").style.display = "block";
-  bugScore = 0;
-  document.getElementById("bug-score").textContent = "0";
-  moveBug();
-  bugTimer = setInterval(moveBug, 900);
-  sound(500);
-}
-
-function moveBug(){
-  const maxX = Math.max(0, clickZone.clientWidth - bug.offsetWidth);
-  const maxY = Math.max(0, clickZone.clientHeight - bug.offsetHeight);
-  bug.style.left = Math.random() * maxX + "px";
-  bug.style.top = Math.random() * maxY + "px";
-}
-
-bug.addEventListener("pointerdown", event => {
-  event.stopPropagation();
-  bugScore++;
-  document.getElementById("bug-score").textContent = bugScore;
-  sound(750);
-  moveBug();
-  if (bugScore === 10) showToast("10 BUGS FIXED. SHIP TO PRODUCTION.");
+const smitems=document.getElementById("smitems");
+APPS.forEach(a=>{
+const s=document.createElement("div");
+s.className="smitem";
+s.innerHTML=icon(a.icon)+"<span>"+a.label+"</span>";
+s.onclick=()=>{
+openWin(a.id);
+closeStart();
+};
+smitems.appendChild(s);
 });
 
+const sep=document.createElement("div");
+sep.className="smsep";
+smitems.appendChild(sep);
 
-const decryptZone = document.getElementById("decrypt-zone");
-const decryptStatus = document.getElementById("decrypt-status");
-let decryptTiles = [];
-let decryptSequence = [];
-let decryptPlayerIndex = 0;
-let decryptRound = 0;
-let decryptShowing = false;
+const sd=document.createElement("div");
+sd.className="smitem";
+sd.innerHTML=icon("shut_down_with_computer.ico")+"<span>Shut Down...</span>";
+sd.onclick=()=>{
+closeStart();
+openShutdown();
+};
+smitems.appendChild(sd);
 
-function buildDecryptTiles(){
-  decryptZone.innerHTML = "";
-  decryptTiles = [];
-  for (let i = 0; i < 12; i++){
-    const tile = document.createElement("button");
-    tile.className = "decrypt-tile";
-    tile.textContent = "";
-    tile.addEventListener("click", () => handleDecryptClick(i));
-    decryptZone.appendChild(tile);
-    decryptTiles.push(tile);
-  }
-}
+const startbtn=document.getElementById("startbtn");
+const startmenu=document.getElementById("startmenu");
 
-function startDecrypt(){
-  stopGames();
-  document.getElementById("decrypt-game").style.display = "block";
-  buildDecryptTiles();
-  decryptSequence = [];
-  decryptRound = 0;
-  document.getElementById("decrypt-round").textContent = "0";
-  decryptStatus.textContent = "WATCH THE SEQUENCE, THEN REPEAT IT.";
-  sound(500);
-  setTimeout(nextDecryptRound, 800);
-}
+startbtn.onclick=e=>{
+e.stopPropagation();
+startmenu.classList.toggle("open");
+startbtn.classList.toggle("active");
+};
 
-function nextDecryptRound(){
-  decryptRound++;
-  document.getElementById("decrypt-round").textContent = decryptRound;
-  decryptSequence.push(Math.floor(Math.random() * decryptTiles.length));
-  decryptPlayerIndex = 0;
-  playDecryptSequence();
-}
-
-function playDecryptSequence(){
-  decryptShowing = true;
-  decryptStatus.textContent = "WATCHING...";
-  let i = 0;
-  const interval = setInterval(() => {
-    decryptTiles.forEach(t => t.classList.remove("lit"));
-    if (i > 0) decryptTiles[decryptSequence[i-1]].classList.remove("lit");
-    if (i < decryptSequence.length){
-      decryptTiles[decryptSequence[i]].classList.add("lit");
-      sound(400 + decryptSequence[i] * 30, 0.12);
-      i++;
-    } else {
-      clearInterval(interval);
-      decryptTiles.forEach(t => t.classList.remove("lit"));
-      decryptShowing = false;
-      decryptStatus.textContent = "YOUR TURN.";
-    }
-  }, 480);
-}
-
-function handleDecryptClick(i){
-  if (decryptShowing) return;
-  if (i === decryptSequence[decryptPlayerIndex]){
-    decryptTiles[i].classList.add("done");
-    sound(700, 0.08);
-    decryptPlayerIndex++;
-    setTimeout(() => decryptTiles[i].classList.remove("done"), 200);
-    if (decryptPlayerIndex === decryptSequence.length){
-      if (decryptRound >= CONFIG.decryptRounds){
-        decryptStatus.textContent = "DECRYPTED. CHECK THE PROJECTS PAGE.";
-        localStorage.setItem("aa_unlocked", "1");
-        showToast("CLASSIFIED SAVE FILE UNLOCKED");
-        renderProjects(true);
-        sound(900, 0.3);
-      } else {
-        decryptStatus.textContent = "CORRECT. NEXT ROUND...";
-        setTimeout(nextDecryptRound, 900);
-      }
-    }
-  } else {
-    sound(140, 0.2);
-    decryptStatus.textContent = "WRONG. TRY AGAIN FROM ROUND 1.";
-    decryptSequence = [];
-    decryptRound = 0;
-    document.getElementById("decrypt-round").textContent = "0";
-    setTimeout(nextDecryptRound, 900);
-  }
-}
-
-
-function stopGames(){
-  snakeActive = false;
-  clearInterval(snakeTimer);
-  clearInterval(bugTimer);
-  document.getElementById("snake-game").style.display = "none";
-  document.getElementById("bug-game").style.display = "none";
-  document.getElementById("decrypt-game").style.display = "none";
-}
-
-window.addEventListener("keydown", event => {
-  if (event.key === "Escape"){
-    stopGames();
-    return;
-  }
-  if (!snakeActive) return;
-  const directions = { ArrowLeft:"left", ArrowRight:"right", ArrowUp:"up", ArrowDown:"down" };
-  const direction = directions[event.key];
-  if (!direction) return;
-  event.preventDefault();
-  changeDirection(direction);
+document.addEventListener("click",e=>{
+if(!startmenu.contains(e.target)&&!startbtn.contains(e.target))closeStart();
 });
 
-window.addEventListener("resize", () => {
-  if (document.getElementById("bug-game").style.display === "block") moveBug();
+function closeStart(){
+startmenu.classList.remove("open");
+startbtn.classList.remove("active");
+}
+
+function openShutdown(){
+document.getElementById("shutdown").classList.add("open");
+}
+
+function closeShutdown(){
+document.getElementById("shutdown").classList.remove("open");
+}
+
+function tick(){
+const d=new Date();
+let h=d.getHours();
+const m=d.getMinutes();
+const ap=h>=12?"PM":"AM";
+h=h%12;
+if(h===0)h=12;
+document.getElementById("clock-time").textContent=h+":"+(m<10?"0":"")+m+" "+ap;
+}
+
+tick();
+setInterval(tick,10000);
+
+window.addEventListener("resize",()=>{
+if(isMobile())Object.keys(win).forEach(id=>win[id].el.classList.add("maximized"));
 });
 </script>
 </body>
